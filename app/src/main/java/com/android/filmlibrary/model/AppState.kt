@@ -1,4 +1,4 @@
-package com.android.filmlibrary.model.repository
+package com.android.filmlibrary.model
 
 import com.android.filmlibrary.model.data.Category
 
