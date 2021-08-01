@@ -1,4 +1,4 @@
-package com.android.filmlibrary.ui.main
+package com.android.filmlibrary.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,11 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.filmlibrary.R
+import com.android.filmlibrary.viewmodel.MainViewModel
 
-class MainFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = HomeFragment()
     }
 
     private lateinit var viewModel: MainViewModel
