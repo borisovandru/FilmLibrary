@@ -6,11 +6,12 @@ import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.repository.Repository
 import com.android.filmlibrary.model.repository.RepositoryImpl
 
-class MainViewModel(private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-                    private val repositoryImpl: Repository = RepositoryImpl()
+class MainViewModel(
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
+    private val repositoryImpl: Repository = RepositoryImpl()
 ) : ViewModel() {
 
-    fun getLifeData()=liveDataToObserve;
+    fun getLifeData() = liveDataToObserve;
     fun getWeatherFromLocalSource() {
         liveDataToObserve.value = AppState.Loading
         Thread {
