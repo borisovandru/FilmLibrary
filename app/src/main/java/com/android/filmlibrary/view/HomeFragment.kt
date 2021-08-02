@@ -71,9 +71,9 @@ class HomeFragment : Fragment() {
             }
         }
     }
-    private fun initListCategory(listCategery:List<Category>){
-        for (categegory in listCategery)
-            binding.parentLayout.addView(createCategory(categegory))
+    private fun initListCategory(listCategory:List<Category>){
+        for (category in listCategory)
+            binding.parentLayout.addView(createCategory(category))
     }
     private fun createCategory(category: Category):LinearLayout{
         val recyclerView= context?.let { RecyclerView(it) }

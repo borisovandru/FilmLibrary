@@ -2,25 +2,26 @@ package com.android.filmlibrary.view
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MainActivityBinding
 import com.google.android.material.button.MaterialButton
 
+
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var listFragment: List<Fragment>
+    private lateinit var listFragment:List<Fragment>
     private lateinit var binder: MainActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binder = MainActivityBinding.inflate(layoutInflater)
+        binder= MainActivityBinding.inflate(layoutInflater)
         setContentView(binder.root)
 
-        listFragment = listOf(HomeFragment(), FavoritesFragment(), RatingsFragment())
+        listFragment= listOf(HomeFragment(), FavoritesFragment(), RatingsFragment())
         if (savedInstanceState == null) {
             showFragment(listFragment[0])
             setColorBackgrountButton(binder.buttonHome)
@@ -28,41 +29,37 @@ class MainActivity : AppCompatActivity() {
         initView()
 
     }
-
-    private fun initView() {
+    private fun initView(){
         setSupportActionBar(binder.toolbar)
         clickNavigateButtons()
     }
-
-    private fun clickNavigateButtons() {
+    private fun clickNavigateButtons(){
         binder.buttonHome.setOnClickListener {
             showFragment(listFragment[0])
-            setColorBackgrountButton(binder.buttonHome)
-        }
+            setColorBackgrountButton(binder.buttonHome)}
         binder.buttonFavorite.setOnClickListener {
             showFragment(listFragment[1])
-            setColorBackgrountButton(binder.buttonFavorite)
-        }
+            setColorBackgrountButton(binder.buttonFavorite)}
         binder.buttonRatings.setOnClickListener {
             showFragment(listFragment[2])
-            setColorBackgrountButton(binder.buttonRatings)
-        }
+            setColorBackgrountButton(binder.buttonRatings)}
 
 
     }
 
-    fun setColorBackgrountButton(button: MaterialButton) {
+    fun setColorBackgrountButton(button:MaterialButton){
         binder.buttonHome.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)
-        binder.buttonFavorite.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.white)
-        binder.buttonRatings.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.white)
-        button.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.buttons_bugrount_color)
+        binder.buttonFavorite.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)
+        binder.buttonRatings.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)
+        button.backgroundTintList = ContextCompat.getColorStateList(this, R.color.buttons_bugrount_color)
     }
 
 
-    private fun showFragment(fragment: Fragment) {
+
+
+
+
+    private fun showFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
             .commit()
@@ -70,9 +67,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
-        val search = menu?.findItem(R.id.action_search)
-        if (search != null) (search.actionView as SearchView?).also {
-            it?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        val search= menu?.findItem(R.id.action_search)
+        (search?.actionView as SearchView).also {
+            it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                     return true
@@ -88,3 +85,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
