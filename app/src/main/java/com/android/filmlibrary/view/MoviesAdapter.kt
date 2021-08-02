@@ -14,27 +14,20 @@ import com.android.filmlibrary.model.data.Movie
 class MoviesAdapter(private val movies: List<Movie>, resources: Resources) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private val pictures: TypedArray = resources.obtainTypedArray(R.array.images);
+    private val pictures: TypedArray = resources.obtainTypedArray(R.array.images)
 
     class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val images: AppCompatImageView
-        private val name: TextView
-        private val date: TextView
-        private val rating: TextView
-
-        init {
-            images = item.findViewById(R.id.image)
-            name = item.findViewById(R.id.name)
-            date = item.findViewById(R.id.date)
-            rating = item.findViewById(R.id.rating)
-        }
+        private val images: AppCompatImageView = item.findViewById(R.id.image)
+        private val name: TextView = item.findViewById(R.id.name)
+        private val date: TextView = item.findViewById(R.id.date)
+        private val rating: TextView = item.findViewById(R.id.rating)
 
         fun bind(movie: Movie, imageId: Int) {
 
             images.setImageResource(imageId)
-            name.setText(movie.name)
-            date.setText(movie.date)
-            rating.setText("" + movie.reting)
+            name.text = movie.name
+            date.text = movie.date
+            ("" + movie.rating).also { rating.text = it }
         }
     }
 

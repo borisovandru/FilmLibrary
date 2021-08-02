@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.MainActivity">
+    tools:context=".view.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
 
@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"></androidx.appcompat.widget.Toolbar>
+            android:background="?attr/colorPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,7 +41,7 @@
             android:drawableTop="@drawable/ic_baseline_home_24"
             android:text="@string/btn_text_home"
             android:textColor="@color/black"
-            tools:backgroundTint="@color/buttons_background_color" />
+            tools:backgroundTint="@color/buttons_bugrount_color" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_favorite"

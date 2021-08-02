@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         binder.buttonRatings.backgroundTintList =
             ContextCompat.getColorStateList(this, R.color.white)
         button.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.buttons_background_color)
+            ContextCompat.getColorStateList(this, R.color.buttons_bugrount_color)
     }
 
 
@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         val search = menu?.findItem(R.id.action_search)
-        (search?.actionView as SearchView).also {
-            it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        if (search != null) (search.actionView as SearchView?).also {
+            it?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                     return true

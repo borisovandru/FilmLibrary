@@ -11,7 +11,7 @@ class MainViewModel(
     private val repositoryImpl: Repository = RepositoryImpl()
 ) : ViewModel() {
 
-    fun getLifeData() = liveDataToObserve;
+    fun getLifeData() = liveDataToObserve
     fun getWeatherFromLocalSource() {
         liveDataToObserve.value = AppState.Loading
         Thread {

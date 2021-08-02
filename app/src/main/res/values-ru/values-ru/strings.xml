@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Фильмотека</string>
+    <string name="search">поиск</string>
+    <string name="settings">Настройки</string>
+    <string name="navigation_drawer_open">Откройте навигационный ящик</string>
+    <string name="navigation_drawer_close">Закройте навигационный ящик</string>
+    <string name="btn_text_home">Домой</string>
+    <string name="btn_text_favorites">Избранное</string>
+    <string name="btn_text_ratings">Рейтинги</string>
+</resources>
