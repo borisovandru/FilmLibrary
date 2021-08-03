@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="buttons_bugrount_color">#C9D2FF</color>
     <color name="loadingBackground">#B4B9BA</color>
+    <color name="bacgrount_tint_color">#FAE0BB</color>
 </resources>

@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bacgrount_tint_color"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/des_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/teal_700"
+                android:textSize="30sp"
+                tools:text="Космический джем: Новое поколение" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/des_image"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
+                    tools:src="@drawable/image_space_jam_a_new_legacy" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/text_date"
+                        android:textColor="@color/teal_700"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/des_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="20sp"
+                        tools:text="08 июль 2021" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/text_rating"
+                        android:textColor="@color/teal_700"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/des_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="20sp"
+                        tools:text="78" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/text_description"
+                android:textColor="@color/teal_700"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/des_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Чтобы спасти сына, знаменитый чемпион НБА отправляется в сказочный мир,
+                    где в команде мультяшек вынужден сражаться на баскетбольной площадке с
+                    цифровыми копиями знаменитых игроков." />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
