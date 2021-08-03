@@ -8,5 +8,8 @@
     <string name="btn_text_favorites">Favorites</string>
     <string name="btn_text_ratings">Ratings</string>
     <string name="favorites_fragment" >FavoritesFragment</string>
-    <string name="ratings_fragment">RatingsFragment</string>/>
+    <string name="ratings_fragment">RatingsFragment</string>
+    <string name="text_description">Описание:</string>
+    <string name="text_rating">Ретинг:</string>
+    <string name="text_date">Дата:</string>/>
 </resources>

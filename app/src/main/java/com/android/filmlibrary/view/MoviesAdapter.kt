@@ -1,6 +1,5 @@
 package com.android.filmlibrary.view
 
-import android.content.res.Resources
 import android.content.res.TypedArray
 import android.view.LayoutInflater
 import android.view.View
@@ -11,33 +10,50 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.R
 import com.android.filmlibrary.model.data.Movie
 
-class MoviesAdapter(private val movies: List<Movie>, resources: Resources) :
+class MoviesAdapter(private var onClickMovie: HomeFragment.OnClickMovie?) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private val pictures: TypedArray = resources.obtainTypedArray(R.array.images)
+    private lateinit var pictures: TypedArray // = resources.obtainTypedArray(R.array.images);
+    private var movies: List<Movie> = listOf()
+    fun setMoviesData(data: List<Movie>) {
+        movies = data
+        notifyDataSetChanged()
+    }
 
-    class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val images: AppCompatImageView = item.findViewById(R.id.image)
-        private val name: TextView = item.findViewById(R.id.name)
-        private val date: TextView = item.findViewById(R.id.date)
-        private val rating: TextView = item.findViewById(R.id.rating)
+    inner class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+        private val images: AppCompatImageView
+        private val name: TextView
+        private val date: TextView
+        private val rating: TextView
 
-        fun bind(movie: Movie, imageId: Int) {
+        init {
+            images = item.findViewById(R.id.image)
+            name = item.findViewById(R.id.name)
+            date = item.findViewById(R.id.date)
+            rating = item.findViewById(R.id.rating)
+        }
 
-            images.setImageResource(imageId)
-            name.text = movie.name
-            date.text = movie.date
-            ("" + movie.rating).also { rating.text = it }
+        fun bind(movie: Movie) {
+
+            images.setImageResource(movie.image)
+            name.setText(movie.name)
+            date.setText(movie.date)
+            rating.setText("" + movie.reting)
+            images.setOnClickListener {
+                onClickMovie?.onClick(movie)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
+        pictures = parent.context.resources.obtainTypedArray(R.array.images)
         return MoviesViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        holder.bind(movies[position], pictures.getResourceId(position, 0))
+        movies[position].image = pictures.getResourceId(position, 0)
+        holder.bind(movies[position])
     }
 
     override fun getItemCount() = movies.size
