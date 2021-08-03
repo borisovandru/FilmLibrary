@@ -36,12 +36,13 @@ class DescriptionMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val movie = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
-        if (movie != null) {
-            binding.desImage.setImageResource(movie.image)
-            binding.desName.text = movie.name
-            binding.desDate.text = movie.date
-            ("" + movie.rating + "%").also { binding.desRating.text = it }
-            binding.desDescription.text = movie.description
+        if (movie != null)
+        with(binding){
+            desImage.setImageResource(movie.image)
+            desName.text = movie.name
+            desDate.text = movie.date
+            ("" + movie.rating + "%").also { desRating.text = it }
+            desDescription.text = movie.description
         }
     }
 
