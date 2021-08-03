@@ -20,14 +20,14 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_margin="5dp"
-            tools:src="@drawable/image_space_jam_a_new_legacy" />
+            tools:src="@drawable/harry_potter_goblet_of_fire" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:textSize="13sp"
-            tools:text="Space Jam: A New Legacy" />
+            tools:text="Harry Potter and the Goblet of Fire" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                tools:text="08 jul 2021" />
+                tools:text="22 dec 2005" />
 
             <TextView
                 android:id="@+id/rating"
