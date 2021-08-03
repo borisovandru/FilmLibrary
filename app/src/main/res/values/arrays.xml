@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="titles">
-        <item>Space Jam: A New Legacy</item>
-        <item>Black Widow</item>
-        <item>The Forever Purge</item>
+        <item>Harry Potter and the Goblet of Fire</item>
+        <item>Intercessor</item>
+        <item>SelfieParty</item>
         <item>The Boss Baby: Family Business</item>
-        <item>The Tomorrow War</item>
+        <item>Survive</item>
     </string-array>
     <integer-array name="ratings">
         <item>78</item>
+        <item>73</item>
+        <item>47</item>
         <item>79</item>
-        <item>78</item>
-        <item>79</item>
-        <item>82</item>
+        <item>74</item>
     </integer-array>
     <string-array name="dates">
-        <item>08 jul 2021</item>
-        <item>07 jul 2021</item>
-        <item>30 jun 2021</item>
+        <item>22 dec 2005</item>
+        <item>04 feb 2021</item>
+        <item>31 mart 2016</item>
         <item>01 jul 2021</item>
-        <item>30 jun 2021</item>
+        <item>24 june 2020</item>
     </string-array>
     <integer-array name="images">
-        <item>@drawable/image_space_jam_a_new_legacy</item>
-        <item>@drawable/black_widow</item>
-        <item>@drawable/the_forever_purge</item>
+        <item>@drawable/harry_potter_goblet_of_fire</item>
+        <item>@drawable/intercessor</item>
+        <item>@drawable/selfie_party</item>
         <item>@drawable/the_boss_baby</item>
-        <item>@drawable/the_tomorrow_war</item>
+        <item>@drawable/survive</item>
     </integer-array>
 </resources>
