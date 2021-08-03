@@ -74,22 +74,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun renderData(appState: AppState) {
+        binding.apply {
         when (appState) {
             is AppState.Success -> {
                 val listCategory = appState.listCategory
-                binding.loadingLayout.visibility = View.GONE
+                loadingLayout.visibility = View.GONE
                 initListCategory(listCategory)
             }
             is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE
+                loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
+                loadingLayout.visibility = View.GONE
                 Snackbar
-                    .make(binding.parentLayout, "Error", Snackbar.LENGTH_INDEFINITE)
+                    .make(parentLayout, "Error", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Reload") { viewModel.getWeatherFromLocalSource() }
                     .show()
-
+            }
             }
         }
     }

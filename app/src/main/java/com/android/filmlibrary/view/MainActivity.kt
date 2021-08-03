@@ -36,32 +36,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clickNavigateButtons() {
-        binder.buttonHome.setOnClickListener {
-            showFragment(listFragment[0])
-            setColorBackgroundButton(binder.buttonHome)
+        with(binder) {
+            buttonHome.setOnClickListener {
+                showFragment(listFragment[0])
+                setColorBackgroundButton(buttonHome)
+            }
+            buttonFavorite.setOnClickListener {
+                showFragment(listFragment[1])
+                setColorBackgroundButton(buttonFavorite)
+            }
+            buttonRatings.setOnClickListener {
+                showFragment(listFragment[2])
+                setColorBackgroundButton(buttonRatings)
+            }
         }
-        binder.buttonFavorite.setOnClickListener {
-            showFragment(listFragment[1])
-            setColorBackgroundButton(binder.buttonFavorite)
-        }
-        binder.buttonRatings.setOnClickListener {
-            showFragment(listFragment[2])
-            setColorBackgroundButton(binder.buttonRatings)
-        }
-
-
     }
 
     private fun setColorBackgroundButton(button: MaterialButton) {
-        binder.buttonHome.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)
-        binder.buttonFavorite.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.white)
-        binder.buttonRatings.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.white)
-        button.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.buttons_background_color)
+        with(this) { binder
+            binder.buttonHome.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.white)
+            binder.buttonFavorite.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.white)
+            binder.buttonRatings.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.white)
+            button.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.buttons_background_color)
+        }
     }
-
 
     private fun showFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
