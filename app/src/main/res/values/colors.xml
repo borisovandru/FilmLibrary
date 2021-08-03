@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="buttons_bugrount_color">#C9D2FF</color>
+    <color name="buttons_background_color">#C9D2FF</color>
     <color name="loadingBackground">#B4B9BA</color>
-    <color name="bacgrount_tint_color">#FAE0BB</color>
+    <color name="background_tint_color">#FAE0BB</color>
 </resources>

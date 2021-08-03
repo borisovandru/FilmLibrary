@@ -20,15 +20,15 @@ class DescriptionMovieFragment : Fragment() {
         }
     }
 
-    private var _bainding: FragmentDescriptionMovieBinding? = null
+    private var _binding: FragmentDescriptionMovieBinding? = null
     private val binding
-        get() = _bainding!!
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _bainding = FragmentDescriptionMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentDescriptionMovieBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -38,15 +38,15 @@ class DescriptionMovieFragment : Fragment() {
         val movie = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
         if (movie != null) {
             binding.desImage.setImageResource(movie.image)
-            binding.desName.setText(movie.name)
-            binding.desDate.setText(movie.date)
-            binding.desRating.setText("" + movie.reting + "%")
-            binding.desDescription.setText(movie.descreotion)
+            binding.desName.text = movie.name
+            binding.desDate.text = movie.date
+            ("" + movie.rating + "%").also { binding.desRating.text = it }
+            binding.desDescription.text = movie.description
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        _bainding = null
+        _binding = null
     }
 }

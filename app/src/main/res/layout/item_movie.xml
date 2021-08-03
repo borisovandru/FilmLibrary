@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="3dp"
     android:layout_marginEnd="3dp"
-    android:backgroundTint="@color/bacgrount_tint_color"
+    android:backgroundTint="@color/background_tint_color"
     app:cardCornerRadius="15dp"
     app:cardElevation="3dp">
 
@@ -47,9 +47,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/ic_baseline_star_24"
                 android:gravity="center"
-                tools:text="78" />
+                tools:text="78"
+                app:drawableStartCompat="@drawable/ic_baseline_star_24" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
