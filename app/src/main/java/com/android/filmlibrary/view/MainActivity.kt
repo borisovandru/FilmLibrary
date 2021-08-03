@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         listFragment = listOf(HomeFragment(), FavoritesFragment(), RatingsFragment())
         if (savedInstanceState == null) {
             showFragment(listFragment[0])
-            setColorBackgrountButton(binder.buttonHome)
+            setColorBackgroundButton(binder.buttonHome)
         }
         initView()
 
@@ -38,28 +38,28 @@ class MainActivity : AppCompatActivity() {
     private fun clickNavigateButtons() {
         binder.buttonHome.setOnClickListener {
             showFragment(listFragment[0])
-            setColorBackgrountButton(binder.buttonHome)
+            setColorBackgroundButton(binder.buttonHome)
         }
         binder.buttonFavorite.setOnClickListener {
             showFragment(listFragment[1])
-            setColorBackgrountButton(binder.buttonFavorite)
+            setColorBackgroundButton(binder.buttonFavorite)
         }
         binder.buttonRatings.setOnClickListener {
             showFragment(listFragment[2])
-            setColorBackgrountButton(binder.buttonRatings)
+            setColorBackgroundButton(binder.buttonRatings)
         }
 
 
     }
 
-    fun setColorBackgrountButton(button: MaterialButton) {
+    private fun setColorBackgroundButton(button: MaterialButton) {
         binder.buttonHome.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)
         binder.buttonFavorite.backgroundTintList =
             ContextCompat.getColorStateList(this, R.color.white)
         binder.buttonRatings.backgroundTintList =
             ContextCompat.getColorStateList(this, R.color.white)
         button.backgroundTintList =
-            ContextCompat.getColorStateList(this, R.color.buttons_bugrount_color)
+            ContextCompat.getColorStateList(this, R.color.buttons_background_color)
     }
 
 

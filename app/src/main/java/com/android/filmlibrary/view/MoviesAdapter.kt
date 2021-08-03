@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view
 
+import android.annotation.SuppressLint
 import android.content.res.TypedArray
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import com.android.filmlibrary.model.data.Movie
 class MoviesAdapter(private var onClickMovie: HomeFragment.OnClickMovie?) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private lateinit var pictures: TypedArray // = resources.obtainTypedArray(R.array.images);
+    private lateinit var pictures: TypedArray
     private var movies: List<Movie> = listOf()
     fun setMoviesData(data: List<Movie>) {
         movies = data
@@ -21,24 +22,18 @@ class MoviesAdapter(private var onClickMovie: HomeFragment.OnClickMovie?) :
     }
 
     inner class MoviesViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val images: AppCompatImageView
-        private val name: TextView
-        private val date: TextView
-        private val rating: TextView
+        private val images: AppCompatImageView = item.findViewById(R.id.image)
+        private val name: TextView = item.findViewById(R.id.name)
+        private val date: TextView = item.findViewById(R.id.date)
+        private val rating: TextView = item.findViewById(R.id.rating)
 
-        init {
-            images = item.findViewById(R.id.image)
-            name = item.findViewById(R.id.name)
-            date = item.findViewById(R.id.date)
-            rating = item.findViewById(R.id.rating)
-        }
-
+        @SuppressLint("SetTextI18n")
         fun bind(movie: Movie) {
 
             images.setImageResource(movie.image)
-            name.setText(movie.name)
-            date.setText(movie.date)
-            rating.setText("" + movie.reting)
+            name.text = movie.name
+            date.text = movie.date
+            rating.text = "" + movie.rating
             images.setOnClickListener {
                 onClickMovie?.onClick(movie)
             }

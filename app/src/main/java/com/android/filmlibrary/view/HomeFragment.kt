@@ -44,9 +44,9 @@ class HomeFragment : Fragment() {
     })
 
 
-    private var _bainding: FragmentHomeBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding
-        get() = _bainding!!
+        get() = _binding!!
     private lateinit var viewModel: MainViewModel
     private lateinit var repository: Repository
 
@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _bainding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         repository = RepositoryImpl()
 
 
@@ -94,9 +94,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initListCategory(listCategery: List<Category>) {
-        for (categegory in listCategery)
-            binding.parentLayout.addView(createCategory(categegory))
+    private fun initListCategory(listCategory: List<Category>) {
+        for (category in listCategory)
+            binding.parentLayout.addView(createCategory(category))
     }
 
     private fun createCategory(category: Category): LinearLayout {
@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
         layout.orientation = LinearLayout.VERTICAL
         val tv = TextView(context)
         tv.textSize = 30F
-        tv.setText(category.categoryName)
+        tv.text = category.categoryName
         layout.addView(tv)
         layout.addView(recyclerView)
         return layout
@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _bainding = null
+        _binding = null
     }
 
 }
