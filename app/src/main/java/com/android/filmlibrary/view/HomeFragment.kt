@@ -15,45 +15,23 @@ import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.FragmentHomeBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Category
-import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.repository.Repository
 import com.android.filmlibrary.model.repository.RepositoryImpl
 import com.android.filmlibrary.viewmodel.MainViewModel
-import com.google.android.material.snackbar.Snackbar
 
 
 class HomeFragment : Fragment() {
 
-    interface OnClickMovie {
-        fun onClick(movie: Movie)
-    }
-
-    private val adapter = MoviesAdapter(object : OnClickMovie {
-        override fun onClick(movie: Movie) {
-
-            val manager = activity?.supportFragmentManager
-            if (manager != null) {
-                val bundle = Bundle()
-                bundle.putParcelable(DescriptionMovieFragment.BUNDLE_EXTRA, movie)
-                manager.beginTransaction()
-                    .add(R.id.container, DescriptionMovieFragment.newInstance(bundle))
-                    .addToBackStack("")
-                    .commitAllowingStateLoss()
-            }
-        }
-    })
-
+    private val adapter: MoviesAdapter = MoviesAdapter()
 
     private var _binding: FragmentHomeBinding? = null
     private val binding
         get() = _binding!!
-    private lateinit var viewModel: MainViewModel
-    private lateinit var repository: Repository
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
     }
+    private lateinit var repository: Repository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,36 +39,40 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         repository = RepositoryImpl()
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter.setOnClickView { movie ->
+            activity?.supportFragmentManager?.let { manager ->
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable(DescriptionMovieFragment.BUNDLE_EXTRA, movie)
+                manager.beginTransaction()
+                    .add(R.id.container, DescriptionMovieFragment.newInstance(bundle))
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+            }
+        }
         val observer = Observer<AppState> { renderData(it) }
         viewModel.getLifeData().observe(viewLifecycleOwner, observer)
         viewModel.getWeatherFromLocalSource()
     }
 
     private fun renderData(appState: AppState) {
-        binding.apply {
         when (appState) {
             is AppState.Success -> {
-                val listCategory = appState.listCategory
-                loadingLayout.visibility = View.GONE
-                initListCategory(listCategory)
+                binding.loadingLayout.hide()
+                initListCategory(appState.listCategory)
             }
             is AppState.Loading -> {
-                loadingLayout.visibility = View.VISIBLE
+                binding.loadingLayout.show()
             }
             is AppState.Error -> {
-                loadingLayout.visibility = View.GONE
-                Snackbar
-                    .make(parentLayout, "Error", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getWeatherFromLocalSource() }
-                    .show()
-            }
+                binding.loadingLayout.hide()
+                binding.parentLayout.showSnackBar(R.string.snackBarError, R.string.snackBarReload) {
+                    viewModel.getWeatherFromLocalSource()
+                }
             }
         }
     }
@@ -101,13 +83,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun createCategory(category: Category): LinearLayout {
-        val recyclerView = context?.let { RecyclerView(it) }
-        adapter.setMoviesData(category.movies)
-        if (recyclerView != null) {
+
+        val recyclerView = context?.let { RecyclerView(it) }?.let { recyclerView ->
+            adapter.setMoviesData(category.movies)
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             recyclerView.adapter = adapter
+            recyclerView
         }
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
@@ -123,5 +106,4 @@ class HomeFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
 }
