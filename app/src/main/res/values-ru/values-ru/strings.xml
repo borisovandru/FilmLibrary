@@ -8,4 +8,9 @@
     <string name="btn_text_home">Домой</string>
     <string name="btn_text_favorites">Избранное</string>
     <string name="btn_text_ratings">Рейтинги</string>
+    <string name="text_description">Описание:</string>
+    <string name="text_rating">Ретинг:</string>
+    <string name="text_date">Дата:</string>
+    <string name="snackBarError">Ошибка</string>
+    <string name="snackBarReload">Перезагрузить</string>
 </resources>

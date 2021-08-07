@@ -7,9 +7,11 @@
     <string name="btn_text_home">Home</string>
     <string name="btn_text_favorites">Favorites</string>
     <string name="btn_text_ratings">Ratings</string>
-    <string name="favorites_fragment" >FavoritesFragment</string>
+    <string name="text_description">Description:</string>
+    <string name="text_rating">Rating:</string>
+    <string name="text_date">Date:</string>
+    <string name="snackBarError">Error</string>
+    <string name="snackBarReload">Reload</string>
     <string name="ratings_fragment">RatingsFragment</string>
-    <string name="text_description">Описание:</string>
-    <string name="text_rating">Ретинг:</string>
-    <string name="text_date">Дата:</string>/>
+    <string name="favorites_fragment">FavoritesFragment</string>
 </resources>

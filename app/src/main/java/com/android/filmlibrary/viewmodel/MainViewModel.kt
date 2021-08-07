@@ -18,6 +18,7 @@ class MainViewModel(
             Thread.sleep(1000)
             liveDataToObserve.postValue(AppState.Success(repositoryImpl.getMoviesFromLocalStorage()))
         }.start()
+
     }
 
     fun getWeatherFromRemoteSource() {

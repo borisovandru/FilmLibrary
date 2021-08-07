@@ -37,13 +37,13 @@ class DescriptionMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val movie = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
         if (movie != null)
-        with(binding){
-            desImage.setImageResource(movie.image)
-            desName.text = movie.name
-            desDate.text = movie.date
-            ("" + movie.rating + "%").also { desRating.text = it }
-            desDescription.text = movie.description
-        }
+            with(binding) {
+                desImage.setImageResource(movie.image)
+                desName.text = movie.name
+                desDate.text = movie.date
+                ("" + movie.rating + "%").also { desRating.text = it }
+                desDescription.text = movie.description
+            }
     }
 
     override fun onDestroy() {

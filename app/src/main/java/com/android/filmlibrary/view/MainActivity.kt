@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setColorBackgroundButton(button: MaterialButton) {
-        with(this) { binder
+        with(this) {
+            binder
             binder.buttonHome.backgroundTintList =
                 ContextCompat.getColorStateList(this, R.color.white)
             binder.buttonFavorite.backgroundTintList =
