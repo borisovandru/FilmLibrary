@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter.setOnClickView { movie ->
             activity?.supportFragmentManager?.let { manager ->
-                val bundle: Bundle = Bundle()
+                val bundle = Bundle()
                 bundle.putParcelable(DescriptionMovieFragment.BUNDLE_EXTRA, movie)
                 manager.beginTransaction()
                     .add(R.id.container, DescriptionMovieFragment.newInstance(bundle))
@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         }
         val observer = Observer<AppState> { renderData(it) }
         viewModel.getLifeData().observe(viewLifecycleOwner, observer)
-        viewModel.getWeatherFromLocalSource()
+        viewModel.getMoviesFromLocalSource()
     }
 
     private fun renderData(appState: AppState) {
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
             is AppState.Error -> {
                 binding.loadingLayout.hide()
                 binding.parentLayout.showSnackBar(R.string.snackBarError, R.string.snackBarReload) {
-                    viewModel.getWeatherFromLocalSource()
+                    viewModel.getMoviesFromLocalSource()
                 }
             }
         }
@@ -84,19 +84,21 @@ class HomeFragment : Fragment() {
 
     private fun createCategory(category: Category): LinearLayout {
 
-        val recyclerView = context?.let { RecyclerView(it) }?.let { recyclerView ->
-            adapter.setMoviesData(category.movies)
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager =
+        val recyclerView = context?.let {
+            RecyclerView(it)
+        }?.apply {
+            this@HomeFragment.adapter.setMoviesData(category.movies)
+            setHasFixedSize(true)
+            layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            recyclerView.adapter = adapter
-            recyclerView
+            adapter = this@HomeFragment.adapter
         }
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
-        val tv = TextView(context)
-        tv.textSize = 30F
-        tv.text = category.categoryName
+        val tv = TextView(context).apply {
+            textSize = 30F
+            text = category.categoryName
+        }
         layout.addView(tv)
         layout.addView(recyclerView)
         return layout

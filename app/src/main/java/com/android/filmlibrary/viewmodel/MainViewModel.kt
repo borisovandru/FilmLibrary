@@ -12,7 +12,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     fun getLifeData() = liveDataToObserve
-    fun getWeatherFromLocalSource() {
+    fun getMoviesFromLocalSource() {
         liveDataToObserve.value = AppState.Loading
         Thread {
             Thread.sleep(1000)
@@ -21,7 +21,7 @@ class MainViewModel(
 
     }
 
-    fun getWeatherFromRemoteSource() {
+    fun getMoviesFromRemoteSource() {
         liveDataToObserve.value = AppState.Loading
         Thread {
             Thread.sleep(1000)

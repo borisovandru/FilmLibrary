@@ -48,8 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                tools:text="78"
-                app:drawableStartCompat="@drawable/ic_baseline_star_24" />
+                app:drawableStartCompat="@drawable/ic_baseline_star_24"
+                tools:text="78" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -31,7 +31,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
                 image.setImageResource(movie.image)
                 name.text = movie.name
                 date.text = movie.date
-                rating.text = """${movie.rating}"""
+                rating.text = (movie.rating.toString())
                 image.setOnClickListener {
                     onClickMovie(movie)
                 }
