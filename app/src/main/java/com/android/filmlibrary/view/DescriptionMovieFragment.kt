@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.android.filmlibrary.BuildConfig
 import com.android.filmlibrary.databinding.FragmentDescriptionMovieBinding
 import com.android.filmlibrary.model.data.Movie
+
+private const val YOUR_API_KEY = BuildConfig.MOVIES_API_KEY
 
 class DescriptionMovieFragment : Fragment() {
     companion object {
