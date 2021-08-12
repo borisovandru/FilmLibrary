@@ -62,7 +62,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.v("Debug1", "CategoriesAdapter onBindViewHolder")
         holder.categoryName.text = moviesByCategory[position].category.title
-        moviesByCategory[position].category.id.let{
+        moviesByCategory[position].category.id.let {
             holder.categoryId = moviesByCategory[position].category.id
         }
         if (position != -1) {
@@ -113,7 +113,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
                     onMovieClickListener(movie.id)
                 }
 
-                movie.posterUrl.let{
+                movie.posterUrl.let {
                     Glide.with(viewItemMovie.context)
                         .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
                         .into(posterMovie)

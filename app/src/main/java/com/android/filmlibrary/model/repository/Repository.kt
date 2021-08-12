@@ -11,6 +11,7 @@ interface Repository {
         categories: List<Category>,
         cntMovies: Int
     ): AppState
+
     fun getMovieFromRemoteServer(id: Int): AppState
     fun getCategoriesFromRemoteServer(): AppState
 
@@ -21,7 +22,6 @@ interface Repository {
 
     fun getMoviesFromLocalStorage(): List<Movie>
     fun getMovieFromLocalStorage(id: Int): Movie
-
 
 
 }

@@ -49,7 +49,7 @@ class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyV
         holder.movieCat.text = movie.category.title
         holder.movieYear.text = movie.year.toString()
         holder.setData(movie.posterUrl)
-        //holder.moviePoster = movie.posterUrl
+
 
         holder.movieId = movie.id
     }
@@ -68,8 +68,8 @@ class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyV
         var movieId: Int = 0
         private val parentLoc: ViewGroup = parent
 
-        fun setData(posterURL: String){
-            posterURL.let{
+        fun setData(posterURL: String) {
+            posterURL.let {
                 Glide.with(parentLoc.context)
                     .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
                     .into(moviePoster)

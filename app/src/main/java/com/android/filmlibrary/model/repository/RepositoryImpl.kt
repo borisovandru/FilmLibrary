@@ -125,8 +125,10 @@ class RepositoryImpl : Repository {
                             countsOfMovies = results.size
                         }
                         for (i in 0 until countsOfMovies) {
-                            Log.v("Debug1",
-                                "RepositoryImpl getMoviesByCategoryFromRemoteServer i=$i")
+                            Log.v(
+                                "Debug1",
+                                "RepositoryImpl getMoviesByCategoryFromRemoteServer i=$i"
+                            )
                             val dateRelease = results[i]["release_date"] as? String ?: "-"
                             val title = results[i]["original_title"] as? String ?: "-"
                             val id = (results[i]["id"] as? Double ?: 0).toInt()
@@ -144,8 +146,12 @@ class RepositoryImpl : Repository {
                                 )
                             )
                         }
-                        result = AppState.SuccessMoviesByCategory(MoviesByCategories(category,
-                            moviesLoc))
+                        result = AppState.SuccessMoviesByCategory(
+                            MoviesByCategories(
+                                category,
+                                moviesLoc
+                            )
+                        )
                     }
                 }
 
