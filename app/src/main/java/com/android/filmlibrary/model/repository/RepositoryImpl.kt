@@ -13,11 +13,10 @@ import com.android.filmlibrary.Constant.READ_TIMEOUT
 import com.android.filmlibrary.Constant.URL_API
 import com.android.filmlibrary.Constant.URL_CATEGORIES_1
 import com.android.filmlibrary.Constant.URL_ITEM_MOVIE_1
+import com.android.filmlibrary.Constant.URL_SETTINGS_1
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Category
-import com.android.filmlibrary.model.data.LinkType
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.model.data.*
+import com.google.gson.internal.LinkedTreeMap
 import java.io.InputStreamReader
 import java.net.URL
 import java.util.*
@@ -60,7 +59,7 @@ class RepositoryImpl : Repository {
         }
     }
 
-    private fun getDataFromRemoteServer(linkType: LinkType, param1: String): AppState {
+    override fun getDataFromRemoteServer(linkType: LinkType, param1: String): AppState {
         val rawData: Map<String, *>?
         var result: AppState
 
@@ -73,6 +72,9 @@ class RepositoryImpl : Repository {
             }
             LinkType.MOVIES_BY_CATEGORIES -> {
                 BASE_URL + MOVIES_BY_CATEGORIES_1 + URL_API + BuildConfig.MOVIEDB_API_KEY + LANG + MOVIES_BY_CATEGORIES_2 + param1
+            }
+            LinkType.SETTINGS -> {
+                BASE_URL + URL_SETTINGS_1 + URL_API + BuildConfig.MOVIEDB_API_KEY + LANG
             }
         }
 
@@ -105,7 +107,7 @@ class RepositoryImpl : Repository {
 
     override fun getMoviesByCategoryFromRemoteServer(
         category: Category,
-        cntMovies: Int,
+        setCountsOfMovies: Int,
     ): AppState {
         var result: AppState = AppState.Loading
         val moviesLoc = mutableListOf<Movie>()
@@ -117,15 +119,14 @@ class RepositoryImpl : Repository {
             is AppState.SuccessRawData -> {
                 data.rawData?.let {
                     val results = it["results"] as ArrayList<Map<*, *>>
-                    if (results.size > 0) {
-                        var cntMvs = cntMovies
-                        if (cntMovies > results.size)
-                            cntMvs = results.size
-                        for (i in 0 until cntMvs) {
-                            Log.v(
-                                "Debug1",
-                                "RepositoryImpl getMoviesByCategoryFromRemoteServer i=$i"
-                            )
+                    if (results.isNotEmpty()) {
+                        var countsOfMovies = setCountsOfMovies
+                        if (setCountsOfMovies > results.size) {
+                            countsOfMovies = results.size
+                        }
+                        for (i in 0 until countsOfMovies) {
+                            Log.v("Debug1",
+                                "RepositoryImpl getMoviesByCategoryFromRemoteServer i=$i")
                             val dateRelease = results[i]["release_date"] as? String ?: "-"
                             val title = results[i]["original_title"] as? String ?: "-"
                             val id = (results[i]["id"] as? Double ?: 0).toInt()
@@ -143,12 +144,8 @@ class RepositoryImpl : Repository {
                                 )
                             )
                         }
-                        result = AppState.SuccessMoviesByCategory(
-                            MoviesByCategories(
-                                category,
-                                moviesLoc
-                            )
-                        )
+                        result = AppState.SuccessMoviesByCategory(MoviesByCategories(category,
+                            moviesLoc))
                     }
                 }
 
@@ -242,8 +239,7 @@ class RepositoryImpl : Repository {
             is AppState.SuccessRawData -> {
                 data.rawData?.let {
                     val genres = it["genres"] as ArrayList<Map<*, *>>
-                    if (genres.size > 0) {
-
+                    if (genres.isNotEmpty()) {
                         for (i in 0 until genres.size) {
                             Log.v("Debug1", "RepositoryImpl getCategoriesFromRemoteServer i=$i")
 
@@ -268,4 +264,33 @@ class RepositoryImpl : Repository {
         }
         return result
     }
+
+
+    override fun getSettingsFromRemoteServer(): AppState {
+        val settingsTMDB: SettingsTMDB
+        var result: AppState = AppState.Loading
+        Log.v("Debug1", "RepositoryImpl getSettingsFromRemoteServer begin")
+
+        val data =
+            getDataFromRemoteServer(LinkType.SETTINGS, "")
+
+        when (data) {
+            is AppState.SuccessRawData -> {
+
+                data.rawData?.let {
+                    val images = it["images"] as LinkedTreeMap<*, *>
+                    val baseUrl = images["base_url"] as String
+                    val secureBaseUrl = images["secure_base_url"] as String
+                    settingsTMDB = SettingsTMDB(baseUrl, secureBaseUrl)
+                    result = AppState.SuccessSettings(settingsTMDB)
+                }
+
+            }
+            is AppState.Error -> {
+                result = data
+            }
+        }
+        return result
+    }
+
 }

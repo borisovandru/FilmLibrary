@@ -3,6 +3,7 @@ package com.android.filmlibrary.model
 import com.android.filmlibrary.model.data.Category
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.model.data.SettingsTMDB
 
 sealed class AppState {
     data class SuccessMoviesByCategory(val moviesByCategory: MoviesByCategories) : AppState()
@@ -11,6 +12,8 @@ sealed class AppState {
 
     data class SuccessMovie(val movieData: Movie) : AppState()
     data class SuccessCategories(val categoriesData: List<Category>) : AppState()
+
+    data class SuccessSettings(val settingsTMDB: SettingsTMDB) : AppState()
 
     data class SuccessRawData(val rawData: Map<String, *>?) : AppState()
 
