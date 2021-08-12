@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.filmlibrary.Constant.MOVIES_ADAPTER_COUNT_SPAN
+import com.android.filmlibrary.Constant.NAVIGATE_TO_MOVIEBYCAT
+import com.android.filmlibrary.Constant.NAVIGATE_TO_MOVIEINFO
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MainFragmentBinding
 import com.android.filmlibrary.model.AppState
@@ -130,7 +132,7 @@ class MainFragment : Fragment() {
                     "Debug1",
                     "MainFragment onViewCreated setOnCategoryClickListener categoryId=$categoryId"
                 )
-                var category = categories[0]
+                var category = categories.first()
                 for (categoryItem in categories)
                     if (categoryItem.id == categoryId)
                         category = categoryItem
@@ -138,7 +140,7 @@ class MainFragment : Fragment() {
                     activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
                 navHostFragment.navController.navigate(
-                    R.id.action_navigation_home_to_moviesByCategoryFragment,
+                    NAVIGATE_TO_MOVIEBYCAT, //Вынес в константы
                     Bundle().apply {
                         putParcelable("category", category)
                     }
@@ -151,7 +153,7 @@ class MainFragment : Fragment() {
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
-                R.id.action_navigation_home_to_movieInfoFragment,
+                NAVIGATE_TO_MOVIEINFO,  //Вынес в константы
                 Bundle().apply {
                     putInt("movieId", movieId)
                 }

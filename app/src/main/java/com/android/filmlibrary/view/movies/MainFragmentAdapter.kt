@@ -68,9 +68,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
         if (position != -1) {
             holder.setData(moviesByCategory[position])
             holder.categoryId = moviesByCategory[position].category.id
-
         }
-
     }
 
     override fun getItemCount(): Int {

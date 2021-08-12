@@ -11,6 +11,8 @@ import com.android.filmlibrary.viewmodel.itemmovie.MovieInfoViewModel
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.android.filmlibrary.Constant.BASE_IMAGE_URL
+import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.R
 import com.android.filmlibrary.model.AppState
@@ -29,13 +31,15 @@ class MovieInfoFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        // Inflate the layout for this fragment
         Log.v("Debug1", "MovieInfoFragment onCreateView")
         _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -54,7 +58,7 @@ class MovieInfoFragment : Fragment() {
                 binding.yearMovie.text = movieData.year.toString()
                 binding.descrMovie.text = movieData.description
                 Glide.with(this)
-                    .load("https://www.themoviedb.org/t/p/w220_and_h330_face/" + movieData.posterUrl)
+                    .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + movieData.posterUrl)
                     .into(binding.imageMovie)
 
             }
