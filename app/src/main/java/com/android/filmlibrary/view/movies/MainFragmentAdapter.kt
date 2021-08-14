@@ -14,7 +14,7 @@ import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemCategoryBinding
 import com.android.filmlibrary.model.data.Category
 import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.model.data.MoviesByGenre
 import kotlin.collections.ArrayList
 
 class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolder>() {
@@ -35,9 +35,9 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
 
     //-------------------------------------------------------------------
 
-    private var moviesByCategory: List<MoviesByCategories> = ArrayList()
+    private var moviesByCategory: List<MoviesByGenre> = ArrayList()
 
-    fun fillMoviesByCategory(moviesByCategory: List<MoviesByCategories>) {
+    fun fillMoviesByCategory(moviesByCategory: List<MoviesByGenre>) {
         Log.v(
             "Debug1",
             "CategoriesAdapter fillMoviesByCategory moviesByCategory.size=" + moviesByCategory.size
@@ -92,7 +92,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
             }
         }
 
-        fun setData(moviesByCategory: MoviesByCategories) {
+        fun setData(moviesByCategory: MoviesByGenre) {
             Log.v("Debug1", "CategoriesAdapter MyViewHolder setData")
             val linearLayoutItemCategory: LinearLayout = binding.linearLayoutItemCategory
             val linearLayoutIntoScrollView: LinearLayout = binding.linearLayoutIntoScrollView

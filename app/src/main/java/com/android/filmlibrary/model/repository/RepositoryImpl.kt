@@ -147,7 +147,7 @@ class RepositoryImpl : Repository {
                             )
                         }
                         result = AppState.SuccessMoviesByCategory(
-                            MoviesByCategories(
+                            MoviesByGenre(
                                 category,
                                 moviesLoc
                             )
@@ -167,7 +167,7 @@ class RepositoryImpl : Repository {
         categories: List<Category>,
         cntMovies: Int,
     ): AppState {
-        val moviesByCategories = mutableListOf<MoviesByCategories>()
+        val moviesByCategories = mutableListOf<MoviesByGenre>()
         val result: AppState
         var appState: AppState
         for (category in categories) {

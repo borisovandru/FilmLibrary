@@ -17,7 +17,7 @@ import com.android.filmlibrary.viewmodel.moviesbycategory.MoviesByCategoryViewMo
 import com.android.filmlibrary.databinding.MoviesByCategoryFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Category
-import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
 import com.android.filmlibrary.view.showSnackBar
 
@@ -25,7 +25,7 @@ import com.android.filmlibrary.view.showSnackBar
 class MoviesByCategoryFragment : Fragment() {
 
     private val moviesByCategoryViewModel by viewModels<MoviesByCategoryViewModel>()
-    private lateinit var movies: MoviesByCategories
+    private lateinit var movies: MoviesByGenre
     private val viewModel: MoviesByCategoryViewModel by lazy {
         ViewModelProvider(this).get(moviesByCategoryViewModel::class.java)
     }
@@ -71,7 +71,7 @@ class MoviesByCategoryFragment : Fragment() {
         }
     }
 
-    private fun fillData(movieData: MoviesByCategories) {
+    private fun fillData(movieData: MoviesByGenre) {
         movies = movieData
         adapter.fillMovies(movieData)
         val recyclerView = binding.rvCatB

@@ -15,7 +15,7 @@ import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MainFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Category
-import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.view.showSnackBar
 import com.android.filmlibrary.viewmodel.movies.MainFragmentViewModel
 
@@ -26,7 +26,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private var moviesByCategory: List<MoviesByCategories> = ArrayList()
+    private var moviesByCategory: List<MoviesByGenre> = ArrayList()
     private var categories: List<Category> = ArrayList()
     private val adapter = MainFragmentAdapter()
     private val viewModel: MainFragmentViewModel by lazy {
@@ -102,7 +102,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun fillMoviesByCategory(moviesByCategory: List<MoviesByCategories>) {
+    private fun fillMoviesByCategory(moviesByCategory: List<MoviesByGenre>) {
         Log.v("Debug1", "MainFragment fillMoviesByCategory")
         this.moviesByCategory = moviesByCategory
         adapter.fillMoviesByCategory(moviesByCategory)

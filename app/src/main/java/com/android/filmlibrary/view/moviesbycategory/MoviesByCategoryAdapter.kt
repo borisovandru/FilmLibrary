@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.databinding.ItemMovieBinding
-import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.model.data.MoviesByGenre
 
 class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyViewHolder>() {
 
@@ -19,9 +19,9 @@ class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyV
         this.onMovieClickListener = onMovieClickListener
     }
 
-    private lateinit var moviesByCategories: MoviesByCategories
+    private lateinit var moviesByCategories: MoviesByGenre
 
-    fun fillMovies(moviesByCategories: MoviesByCategories) {
+    fun fillMovies(moviesByCategories: MoviesByGenre) {
         Log.v(
             "Debug1",
             "MoviesByCategoryAdapter fillMovies movies.movies.size=" + moviesByCategories.movies.size

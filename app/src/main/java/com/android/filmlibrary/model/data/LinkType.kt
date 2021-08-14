@@ -4,5 +4,7 @@ enum class LinkType {
     ITEM_MOVIE,
     CATEGORIES,
     MOVIES_BY_CATEGORIES,
-    SETTINGS
+    SETTINGS,
+    TREND,
+    SEARCH
 }

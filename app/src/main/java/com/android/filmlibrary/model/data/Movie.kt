@@ -8,8 +8,12 @@ data class Movie(
     val id: Int = -1,
     val title: String = "Default movie",
     val year: Int = 1900,
-    val category: Category,
+    val genres: List<Genre>,
+    val countries: List<Country>,
     val dateRelease: String,
-    val description: String,
-    val posterUrl: String
+    val originalTitle: String,
+    val overview: String,
+    val posterUrl: String,
+    val voteAverage: Double,
+    val runtime: Int
 ) : Parcelable
