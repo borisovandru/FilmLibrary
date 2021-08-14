@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.itemmovie
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -34,9 +35,9 @@ class MovieInfoFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
+
         Log.v("Debug1", "MovieInfoFragment onCreateView")
         _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
@@ -44,22 +45,65 @@ class MovieInfoFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        Log.v("Debug1", "MovieInfoFragment onDestroyView")
         _binding = null
+
+        super.onDestroyView()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun renderData(data: AppState) {
         Log.v("Debug1", "MovieInfoFragment renderData")
         when (data) {
             is AppState.SuccessMovie -> {
                 val movieData = data.movieData
                 binding.loadingLayout.visibility = View.GONE
-                binding.titleMovie.text = movieData.title
-                binding.yearMovie.text = movieData.year.toString()
-                binding.descrMovie.text = movieData.description
-                Glide.with(this)
-                    .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + movieData.posterUrl)
-                    .into(binding.imageMovie)
+                if (movieData.posterUrl != "" && movieData.posterUrl != "-") {
+                    Glide.with(this)
+                        .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + movieData.posterUrl)
+                        .into(binding.imageMovie)
+                } else {
+                    binding.imageMovie.setImageResource(R.drawable.empty_poster)
+                }
+                binding.rated.text = movieData.voteAverage.toString()
+
+                if (movieData.title == movieData.originalTitle) {
+                    binding.titleMovie.text = movieData.title
+                } else {
+                    binding.titleMovie.text =
+                        getString(R.string.titleMovie, movieData.title, movieData.originalTitle)
+                }
+
+                binding.yearMovie.text = movieData.dateRelease
+
+                for (country in movieData.countries) {
+                    if (binding.countryMovie.text.toString() == "") {
+                        binding.countryMovie.text = country.name
+                    } else {
+                        binding.countryMovie.text = getString(
+                            R.string.comma,
+                            binding.countryMovie.text.toString(),
+                            country.name
+                        )
+                    }
+                }
+
+                binding.runtimeMovie.text =
+                    movieData.runtime.toString() + getString(R.string.Minutes)
+
+                for (genre in movieData.genres) {
+                    if (binding.genreMovie.text == "") {
+                        binding.genreMovie.text = genre.title
+                    } else {
+                        binding.genreMovie.text = getString(
+                            R.string.comma,
+                            binding.genreMovie.text.toString(),
+                            genre.title
+                        )
+                    }
+                }
+
+                binding.descrMovie.text = movieData.overview
 
             }
             is AppState.Loading -> {
@@ -78,6 +122,8 @@ class MovieInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.v("Debug1", "MovieInfoFragment onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+
         val movieId = arguments?.getInt(BUNDLE_EXTRA)
         movieId?.let {
             val observer = Observer<AppState> { appState ->

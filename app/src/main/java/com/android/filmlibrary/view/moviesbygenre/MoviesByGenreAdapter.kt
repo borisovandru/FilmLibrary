@@ -1,4 +1,4 @@
-package com.android.filmlibrary.view.moviesbycategory
+package com.android.filmlibrary.view.moviesbygenre
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemMovieBinding
+import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MoviesByGenre
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyViewHolder>() {
+class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHolder>() {
 
     private var onMovieClickListener: (Int) -> Unit = {}
 
@@ -19,14 +23,14 @@ class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyV
         this.onMovieClickListener = onMovieClickListener
     }
 
-    private lateinit var moviesByCategories: MoviesByGenre
+    private var moviesByGenre: MoviesByGenre = MoviesByGenre(Genre(), listOf())
 
-    fun fillMovies(moviesByCategories: MoviesByGenre) {
+    fun fillMovies(moviesByGenre: MoviesByGenre) {
         Log.v(
             "Debug1",
-            "MoviesByCategoryAdapter fillMovies movies.movies.size=" + moviesByCategories.movies.size
+            "MoviesByCategoryAdapter fillMovies movies.movies.size=" + moviesByGenre.movies.size
         )
-        this.moviesByCategories = moviesByCategories
+        this.moviesByGenre = moviesByGenre
         notifyDataSetChanged()
 
     }
@@ -44,18 +48,30 @@ class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyV
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.v("Debug1", "MoviesByCategoryAdapter onBindViewHolder")
-        val movie = moviesByCategories.movies[position]
+        val movie = moviesByGenre.movies[position]
         holder.movieTitle.text = movie.title
-        holder.movieCat.text = movie.category.title
-        holder.movieYear.text = movie.year.toString()
-        holder.setData(movie.posterUrl)
 
+        if (movie.genres.isNotEmpty()){
+            holder.movieCat.text = movie.genres.first().title
+        }
+
+        if (movie.dateRelease != "") {
+            val localDate = LocalDate.parse(movie.dateRelease,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val formatter = DateTimeFormatter.ofPattern("yyyy")
+            val formattedDate = localDate.format(formatter)
+            holder.movieYear.text = formattedDate
+        } else {
+            holder.movieYear.text = ""
+        }
+
+        holder.setData(movie.posterUrl)
 
         holder.movieId = movie.id
     }
 
     override fun getItemCount(): Int {
-        return moviesByCategories.movies.size
+        return moviesByGenre.movies.size
     }
 
     inner class MyViewHolder(binding: ItemMovieBinding, parent: ViewGroup) :
@@ -70,9 +86,13 @@ class MoviesByCategoryAdapter : RecyclerView.Adapter<MoviesByCategoryAdapter.MyV
 
         fun setData(posterURL: String) {
             posterURL.let {
-                Glide.with(parentLoc.context)
-                    .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
-                    .into(moviePoster)
+                if (posterURL != "" && posterURL != "-"){
+                    Glide.with(parentLoc.context)
+                        .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
+                        .into(moviePoster)
+                } else {
+                    moviePoster.setImageResource(R.drawable.empty_poster)
+                }
             }
         }
 
