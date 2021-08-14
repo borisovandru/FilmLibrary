@@ -3,18 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_trends">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.android.filmlibrary.view.movies.MainFragment"
+        android:id="@+id/navigation_trends"
+        android:name="com.android.filmlibrary.view.trends.TrendsFragment"
         android:label="@string/ng_name_home"
-        tools:layout="@layout/main_fragment">
+        tools:layout="@layout/trends_fragment">
         <action
-            android:id="@+id/action_navigation_home_to_moviesByCategoryFragment"
-            app:destination="@id/moviesByCategoryFragment" />
-        <action
-            android:id="@+id/action_navigation_home_to_movieInfoFragment"
+            android:id="@+id/action_navigation_trends_to_movieInfoFragment"
             app:destination="@id/movieInfoFragment" />
     </fragment>
 
@@ -22,42 +19,53 @@
         android:id="@+id/navigation_search"
         android:name="com.android.filmlibrary.view.search.SearchFragment"
         android:label="@string/ng_name_search"
-        tools:layout="@layout/search_fragment" />
+        tools:layout="@layout/search_fragment" >
+        <action
+            android:id="@+id/action_navigation_search_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment"
+            app:popUpTo="@+id/navigation_search" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_favorite"
-        android:name="com.android.filmlibrary.view.favorite.FavoriteFragment"
-        android:label="@string/ng_name_fav"
-        tools:layout="@layout/favorite_fragment" />
-
-    <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.android.filmlibrary.view.profile.ProfileFragment"
-        android:label="@string/ng_name_profile"
-        tools:layout="@layout/profile_fragment" />
-    <fragment
-        android:id="@+id/moviesByCategoryFragment"
-        android:name="com.android.filmlibrary.view.moviesbycategory.MoviesByCategoryFragment"
-        android:label="@string/ng_name_movies_cat"
-        tools:layout="@layout/movies_by_category_fragment">
+        android:id="@+id/navigation_genres"
+        android:name="com.android.filmlibrary.view.genres.GenresFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/genres_fragment" >
         <action
-            android:id="@+id/action_moviesByCategoryFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_navigation_genres_to_moviesByGenresFragment2"
+            app:destination="@id/moviesByGenresFragment" />
         <action
-            android:id="@+id/action_moviesByCategoryFragment_to_movieInfoFragment"
+            android:id="@+id/action_navigation_genres_to_movieInfoFragment2"
             app:destination="@id/movieInfoFragment" />
     </fragment>
+
+
+
+    <fragment
+        android:id="@+id/moviesByGenresFragment"
+        android:name="com.android.filmlibrary.view.moviesbygenre.MoviesByGenreFragment"
+        android:label="@string/ng_name_movies_cat"
+        tools:layout="@layout/movies_by_genre_fragment" >
+        <action
+            android:id="@+id/action_moviesByGenresFragment_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/movieInfoFragment"
         android:name="com.android.filmlibrary.view.itemmovie.MovieInfoFragment"
         android:label="@string/ng_name_item_movie"
-        tools:layout="@layout/fragment_movie_info">
+        tools:layout="@layout/fragment_movie_info" >
         <action
-            android:id="@+id/action_movieInfoFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_movieInfoFragment_to_moviesByCategoryFragment"
-            app:destination="@id/moviesByCategoryFragment" />
+            android:id="@+id/action_movieInfoFragment_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:popUpTo="@id/navigation_search" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.android.filmlibrary.view.profile.ProfileFragment"
+        android:label="@string/ng_name_settings"
+        tools:layout="@layout/profile_fragment" />
 
 </navigation>

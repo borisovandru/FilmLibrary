@@ -1,46 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemMovieCardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:id="@+id/itemMovieCardView">
 
-    <LinearLayout
-        android:id="@+id/itemMovieLinearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:id="@+id/itemMovieLinearLayout">
 
         <ImageView
             android:id="@+id/moviePoster"
             android:layout_width="120dp"
             android:layout_height="180dp"
-            android:contentDescription="@string/imagemovie"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_launcher_background" />
+            tools:src="@drawable/empty_poster"
+            android:contentDescription="@string/imagemovie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/rated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFC107"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/moviePoster"
+            app:layout_constraintEnd_toEndOf="@+id/moviePoster"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/moviePoster"
+            app:layout_constraintTop_toTopOf="@+id/moviePoster"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="7.5" />
 
         <TextView
             android:id="@+id/movieTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="Название фильма" />
+            android:gravity="center"
+            tools:text="Название фильма очень длинное"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moviePoster"/>
 
         <TextView
             android:id="@+id/movieCat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="Категория №3" />
+            tools:text="Категория №3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle"/>
 
         <TextView
             android:id="@+id/movieYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="1900" />
+            tools:text="1900"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieCat"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

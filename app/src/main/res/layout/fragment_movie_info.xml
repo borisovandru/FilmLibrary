@@ -7,58 +7,112 @@
     android:layout_height="match_parent"
     tools:context=".view.itemmovie.MovieInfoFragment">
 
-    <ImageView
-        android:id="@+id/imageMovie"
-        android:layout_width="120dp"
-        android:layout_height="180dp"
-        android:contentDescription="@string/imagemovie"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/titleHead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleHead"
-        app:layout_constraintEnd_toStartOf="@+id/titleMovie"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageMovie" />
-
-    <TextView
-        android:id="@+id/titleMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/titleHead"
-        app:layout_constraintTop_toBottomOf="@+id/imageMovie" />
-
-
-    <TextView
-        android:id="@+id/yearHead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/yearHead"
-        app:layout_constraintEnd_toStartOf="@+id/yearMovie"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleMovie" />
-
-    <TextView
-        android:id="@+id/yearMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/yearHead"
-        app:layout_constraintTop_toBottomOf="@+id/titleMovie" />
-
-    <TextView
-        android:id="@+id/descrMovie"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yearHead" />
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageMovie"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/imagemovie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/empty_poster" />
+
+            <TextView
+                android:id="@+id/rated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFC107"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageMovie"
+                app:layout_constraintEnd_toEndOf="@+id/imageMovie"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/imageMovie"
+                app:layout_constraintTop_toTopOf="@+id/imageMovie"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="7.5" />
+
+            <TextView
+                android:id="@+id/titleMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageMovie"
+                tools:text="巨乳お姉さんの濡れパイ誘惑に逆らえない 君島みお" />
+
+
+            <TextView
+                android:id="@+id/yearMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/runtimeMovie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleMovie"
+                tools:text="1995" />
+
+
+            <TextView
+                android:id="@+id/runtimeMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/yearMovie"
+                app:layout_constraintTop_toBottomOf="@+id/titleMovie"
+                tools:text="129 мин" />
+
+
+            <TextView
+                android:id="@+id/countryMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yearMovie"
+                tools:text="US" />
+
+
+            <TextView
+                android:id="@+id/genreMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/countryMovie"
+                tools:text="Комедия, Приключения" />
+
+            <TextView
+                android:id="@+id/descrMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genreMovie"
+                tools:text="Mio Kimijima, a very popular busty sister, seduces a man by getting her beautiful big tits wet with indecent sweat! The air-conditioning is broken and it's hot in the office ... Sweaty sheer bra, nipples, and pantyhose with unevenness tempt you! Sweaty tongue sex with slimy fucking, plump ass job and greedy cock of strong men! Please enjoy plenty of shiny beautiful breasts and beautiful body, clothes x sheer erotic x sweaty x superb erotic body!" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
     <FrameLayout
         android:id="@+id/loadingLayout"
