@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.GenresFragmentBinding
 import com.android.filmlibrary.model.AppState

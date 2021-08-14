@@ -1,15 +1,15 @@
-package com.android.filmlibrary.viewmodel.movies
+package com.android.filmlibrary.viewmodel.genres
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORIES
+import com.android.filmlibrary.Constant
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Category
+import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.repository.Repository
 import com.android.filmlibrary.model.repository.RepositoryImpl
 
-class MainFragmentViewModel(private val repository: Repository = RepositoryImpl()) :
+class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()
@@ -23,22 +23,22 @@ class MainFragmentViewModel(private val repository: Repository = RepositoryImpl(
         return liveDataToObserver2
     }
 
-    fun getCategoriesFromRemoteSource() {
+    fun getGenresFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
         Thread {
             liveDataToObserver.postValue(
-                (repository.getCategoriesFromRemoteServer())
+                (repository.getGenresFromRemoteServer())
             )
         }.start()
     }
 
-    fun getMoviesByCategoriesFromRemoteSource(categories: List<Category>) {
+    fun getMoviesByGenresFromRemoteSource(genres: List<Genre>) {
         liveDataToObserver2.value = AppState.Loading
         Thread {
             liveDataToObserver2.postValue(
-                (repository.getMoviesByCategoriesFromRemoteServer(
-                    categories,
-                    COUNT_MOVIES_BY_CATEGORIES
+                (repository.getMoviesByGenresFromRemoteServer(
+                    genres,
+                    Constant.COUNT_MOVIES_BY_GENRES
                 ))
             )
         }.start()

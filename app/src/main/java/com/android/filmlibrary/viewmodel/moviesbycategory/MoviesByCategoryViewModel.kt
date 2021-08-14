@@ -5,17 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORY
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Category
+import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.repository.RepositoryImpl
 
 class MoviesByCategoryViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
 
     private val repository = RepositoryImpl()
-    private lateinit var category: Category
+    private lateinit var genre: Genre
 
-    fun getData(category: Category): LiveData<AppState> {
-        this.category = category
+    fun getData(genre: Genre): LiveData<AppState> {
+        this.genre = genre
         return liveDataToObserver
     }
 
@@ -25,7 +25,7 @@ class MoviesByCategoryViewModel(private val liveDataToObserver: MutableLiveData<
         Thread {
             liveDataToObserver.postValue(
                 (repository.getMoviesByCategoryFromRemoteServer(
-                    category,
+                    genre,
                     COUNT_MOVIES_BY_CATEGORY
                 ))
             )
