@@ -1,7 +1,6 @@
 package com.android.filmlibrary.model
 
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.SettingsTMDB
+import com.android.filmlibrary.model.data.*
 
 sealed class AppState {
     data class SuccessMoviesByGenre(val moviesByGenre: MoviesByGenre) : AppState()
@@ -14,6 +13,7 @@ sealed class AppState {
     data class SuccessSearch(val moviesBySearch: List<Movie>) : AppState()
     data class SuccessMoviesByTrend(val moviesByTrends: MoviesByTrend) :
         AppState()
+
     data class SuccessMoviesByTrends(val moviesByTrends: List<MoviesByTrend>) :
         AppState()
 

@@ -1,11 +1,8 @@
 package com.android.filmlibrary.model.repository
 
 import android.util.Log
-import com.google.gson.Gson
 import com.android.filmlibrary.BuildConfig
 import com.android.filmlibrary.Constant.BASE_URL
-import com.android.filmlibrary.Constant.COUNT_CATEGORY
-import com.android.filmlibrary.Constant.COUNT_MOVIES
 import com.android.filmlibrary.Constant.LANG
 import com.android.filmlibrary.Constant.MOVIES_BY_CATEGORIES_1
 import com.android.filmlibrary.Constant.MOVIES_BY_CATEGORIES_2
@@ -13,9 +10,14 @@ import com.android.filmlibrary.Constant.READ_TIMEOUT
 import com.android.filmlibrary.Constant.URL_API
 import com.android.filmlibrary.Constant.URL_CATEGORIES_1
 import com.android.filmlibrary.Constant.URL_ITEM_MOVIE_1
+import com.android.filmlibrary.Constant.URL_LATEST
+import com.android.filmlibrary.Constant.URL_SEARCH_1
+import com.android.filmlibrary.Constant.URL_SEARCH_2
 import com.android.filmlibrary.Constant.URL_SETTINGS_1
+import com.android.filmlibrary.Constant.URL_TREND
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.*
+import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
 import java.io.InputStreamReader
 import java.net.URL
@@ -26,38 +28,6 @@ import javax.net.ssl.HttpsURLConnection
 class RepositoryImpl : Repository {
 
     private val movies = mutableListOf<Movie>()
-    private val categories = mutableListOf<Category>()
-    private val cntCategories = COUNT_CATEGORY
-    private val cntMovies = COUNT_MOVIES
-
-    private fun IntRange.random() =
-        Random().nextInt((endInclusive + 1) - start) + start
-
-    init {
-
-        for (i in 0 until cntCategories) {
-            categories.add(
-                Category(
-                    i,
-                    "Категория №" + (i + 1)
-                )
-            )
-        }
-
-        for (i in 0 until cntMovies) {
-            movies.add(
-                Movie(
-                    i,
-                    "Фильм №$i",
-                    (1990 + i),
-                    categories[(0 until cntCategories).random()],
-                    "1990-1-1",
-                    "descr",
-                    ""
-                )
-            )
-        }
-    }
 
     override fun getDataFromRemoteServer(linkType: LinkType, param1: String): AppState {
         val rawData: Map<String, *>?
@@ -75,6 +45,12 @@ class RepositoryImpl : Repository {
             }
             LinkType.SETTINGS -> {
                 BASE_URL + URL_SETTINGS_1 + URL_API + BuildConfig.MOVIEDB_API_KEY + LANG
+            }
+            LinkType.TREND -> {
+                BASE_URL + URL_TREND + param1 + URL_API + BuildConfig.MOVIEDB_API_KEY + LANG
+            }
+            LinkType.SEARCH -> {
+                BASE_URL + URL_SEARCH_1 + URL_API + BuildConfig.MOVIEDB_API_KEY + LANG + URL_SEARCH_2 + param1
             }
         }
 
@@ -104,16 +80,63 @@ class RepositoryImpl : Repository {
         return result
     }
 
+    private fun parseItemMovie(rawMovieDate: Map<*, *>): Movie {
+
+        val genresArr = mutableListOf<Genre>()
+        val countriesArr = mutableListOf<Country>()
+
+        val dateRelease = rawMovieDate["release_date"] as? String ?: "-"
+        val title = rawMovieDate["title"] as? String ?: "-"
+        val originalTitle = rawMovieDate["original_title"] as? String ?: "-"
+        val id = (rawMovieDate["id"] as? Double ?: 0).toInt()
+        val rated = rawMovieDate["vote_average"] as Double
+        val runtime = (rawMovieDate["runtime"] as? Double ?: 0).toInt()
+
+        val genres = rawMovieDate["genres"] as? ArrayList<Map<*, *>>
+        if (genres != null) {
+            for (i in 0 until genres.size) {
+                val idGenres = (genres[i]["id"] as? Double ?: 0).toInt()
+                val nameGenres = genres[i]["name"] as? String ?: ""
+                genresArr.add(Genre(idGenres, nameGenres))
+            }
+        }
+
+        val countries = rawMovieDate["production_countries"] as? ArrayList<Map<*, *>>
+        if (countries != null) {
+            for (i in 0 until countries.size) {
+                val codeISO = countries[i]["iso_3166_1"] as? String ?: "-"
+                val name = countries[i]["name"] as? String ?: "-"
+
+                countriesArr.add(Country(codeISO, name))
+            }
+        }
+        val overview = rawMovieDate["overview"] as? String ?: "-"
+        val poster = rawMovieDate["poster_path"] as? String ?: "-"
+
+        return Movie(
+            id,
+            title,
+            1990,
+            genresArr,
+            countriesArr,
+            dateRelease,
+            originalTitle,
+            overview,
+            poster,
+            rated,
+            runtime
+        )
+    }
 
     override fun getMoviesByCategoryFromRemoteServer(
-        category: Category,
+        genre: Genre,
         setCountsOfMovies: Int,
     ): AppState {
         var result: AppState = AppState.Loading
         val moviesLoc = mutableListOf<Movie>()
         Log.v("Debug1", "RepositoryImpl getMoviesByCategoryFromRemoteServer")
         val data =
-            getDataFromRemoteServer(LinkType.MOVIES_BY_CATEGORIES, category.id.toString())
+            getDataFromRemoteServer(LinkType.MOVIES_BY_CATEGORIES, genre.id.toString())
 
         when (data) {
             is AppState.SuccessRawData -> {
@@ -129,26 +152,13 @@ class RepositoryImpl : Repository {
                                 "Debug1",
                                 "RepositoryImpl getMoviesByCategoryFromRemoteServer i=$i"
                             )
-                            val dateRelease = results[i]["release_date"] as? String ?: "-"
-                            val title = results[i]["original_title"] as? String ?: "-"
-                            val id = (results[i]["id"] as? Double ?: 0).toInt()
-                            val descr = results[i]["overview"] as? String ?: "-"
-                            val poster = results[i]["poster_path"] as? String ?: "-"
                             moviesLoc.add(
-                                Movie(
-                                    id,
-                                    title,
-                                    1990,
-                                    category,
-                                    dateRelease,
-                                    descr,
-                                    poster
-                                )
+                                parseItemMovie(results[i])
                             )
                         }
-                        result = AppState.SuccessMoviesByCategory(
+                        result = AppState.SuccessMoviesByGenre(
                             MoviesByGenre(
-                                category,
+                                genre,
                                 moviesLoc
                             )
                         )
@@ -163,23 +173,23 @@ class RepositoryImpl : Repository {
         return result
     }
 
-    override fun getMoviesByCategoriesFromRemoteServer(
-        categories: List<Category>,
+    override fun getMoviesByGenresFromRemoteServer(
+        genres: List<Genre>,
         cntMovies: Int,
     ): AppState {
         val moviesByCategories = mutableListOf<MoviesByGenre>()
         val result: AppState
         var appState: AppState
-        for (category in categories) {
+        for (category in genres) {
             appState = getMoviesByCategoryFromRemoteServer(category, cntMovies)
             when (appState) {
-                is AppState.SuccessMoviesByCategory -> {
-                    appState.moviesByCategory
-                    moviesByCategories.add(appState.moviesByCategory)
+                is AppState.SuccessMoviesByGenre -> {
+                    appState.moviesByGenre
+                    moviesByCategories.add(appState.moviesByGenre)
                 }
             }
         }
-        result = AppState.SuccessMoviesByCategories(moviesByCategories)
+        result = AppState.SuccessMoviesByGenres(moviesByCategories)
         return result
     }
 
@@ -196,31 +206,12 @@ class RepositoryImpl : Repository {
         val data =
             getDataFromRemoteServer(LinkType.ITEM_MOVIE, id.toString())
 
-
         when (data) {
             is AppState.SuccessRawData -> {
                 data.rawData?.let {
-                    val title = it["original_title"] as String
-                    val dateRelease = it["release_date"] as? String ?: "-"
-                    val description = it["overview"] as String
-                    val poster = it["poster_path"] as String
-
-                    Log.v(
-                        "Debug1",
-                        "RepositoryImpl getMovieFromRemoteServer($id) title=$title"
-                    )
-                    movie = Movie(
-                        id,
-                        title,
-                        1900,
-                        Category(555, "terrt"),
-                        dateRelease,
-                        description,
-                        poster
-                    )
+                    movie = parseItemMovie(it)
                     result = AppState.SuccessMovie(movie)
                 }
-
             }
             is AppState.Error -> {
                 result = data
@@ -234,8 +225,8 @@ class RepositoryImpl : Repository {
         return movies[id]
     }
 
-    override fun getCategoriesFromRemoteServer(): AppState {
-        val categoriesLoc = mutableListOf<Category>()
+    override fun getGenresFromRemoteServer(): AppState {
+        val categoriesLoc = mutableListOf<Genre>()
         Log.v("Debug1", "RepositoryImpl getCategoriesFromRemoteServer")
         var result: AppState = AppState.Loading
         val data =
@@ -253,14 +244,14 @@ class RepositoryImpl : Repository {
                             val name = genres[i]["name"] as? String ?: ""
 
                             categoriesLoc.add(
-                                Category(
+                                Genre(
                                     id,
                                     name
                                 )
                             )
                         }
                     }
-                    result = AppState.SuccessCategories(categoriesLoc)
+                    result = AppState.SuccessGenres(categoriesLoc)
                 }
 
             }
@@ -289,6 +280,117 @@ class RepositoryImpl : Repository {
                     val secureBaseUrl = images["secure_base_url"] as String
                     settingsTMDB = SettingsTMDB(baseUrl, secureBaseUrl)
                     result = AppState.SuccessSettings(settingsTMDB)
+                }
+
+            }
+            is AppState.Error -> {
+                result = data
+            }
+        }
+        return result
+    }
+
+    override fun getMoviesByTrendFromRemoteServer(trend: Trend, setCountsOfMovies: Int): AppState {
+        val moviesLoc = mutableListOf<Movie>()
+        var result: AppState = AppState.Loading
+        Log.v(
+            "Debug1",
+            "RepositoryImpl getMoviesByTrendFromRemoteServer begin trend.URL=" + trend.URL
+        )
+
+        val data =
+            getDataFromRemoteServer(LinkType.TREND, trend.URL)
+
+        when (data) {
+            is AppState.SuccessRawData -> {
+                if (trend.URL == URL_LATEST) {
+                    data.rawData?.let {
+                        moviesLoc.add(
+                            parseItemMovie(it)
+                        )
+                    }
+                } else {
+                    data.rawData?.let {
+                        val results = it["results"] as ArrayList<Map<*, *>>
+                        if (results.isNotEmpty()) {
+                            var countsOfMovies = setCountsOfMovies
+                            if (setCountsOfMovies > results.size) {
+                                countsOfMovies = results.size
+                            }
+                            for (i in 0 until countsOfMovies) {
+                                moviesLoc.add(
+                                    parseItemMovie(results[i])
+                                )
+                            }
+                        }
+                    }
+                }
+                result = AppState.SuccessMoviesByTrend(
+                    MoviesByTrend(
+                        trend,
+                        moviesLoc
+                    )
+                )
+            }
+            is AppState.Error -> {
+                result = data
+            }
+        }
+        return result
+    }
+
+    override fun getMoviesByTrendsFromRemoteServer(
+        trends: List<Trend>,
+        cntMovies: Int,
+    ): AppState {
+        val moviesByTrends = mutableListOf<MoviesByTrend>()
+        val result: AppState
+        var appState: AppState
+        for (trend in trends) {
+            appState = getMoviesByTrendFromRemoteServer(trend, cntMovies)
+            when (appState) {
+                is AppState.SuccessMoviesByTrend -> {
+                    appState.moviesByTrends
+                    moviesByTrends.add(appState.moviesByTrends)
+                }
+            }
+        }
+        result = AppState.SuccessMoviesByTrends(moviesByTrends)
+        return result
+    }
+
+
+    override fun getMoviesBySearchFromRemoteServer(
+        searchRequest: String,
+        setCountsOfMovies: Int,
+    ): AppState {
+        var result: AppState = AppState.Loading
+        val moviesLoc = mutableListOf<Movie>()
+        Log.v("Debug1", "RepositoryImpl getMoviesBySearchFromRemoteServer")
+        val data =
+            getDataFromRemoteServer(LinkType.SEARCH, searchRequest)
+
+        when (data) {
+            is AppState.SuccessRawData -> {
+                data.rawData?.let {
+                    //val totalResults = (it["total_results"] as Double).toInt()TODO: Вывести
+                    val results = it["results"] as ArrayList<Map<*, *>>
+                    if (results.isNotEmpty()) {
+                        var countsOfMovies = setCountsOfMovies
+                        if (setCountsOfMovies > results.size) {
+                            countsOfMovies = results.size
+                        }
+                        for (i in 0 until countsOfMovies) {
+                            Log.v(
+                                "Debug1",
+                                "RepositoryImpl getMoviesBySearchFromRemoteServer i=$i"
+                            )
+                            moviesLoc.add(
+                                parseItemMovie(results[i])
+                            )
+                        }
+                        result = AppState.SuccessSearch(moviesLoc)
+                    }
                 }
 
             }
