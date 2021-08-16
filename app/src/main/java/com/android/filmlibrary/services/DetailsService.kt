@@ -40,7 +40,6 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
         }
     }
 
-
     private fun onResponse(appState: AppState) {
         Log.v("Debug1", "DetailsService onResponse")
         when (appState) {
@@ -78,8 +77,5 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
     private fun putLoadResult(result: String) {
         Log.v("Debug1", "DetailsService putLoadResult")
         broadcastIntent.putExtra(DETAILS_LOAD_RESULT_EXTRA, result)
-
     }
-
-
 }

@@ -32,7 +32,6 @@ class MovieInfoFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -102,9 +101,7 @@ class MovieInfoFragment : Fragment() {
                         )
                     }
                 }
-
                 binding.descrMovie.text = movieData.overview
-
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -133,7 +130,6 @@ class MovieInfoFragment : Fragment() {
             viewModel.getMovieFromRemoteSource()
         }
     }
-
 
     companion object {
         const val BUNDLE_EXTRA = "movieId"

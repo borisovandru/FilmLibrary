@@ -42,6 +42,5 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
                 ))
             )
         }.start()
-
     }
 }

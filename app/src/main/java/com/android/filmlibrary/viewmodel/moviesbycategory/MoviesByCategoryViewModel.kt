@@ -19,7 +19,6 @@ class MoviesByCategoryViewModel(private val liveDataToObserver: MutableLiveData<
         return liveDataToObserver
     }
 
-
     fun getDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
         Thread {

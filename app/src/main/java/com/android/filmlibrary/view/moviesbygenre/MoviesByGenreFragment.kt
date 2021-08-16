@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO
+import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
+import com.android.filmlibrary.databinding.MoviesByGenreFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
+import com.android.filmlibrary.view.showSnackBar
 import com.android.filmlibrary.viewmodel.moviesbycategory.MoviesByCategoryViewModel
 
 
@@ -34,7 +37,6 @@ class MoviesByGenreFragment : Fragment() {
     private var _binding: MoviesByGenreFragmentBinding? = null
     private val binding
         get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +74,6 @@ class MoviesByGenreFragment : Fragment() {
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         recyclerView = binding.rvCatB
@@ -95,11 +96,12 @@ class MoviesByGenreFragment : Fragment() {
         }
 
         if (moviesByGenre.movies.isNotEmpty()) {
-            Log.v("Debug1",
-                "MoviesByGenreFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch=")
+            Log.v(
+                "Debug1",
+                "MoviesByGenreFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch="
+            )
             adapter.fillMovies(moviesByGenre)
         }
-
 
         val category = arguments?.getParcelable<Genre>(BUNDLE_EXTRA)
         category?.let {
@@ -126,5 +128,4 @@ class MoviesByGenreFragment : Fragment() {
             return fragment
         }
     }
-
 }

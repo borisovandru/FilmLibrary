@@ -19,7 +19,7 @@
         android:id="@+id/navigation_search"
         android:name="com.android.filmlibrary.view.search.SearchFragment"
         android:label="@string/ng_name_search"
-        tools:layout="@layout/search_fragment" >
+        tools:layout="@layout/search_fragment">
         <action
             android:id="@+id/action_navigation_search_to_movieInfoFragment"
             app:destination="@id/movieInfoFragment"
@@ -30,7 +30,7 @@
         android:id="@+id/navigation_genres"
         android:name="com.android.filmlibrary.view.genres.GenresFragment"
         android:label="@string/categories"
-        tools:layout="@layout/genres_fragment" >
+        tools:layout="@layout/genres_fragment">
         <action
             android:id="@+id/action_navigation_genres_to_moviesByGenresFragment2"
             app:destination="@id/moviesByGenresFragment" />
@@ -40,12 +40,11 @@
     </fragment>
 
 
-
     <fragment
         android:id="@+id/moviesByGenresFragment"
         android:name="com.android.filmlibrary.view.moviesbygenre.MoviesByGenreFragment"
         android:label="@string/ng_name_movies_cat"
-        tools:layout="@layout/movies_by_genre_fragment" >
+        tools:layout="@layout/movies_by_genre_fragment">
         <action
             android:id="@+id/action_moviesByGenresFragment_to_movieInfoFragment"
             app:destination="@id/movieInfoFragment" />
@@ -55,7 +54,7 @@
         android:id="@+id/movieInfoFragment"
         android:name="com.android.filmlibrary.view.itemmovie.MovieInfoFragment"
         android:label="@string/ng_name_item_movie"
-        tools:layout="@layout/fragment_movie_info" >
+        tools:layout="@layout/fragment_movie_info">
         <action
             android:id="@+id/action_movieInfoFragment_to_navigation_search"
             app:destination="@id/navigation_search"

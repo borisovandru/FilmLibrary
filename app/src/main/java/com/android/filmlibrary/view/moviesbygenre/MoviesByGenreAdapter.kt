@@ -1,10 +1,12 @@
 package com.android.filmlibrary.view.moviesbygenre
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
@@ -32,7 +34,6 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         )
         this.moviesByGenre = moviesByGenre
         notifyDataSetChanged()
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -46,18 +47,21 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         return MyViewHolder(binding, parent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.v("Debug1", "MoviesByCategoryAdapter onBindViewHolder")
         val movie = moviesByGenre.movies[position]
         holder.movieTitle.text = movie.title
 
-        if (movie.genres.isNotEmpty()){
+        if (movie.genres.isNotEmpty()) {
             holder.movieCat.text = movie.genres.first().title
         }
 
         if (movie.dateRelease != "") {
-            val localDate = LocalDate.parse(movie.dateRelease,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val localDate = LocalDate.parse(
+                movie.dateRelease,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            )
             val formatter = DateTimeFormatter.ofPattern("yyyy")
             val formattedDate = localDate.format(formatter)
             holder.movieYear.text = formattedDate
@@ -86,7 +90,7 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
 
         fun setData(posterURL: String) {
             posterURL.let {
-                if (posterURL != "" && posterURL != "-"){
+                if (posterURL != "" && posterURL != "-") {
                     Glide.with(parentLoc.context)
                         .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
                         .into(moviePoster)
@@ -101,8 +105,5 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
                 onMovieClickListener(movieId)
             }
         }
-
     }
-
-
 }

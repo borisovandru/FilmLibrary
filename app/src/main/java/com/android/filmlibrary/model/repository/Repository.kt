@@ -1,7 +1,12 @@
 package com.android.filmlibrary.model.repository
 
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.*
+import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.LinkType
+import com.android.filmlibrary.model.data.Movie
+import com.android.filmlibrary.model.data.Trend
+import com.android.filmlibrary.model.dto.FactDTO
+import retrofit2.Callback
 
 interface Repository {
     fun getMoviesByCategoryFromRemoteServer(genre: Genre, setCountsOfMovies: Int): AppState
@@ -9,7 +14,6 @@ interface Repository {
         genres: List<Genre>,
         cntMovies: Int
     ): AppState
-
     fun getMovieFromRemoteServer(id: Int): AppState
     fun getGenresFromRemoteServer(): AppState
 
@@ -28,5 +32,5 @@ interface Repository {
 
     fun getMoviesBySearchFromRemoteServer(searchRequest: String, setCountsOfMovies: Int): AppState
 
-
+    fun getMovieFromRemoteServer2(movieId: Int, lang: String, callback: Callback<FactDTO>)
 }

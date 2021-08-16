@@ -40,7 +40,6 @@ class ProfileFragment : Fragment() {
                     intent.getStringExtra(SETTINGS_TMDB_IMAGE_URL),
                     intent.getStringExtra(SETTINGS_TMDB_IMAGE_SECURE_URL)
                 )
-
             }
         }
     }
@@ -48,7 +47,6 @@ class ProfileFragment : Fragment() {
     private fun showError(processError: String?) {
         Toast.makeText(context, processError, Toast.LENGTH_LONG).show()
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,7 +88,6 @@ class ProfileFragment : Fragment() {
         binding.baseSecureImageUrl.text = imageSecureBaseURL
     }
 
-
     companion object {
         const val BUNDLE_EXTRA = "Settings"
 
@@ -100,6 +97,4 @@ class ProfileFragment : Fragment() {
             return fragment
         }
     }
-
-
 }

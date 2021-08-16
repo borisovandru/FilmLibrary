@@ -13,14 +13,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.android.filmlibrary.R
 import com.android.filmlibrary.services.MainBroadcastReceiver
 
-
 class MainActivity : AppCompatActivity() {
 
     private val receiver = MainBroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.main_activity)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
@@ -43,6 +41,4 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(receiver)
         super.onDestroy()
     }
-
 }
-

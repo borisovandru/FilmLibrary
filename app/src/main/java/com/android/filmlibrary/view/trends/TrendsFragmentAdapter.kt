@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.trends
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,20 +8,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByTrend
-import com.bumptech.glide.Glide
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewHolder>() {
 
-
+    //-------------------------------------------------------------------
     private var onMovieClickListener: (Int) -> Unit = {}
 
     fun setOnMovieClickListener(onMovieClickListener: (Int) -> Unit) {
@@ -55,6 +57,7 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TrendsFragmentAdapter.MyViewHolder, position: Int) {
         Log.v("Debug1", "TrendsFragmentAdapter onBindViewHolder")
         holder.trendName.text = moviesByTrend[position].trend.name
@@ -76,6 +79,7 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
         var movies: List<Movie> = ArrayList()
 
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun setData(moviesByTrend: MoviesByTrend) {
             Log.v("Debug1", "TrendsFragmentAdapter MyViewHolder setData")
             val linearLayoutItemCategory: LinearLayout = binding.linearLayoutItemTrend

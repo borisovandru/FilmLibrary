@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemMovieCardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    android:id="@+id/itemMovieCardView">
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemMovieLinearLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemMovieLinearLayout">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/moviePoster"
             android:layout_width="120dp"
             android:layout_height="180dp"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/empty_poster"
             android:contentDescription="@string/imagemovie"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/empty_poster" />
 
         <TextView
             android:id="@+id/rated"
@@ -44,30 +44,30 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            tools:text="Название фильма очень длинное"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moviePoster"/>
+            app:layout_constraintTop_toBottomOf="@+id/moviePoster"
+            tools:text="Название фильма очень длинное" />
 
         <TextView
             android:id="@+id/movieCat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="Категория №3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieTitle"/>
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle"
+            tools:text="Категория №3" />
 
         <TextView
             android:id="@+id/movieYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="1900"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieCat"/>
+            app:layout_constraintTop_toBottomOf="@+id/movieCat"
+            tools:text="1900" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

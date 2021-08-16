@@ -24,7 +24,7 @@
         </activity>
 
         <receiver android:name=".services.MainBroadcastReceiver" />
-        <service android:name=".services.DetailsService" />
+
 
     </application>
 

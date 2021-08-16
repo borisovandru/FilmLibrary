@@ -1,10 +1,12 @@
 package com.android.filmlibrary.view.search
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
@@ -15,13 +17,12 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewHolder>() {
-    //-------------------------------------------------------------------
+
     private var onMovieClickListener: (Int) -> Unit = {}
 
     fun setOnMovieClickListener(onMovieClickListener: (Int) -> Unit) {
         this.onMovieClickListener = onMovieClickListener
     }
-
 
     private var moviesBySearch = listOf<Movie>()
 
@@ -47,22 +48,24 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
         )
         this.moviesBySearch = moviesBySearch
         notifyDataSetChanged()
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: SearchFragmentAdapter.MyViewHolder, position: Int) {
         Log.v("Debug1", "SearchFragmentAdapter onBindViewHolder")
 
         val movie = moviesBySearch[position]
         holder.movieTitle.text = movie.title
 
-        if (movie.genres.isNotEmpty()){
+        if (movie.genres.isNotEmpty()) {
             holder.movieCat.text = movie.genres.first().title
         }
 
         if (movie.dateRelease != "") {
-            val localDate = LocalDate.parse(movie.dateRelease,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val localDate = LocalDate.parse(
+                movie.dateRelease,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            )
             val formatter = DateTimeFormatter.ofPattern("yyyy")
             val formattedDate = localDate.format(formatter)
             holder.movieYear.text = formattedDate
@@ -72,7 +75,6 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
 
         holder.setData(movie.posterUrl)
         holder.movieId = movie.id
-
     }
 
     override fun getItemCount(): Int {
@@ -106,6 +108,5 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
                 onMovieClickListener(movieId)
             }
         }
-
     }
 }

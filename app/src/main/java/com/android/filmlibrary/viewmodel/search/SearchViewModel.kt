@@ -15,11 +15,10 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
     private lateinit var searchRequest: String
     val bundleFromFragmentBToFragmentA = MutableLiveData<Bundle>()
 
-    fun getData(serachRequest: String): LiveData<AppState> {
-        this.searchRequest = serachRequest
+    fun getData(searchRequest: String): LiveData<AppState> {
+        this.searchRequest = searchRequest
         return liveDataToObserver
     }
-
 
     fun getSearchDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading

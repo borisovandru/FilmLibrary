@@ -9,7 +9,7 @@ import com.android.filmlibrary.model.data.Trend
 import com.android.filmlibrary.model.repository.Repository
 import com.android.filmlibrary.model.repository.RepositoryImpl
 
-class ThrendsFragmentViewModel(private val repository: Repository = RepositoryImpl()) :
+class ThreadsFragmentViewModel(private val repository: Repository = RepositoryImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()
@@ -29,5 +29,4 @@ class ThrendsFragmentViewModel(private val repository: Repository = RepositoryIm
             )
         }.start()
     }
-
 }

@@ -9,6 +9,8 @@ object Constant {
     const val READ_TIMEOUT: Int = 1000
     const val BASE_URL: String = "https://api.themoviedb.org/3/"
     const val LANG: String = "&language=ru-RU"
+    const val LANG_PARAM: String = "language"
+    const val LANG_VALUE: String = "ru-RU"
     const val URL_ITEM_MOVIE_1: String = "movie/"
     const val URL_API: String = "?api_key="
     const val URL_CATEGORIES_1: String = "genre/movie/list"

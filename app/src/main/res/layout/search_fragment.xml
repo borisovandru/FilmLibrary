@@ -10,26 +10,26 @@
         android:id="@+id/search_query"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/rv_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="запрос"
-        android:inputType="text"
-        android:importantForAutofill="no"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        tools:text="запрос" />
 
     <ImageButton
         android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/Search"
         android:src="@drawable/ic_search_24"
         app:layout_constraintBottom_toBottomOf="@+id/search_query"
         app:layout_constraintEnd_toEndOf="@+id/search_query"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/search_query"
-        app:layout_constraintTop_toTopOf="@+id/search_query"
-        android:contentDescription="@string/Search" />
+        app:layout_constraintTop_toTopOf="@+id/search_query" />
 
     <TextView
         android:id="@+id/search_result"
@@ -70,5 +70,4 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

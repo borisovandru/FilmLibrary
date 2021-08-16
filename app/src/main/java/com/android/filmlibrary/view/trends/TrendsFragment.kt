@@ -2,9 +2,7 @@ package com.android.filmlibrary.view.trends
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,13 +16,14 @@ import com.android.filmlibrary.Constant.URL_NOW_PLAYING
 import com.android.filmlibrary.Constant.URL_POPULAR
 import com.android.filmlibrary.Constant.URL_TOP_RATED
 import com.android.filmlibrary.Constant.URL_UPCOMING
+import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.TrendsFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.MoviesByTrend
 import com.android.filmlibrary.model.data.Trend
 import com.android.filmlibrary.view.showSnackBar
-import com.android.filmlibrary.viewmodel.thrends.ThrendsFragmentViewModel
+import com.android.filmlibrary.viewmodel.thrends.ThreadsFragmentViewModel
 
 class TrendsFragment : Fragment() {
 
@@ -35,8 +34,8 @@ class TrendsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var moviesByTrend: List<MoviesByTrend> = ArrayList()
     private val adapter = TrendsFragmentAdapter()
-    private val viewModel: ThrendsFragmentViewModel by lazy {
-        ViewModelProvider(this).get(ThrendsFragmentViewModel::class.java)
+    private val viewModel: ThreadsFragmentViewModel by lazy {
+        ViewModelProvider(this).get(ThreadsFragmentViewModel::class.java)
     }
 
     private var trends: List<Trend> = listOf(
@@ -69,7 +68,9 @@ class TrendsFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesByTrend = moviesByTrend
-
+        /*(requireActivity().application as GlobalVariables).positionTrend = recyclerView.positi
+        currentPositionRV = recyclerView.layoutManager.getPosition()
+        recyclerView.layoutManager.positi*/
         Log.v("Debug1", "ThrendsFragment onStop")
     }
 
@@ -80,11 +81,11 @@ class TrendsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.v("Debug1", "ThrendsFragment onPause")
+        Log.v("Debug1", "ThreadsFragment onPause")
     }
 
     private fun renderTrends(data: AppState) {
-        Log.v("Debug1", "ThrendsFragment renderTrends")
+        Log.v("Debug1", "ThreadsFragment renderTrends")
         when (data) {
             is AppState.SuccessMoviesByTrends -> {
                 Log.v(
@@ -94,7 +95,6 @@ class TrendsFragment : Fragment() {
                 moviesByTrend = data.moviesByTrends
                 binding.loadingLayoutTrend.visibility = View.GONE
                 adapter.fillMoviesByTrend(moviesByTrend)
-
             }
             is AppState.Loading -> {
                 binding.loadingLayoutTrend.visibility = View.VISIBLE
@@ -107,6 +107,7 @@ class TrendsFragment : Fragment() {
                     }
                 }
             }
+            else -> {}
         }
     }
 
@@ -125,7 +126,7 @@ class TrendsFragment : Fragment() {
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
-                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,
+                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
                 Bundle().apply {
                     putInt("movieId", movieId)
                 }

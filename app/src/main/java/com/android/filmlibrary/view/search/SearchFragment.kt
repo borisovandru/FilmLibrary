@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.SearchFragmentBinding
 import com.android.filmlibrary.model.AppState
@@ -39,7 +40,6 @@ class SearchFragment : Fragment() {
     private val binding
         get() = _binding!!
     private var moviesBySearch = listOf<Movie>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,14 +102,18 @@ class SearchFragment : Fragment() {
         }
 
         if (moviesBySearch.isNotEmpty()) {
-            Log.v("Debug1",
-                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.size)
+            Log.v(
+                "Debug1",
+                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.size
+            )
             adapter.fillMoviesBySearch(moviesBySearch)
         }
 
         binding.searchButton.setOnClickListener {
-            Log.v("Debug1",
-                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString())
+            Log.v(
+                "Debug1",
+                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString()
+            )
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }

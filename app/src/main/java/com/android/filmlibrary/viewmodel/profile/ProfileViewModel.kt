@@ -17,7 +17,6 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
         return liveDataToObserver
     }
 
-
     fun getDataFromRemoteSource() {
         Log.v("Debug1", "ProfileViewModel getDataFromRemoteSource")
         liveDataToObserver.value = AppState.Loading
