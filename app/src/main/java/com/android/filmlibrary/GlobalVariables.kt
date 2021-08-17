@@ -12,7 +12,6 @@ class GlobalVariables : Application() {
     var moviesByGenre: MoviesByGenre = MoviesByGenre(Genre(), listOf())
     var moviesByGenres: List<MoviesByGenre> = ArrayList()
     var genres: List<Genre> = ArrayList()
-
     var positionTrend: Int = 0
     var positionSearch: Int = 0
     var positionGenres: Int = 0

@@ -1,11 +1,9 @@
 package com.android.filmlibrary.model.repository
 
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Genre
-import com.android.filmlibrary.model.data.LinkType
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.Trend
-import com.android.filmlibrary.model.dto.FactDTO
+import com.android.filmlibrary.model.data.*
+import com.android.filmlibrary.model.retrofit.GenresAPI
+import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import retrofit2.Callback
 
 interface Repository {
@@ -14,6 +12,7 @@ interface Repository {
         genres: List<Genre>,
         cntMovies: Int
     ): AppState
+
     fun getMovieFromRemoteServer(id: Int): AppState
     fun getGenresFromRemoteServer(): AppState
 
@@ -27,10 +26,22 @@ interface Repository {
         cntMovies: Int,
     ): AppState
 
-    fun getMoviesFromLocalStorage(): List<Movie>
-    fun getMovieFromLocalStorage(id: Int): Movie
+    fun getMoviesFromLocalStorage(): List<MovieAdv>
+    fun getMovieFromLocalStorage(id: Int): MovieAdv
 
     fun getMoviesBySearchFromRemoteServer(searchRequest: String, setCountsOfMovies: Int): AppState
 
-    fun getMovieFromRemoteServer2(movieId: Int, lang: String, callback: Callback<FactDTO>)
+    //RetroFit
+    fun getMovieFromRemoteServerRetroFit(
+        movieId: Int,
+        lang: String,
+        callback: Callback<com.android.filmlibrary.model.retrofit.MovieAdvAPI>
+    )
+
+    fun getGenresFromRemoteServerRetroFit(lang: String, callback: Callback<GenresAPI>)
+    fun getMoviesByCategoryFromRemoteServerRetroFit(
+        genre: Genre,
+        lang: String,
+        callback: Callback<MoviesListAPI>
+    )
 }

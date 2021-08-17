@@ -1,12 +1,10 @@
 package com.android.filmlibrary.view.search
 
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
@@ -37,29 +35,24 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
             parent,
             false
         )
-
         return MyViewHolder(binding, parent)
     }
 
-    fun fillMoviesBySearch(moviesBySearch: List<Movie>) {
+    fun fillMoviesBySearch(moviesBySearches: List<Movie>) {
         Log.v(
             "Debug1",
-            "SearchFragmentAdapter fillMoviesByTrend moviesBySearch.size=" + moviesBySearch.size
+            "SearchFragmentAdapter fillMoviesByTrend moviesBySearch.size=" + moviesBySearches.size
         )
-        this.moviesBySearch = moviesBySearch
+        this.moviesBySearch = moviesBySearches
         notifyDataSetChanged()
+
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: SearchFragmentAdapter.MyViewHolder, position: Int) {
         Log.v("Debug1", "SearchFragmentAdapter onBindViewHolder")
 
         val movie = moviesBySearch[position]
         holder.movieTitle.text = movie.title
-
-        if (movie.genres.isNotEmpty()) {
-            holder.movieCat.text = movie.genres.first().title
-        }
 
         if (movie.dateRelease != "") {
             val localDate = LocalDate.parse(
@@ -72,7 +65,6 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
         } else {
             holder.movieYear.text = ""
         }
-
         holder.setData(movie.posterUrl)
         holder.movieId = movie.id
     }

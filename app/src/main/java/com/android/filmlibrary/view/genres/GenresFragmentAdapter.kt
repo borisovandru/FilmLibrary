@@ -1,6 +1,5 @@
 package com.android.filmlibrary.view.genres
 
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemGenreBinding
 import com.android.filmlibrary.model.data.Genre
-import com.android.filmlibrary.model.data.Movie
+import com.android.filmlibrary.model.data.MovieAdv
 import com.android.filmlibrary.model.data.MoviesByGenre
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -44,6 +42,7 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
         )
         this.moviesByCategory = moviesByCategory
         notifyDataSetChanged()
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -54,20 +53,18 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
             parent,
             false
         )
+
         return MyViewHolder(binding, parent)
     }
 
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.v("Debug1", "CategoriesAdapter onBindViewHolder")
-        holder.categoryName.text = moviesByCategory[position].genre.title
+        holder.categoryName.text = moviesByCategory[position].genre.name
         moviesByCategory[position].genre.id.let {
             holder.categoryId = moviesByCategory[position].genre.id
         }
         if (position != -1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                holder.setData(moviesByCategory[position])
-            }
+            holder.setData(moviesByCategory[position])
             holder.categoryId = moviesByCategory[position].genre.id
         }
     }
@@ -83,7 +80,7 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
         val categoryName: TextView = itemView.findViewById(R.id.categoryName)
         var categoryId: Int = 0
         lateinit var genre: Genre
-        var movies: List<Movie> = ArrayList()
+        var movieAdvs: List<MovieAdv> = ArrayList()
 
         init {
             Log.v("Debug1", "CategoriesAdapter MyViewHolder init categoryId=$categoryId")
@@ -92,7 +89,6 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun setData(moviesByCategory: MoviesByGenre) {
             Log.v("Debug1", "CategoriesAdapter MyViewHolder setData")
             val linearLayoutItemCategory: LinearLayout = binding.linearLayoutItemCategory
@@ -137,9 +133,6 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
                     yearMovie.text = formattedDate
                 } else {
                     yearMovie.text = ""
-                }
-                if (movie.genres.isNotEmpty()) {
-                    catMovie.text = movie.genres.first().title
                 }
                 linearLayoutIntoScrollView.addView(viewItemMovie)
             }

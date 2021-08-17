@@ -1,24 +1,22 @@
 package com.android.filmlibrary.view.itemmovie
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.filmlibrary.databinding.FragmentMovieInfoBinding
-import com.android.filmlibrary.viewmodel.itemmovie.MovieInfoViewModel
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant.BASE_IMAGE_URL
 import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
-import com.bumptech.glide.Glide
 import com.android.filmlibrary.R
+import com.android.filmlibrary.databinding.FragmentMovieInfoBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.view.showSnackBar
-
+import com.android.filmlibrary.viewmodel.itemmovie.MovieInfoViewModel
 
 class MovieInfoFragment : Fragment() {
 
@@ -46,16 +44,14 @@ class MovieInfoFragment : Fragment() {
     override fun onDestroyView() {
         Log.v("Debug1", "MovieInfoFragment onDestroyView")
         _binding = null
-
         super.onDestroyView()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun renderData(data: AppState) {
         Log.v("Debug1", "MovieInfoFragment renderData")
         when (data) {
             is AppState.SuccessMovie -> {
-                val movieData = data.movieData
+                val movieData = data.movieAdvData
                 binding.loadingLayout.visibility = View.GONE
                 if (movieData.posterUrl != "" && movieData.posterUrl != "-") {
                     Glide.with(this)
@@ -72,7 +68,6 @@ class MovieInfoFragment : Fragment() {
                     binding.titleMovie.text =
                         getString(R.string.titleMovie, movieData.title, movieData.originalTitle)
                 }
-
                 binding.yearMovie.text = movieData.dateRelease
 
                 for (country in movieData.countries) {
@@ -86,18 +81,17 @@ class MovieInfoFragment : Fragment() {
                         )
                     }
                 }
-
                 binding.runtimeMovie.text =
                     movieData.runtime.toString() + getString(R.string.Minutes)
 
                 for (genre in movieData.genres) {
                     if (binding.genreMovie.text == "") {
-                        binding.genreMovie.text = genre.title
+                        binding.genreMovie.text = genre.name
                     } else {
                         binding.genreMovie.text = getString(
                             R.string.comma,
                             binding.genreMovie.text.toString(),
-                            genre.title
+                            genre.name
                         )
                     }
                 }

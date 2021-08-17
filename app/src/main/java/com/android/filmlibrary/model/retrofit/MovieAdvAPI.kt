@@ -1,16 +1,10 @@
-package com.android.filmlibrary.model.dto
+package com.android.filmlibrary.model.retrofit
 
 import com.android.filmlibrary.model.data.Country
 import com.android.filmlibrary.model.data.Genre
 import com.google.gson.annotations.SerializedName
 
-data class FactDTO(
-    /*val id: Int,
-    val release_date: String,
-    val title: String,
-    val original_title: String,
-    val vote_average: Double,
-    val runtime: Double,*/
+data class MovieAdvAPI(
 
     @SerializedName("id")
     val id: Int,

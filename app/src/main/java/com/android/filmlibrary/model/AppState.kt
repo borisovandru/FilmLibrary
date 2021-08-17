@@ -7,10 +7,7 @@ sealed class AppState {
     data class SuccessMoviesByGenres(val moviesByGenres: List<MoviesByGenre>) :
         AppState()
 
-    data class SuccessMovie(val movieData: Movie) : AppState()
-    data class SuccessGenres(val genreData: List<Genre>) : AppState()
-
-    data class SuccessSearch(val moviesBySearch: List<Movie>) : AppState()
+    data class SuccessSearch(val moviesBySearches: List<Movie>) : AppState()
     data class SuccessMoviesByTrend(val moviesByTrends: MoviesByTrend) :
         AppState()
 
@@ -23,4 +20,7 @@ sealed class AppState {
 
     class Error(val error: Throwable) : AppState()
     object Loading : AppState()
+
+    data class SuccessMovie(val movieAdvData: MovieAdv) : AppState()
+    data class SuccessGenres(val genreData: List<Genre>) : AppState()
 }

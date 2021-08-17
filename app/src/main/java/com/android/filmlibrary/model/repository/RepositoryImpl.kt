@@ -2,6 +2,7 @@ package com.android.filmlibrary.model.repository
 
 import android.util.Log
 import com.android.filmlibrary.BuildConfig
+import com.android.filmlibrary.Constant.BASE_API_URL
 import com.android.filmlibrary.Constant.BASE_URL
 import com.android.filmlibrary.Constant.LANG
 import com.android.filmlibrary.Constant.MOVIES_BY_CATEGORIES_1
@@ -9,15 +10,23 @@ import com.android.filmlibrary.Constant.MOVIES_BY_CATEGORIES_2
 import com.android.filmlibrary.Constant.READ_TIMEOUT
 import com.android.filmlibrary.Constant.URL_API
 import com.android.filmlibrary.Constant.URL_CATEGORIES_1
+import com.android.filmlibrary.Constant.URL_GENRES_1
+import com.android.filmlibrary.Constant.URL_GENRES_2
+import com.android.filmlibrary.Constant.URL_GENRES_3
 import com.android.filmlibrary.Constant.URL_ITEM_MOVIE_1
-import com.android.filmlibrary.Constant.URL_LATEST
+import com.android.filmlibrary.Constant.URL_MOVIES_BY_GENRE_DIR_1
+import com.android.filmlibrary.Constant.URL_MOVIES_BY_GENRE_DIR_2
 import com.android.filmlibrary.Constant.URL_SEARCH_1
 import com.android.filmlibrary.Constant.URL_SEARCH_2
 import com.android.filmlibrary.Constant.URL_SETTINGS_1
 import com.android.filmlibrary.Constant.URL_TREND
+import com.android.filmlibrary.Constant.VERSION_API
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.*
-import com.android.filmlibrary.model.dto.FactDTO
+import com.android.filmlibrary.model.repository.api.TheMovieDBAPI
+import com.android.filmlibrary.model.retrofit.GenresAPI
+import com.android.filmlibrary.model.retrofit.MovieAdvAPI
+import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.internal.LinkedTreeMap
@@ -33,10 +42,9 @@ import java.net.URL
 import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
-
 class RepositoryImpl : Repository {
 
-    private val movies = mutableListOf<Movie>()
+    private val movies = mutableListOf<MovieAdv>()
 
     override fun getDataFromRemoteServer(linkType: LinkType, param1: String): AppState {
         val rawData: Map<String, *>?
@@ -89,7 +97,7 @@ class RepositoryImpl : Repository {
         return result
     }
 
-    private fun parseItemMovie(rawMovieDate: Map<*, *>): Movie {
+    private fun parseItemMovieAdv(rawMovieDate: Map<*, *>): MovieAdv {
 
         val genresArr = mutableListOf<Genre>()
         val countriesArr = mutableListOf<Country>()
@@ -101,13 +109,6 @@ class RepositoryImpl : Repository {
         val rated = rawMovieDate["vote_average"] as Double
         val runtime = (rawMovieDate["runtime"] as? Double ?: 0).toInt()
 
-        /*val genres_ids = rawMovieDate["genre_ids"] as? ArrayList<Double>
-        if (genres_ids != null) {
-            for (i in 0 until genres_ids.size) {
-                val idGenres = (genres_ids[i] as? Double ?: 0).toInt()
-                genresArr.add(Genre(idGenres, "genre №" + idGenres))
-            }
-        }*/
         val genres = rawMovieDate["genres"] as? ArrayList<Map<*, *>>
         if (genres != null) {
             for (i in 0 until genres.size) {
@@ -129,7 +130,7 @@ class RepositoryImpl : Repository {
         val overview = rawMovieDate["overview"] as? String ?: "-"
         val poster = rawMovieDate["poster_path"] as? String ?: "-"
 
-        return Movie(
+        return MovieAdv(
             id,
             title,
             1990,
@@ -141,6 +142,39 @@ class RepositoryImpl : Repository {
             poster,
             rated,
             runtime
+        )
+    }
+
+    private fun parseItemMovie(rawMovieDate: Map<*, *>): Movie {
+
+        val genresArr = mutableListOf<Genre>()
+
+        val dateRelease = rawMovieDate["release_date"] as? String ?: "-"
+        val title = rawMovieDate["title"] as? String ?: "-"
+        val originalTitle = rawMovieDate["original_title"] as? String ?: "-"
+        val id = (rawMovieDate["id"] as? Double ?: 0).toInt()
+        val rated = rawMovieDate["vote_average"] as Double
+
+        val genre_ids = rawMovieDate["genre_ids"] as List<Int>
+
+        for (i in 0 until genre_ids.size) {
+            val idGenres = (genre_ids[i].toDouble()).toInt()
+            genresArr.add(Genre(idGenres, "genre №" + idGenres))
+        }
+
+        val overview = rawMovieDate["overview"] as? String ?: "-"
+        val poster = rawMovieDate["poster_path"] as? String ?: "-"
+
+        return Movie(
+            id,
+            title,
+            1990,
+            genre_ids,
+            dateRelease,
+            originalTitle,
+            overview,
+            poster,
+            rated
         )
     }
 
@@ -174,13 +208,30 @@ class RepositoryImpl : Repository {
                             moviesLoc))
                     }
                 }
-
             }
             is AppState.Error -> {
                 result = data
             }
         }
         return result
+    }
+
+    override fun getMoviesByCategoryFromRemoteServerRetroFit(
+        genre: Genre,
+        lang: String,
+        callback: Callback<MoviesListAPI>,
+    ) {
+        Log.v("Debug1",
+            "RepositoryImpl getMoviesByCategoryFromRemoteServerRetroFit($genre.id) begin")
+        movieDTOApi.getMoviesByGenre(
+            URL_MOVIES_BY_GENRE_DIR_1,
+            URL_MOVIES_BY_GENRE_DIR_2,
+            VERSION_API,
+            BuildConfig.MOVIEDB_API_KEY,
+            lang,
+            genre.id
+        )
+            .enqueue(callback)
     }
 
     override fun getMoviesByGenresFromRemoteServer(
@@ -203,13 +254,12 @@ class RepositoryImpl : Repository {
         return result
     }
 
-    override fun getMoviesFromLocalStorage(): List<Movie> {
+    override fun getMoviesFromLocalStorage(): List<MovieAdv> {
         return movies
     }
 
-
     override fun getMovieFromRemoteServer(id: Int): AppState {
-        val movie: Movie
+        val movieAdv: MovieAdv
         var result: AppState = AppState.Loading
         Log.v("Debug1", "RepositoryImpl getMovieFromRemoteServer($id) begin")
 
@@ -219,8 +269,8 @@ class RepositoryImpl : Repository {
         when (data) {
             is AppState.SuccessRawData -> {
                 data.rawData?.let {
-                    movie = parseItemMovie(it)
-                    result = AppState.SuccessMovie(movie)
+                    movieAdv = parseItemMovieAdv(it)
+                    result = AppState.SuccessMovie(movieAdv)
                 }
             }
             is AppState.Error -> {
@@ -230,28 +280,25 @@ class RepositoryImpl : Repository {
         return result
     }
 
-
-
-
     private val movieDTOApi = Retrofit.Builder()
-        .baseUrl("https://api.themoviedb.org/")
+        .baseUrl(BASE_API_URL)
         .addConverterFactory(
             GsonConverterFactory.create(
                 GsonBuilder().setLenient().create()
             )
         )
         .client(createOkHttpClient(MovieApiInterceptor()))
-        .build().create(MovieAPI::class.java)
+        .build().create(TheMovieDBAPI::class.java)
 
-    override fun getMovieFromRemoteServer2(
+    override fun getMovieFromRemoteServerRetroFit(
         movieId: Int,
         lang: String,
-        callback: Callback<FactDTO>,
+        callback: Callback<MovieAdvAPI>,
     ) {
         Log.v("Debug1", "RepositoryImpl getMovieFromRemoteServer2($movieId) begin")
-        //movieDTOApi.getMovie(movieId, BuildConfig.MOVIEDB_API_KEY, lang)
+
         movieDTOApi.getMovie(
-            3,
+            VERSION_API,
             movieId,
             BuildConfig.MOVIEDB_API_KEY,
             lang)
@@ -273,8 +320,7 @@ class RepositoryImpl : Repository {
         }
     }
 
-
-    override fun getMovieFromLocalStorage(id: Int): Movie {
+    override fun getMovieFromLocalStorage(id: Int): MovieAdv {
         return movies[id]
     }
 
@@ -306,7 +352,6 @@ class RepositoryImpl : Repository {
                     }
                     result = AppState.SuccessGenres(categoriesLoc)
                 }
-
             }
             is AppState.Error -> {
                 result = data
@@ -315,6 +360,30 @@ class RepositoryImpl : Repository {
         return result
     }
 
+    private val genresDTOApi = Retrofit.Builder()
+        .baseUrl(BASE_API_URL)
+        .addConverterFactory(
+            GsonConverterFactory.create(
+                GsonBuilder().setLenient().create()
+            )
+        )
+        .client(createOkHttpClient(MovieApiInterceptor()))
+        .build().create(TheMovieDBAPI::class.java)
+
+    override fun getGenresFromRemoteServerRetroFit(
+        lang: String,
+        callback: Callback<GenresAPI>,
+    ) {
+        genresDTOApi.getGenres(
+            URL_GENRES_1,
+            URL_GENRES_2,
+            URL_GENRES_3,
+            VERSION_API,
+            BuildConfig.MOVIEDB_API_KEY,
+            lang
+        )
+            .enqueue(callback)
+    }
 
     override fun getSettingsFromRemoteServer(): AppState {
         val settingsTMDB: SettingsTMDB
@@ -326,7 +395,6 @@ class RepositoryImpl : Repository {
 
         when (data) {
             is AppState.SuccessRawData -> {
-
                 data.rawData?.let {
                     val images = it["images"] as LinkedTreeMap<*, *>
                     val baseUrl = images["base_url"] as String
@@ -334,7 +402,6 @@ class RepositoryImpl : Repository {
                     settingsTMDB = SettingsTMDB(baseUrl, secureBaseUrl)
                     result = AppState.SuccessSettings(settingsTMDB)
                 }
-
             }
             is AppState.Error -> {
                 result = data
@@ -354,25 +421,17 @@ class RepositoryImpl : Repository {
 
         when (data) {
             is AppState.SuccessRawData -> {
-                if (trend.URL == URL_LATEST) {
-                    data.rawData?.let {
-                        moviesLoc.add(
-                            parseItemMovie(it)
-                        )
-                    }
-                } else {
-                    data.rawData?.let {
-                        val results = it["results"] as ArrayList<Map<*, *>>
-                        if (results.isNotEmpty()) {
-                            var countsOfMovies = setCountsOfMovies
-                            if (setCountsOfMovies > results.size) {
-                                countsOfMovies = results.size
-                            }
-                            for (i in 0 until countsOfMovies) {
-                                moviesLoc.add(
-                                    parseItemMovie(results[i])
-                                )
-                            }
+                data.rawData?.let {
+                    val results = it["results"] as ArrayList<Map<*, *>>
+                    if (results.isNotEmpty()) {
+                        var countsOfMovies = setCountsOfMovies
+                        if (setCountsOfMovies > results.size) {
+                            countsOfMovies = results.size
+                        }
+                        for (i in 0 until countsOfMovies) {
+                            moviesLoc.add(
+                                parseItemMovie(results[i])
+                            )
                         }
                     }
                 }
@@ -406,7 +465,6 @@ class RepositoryImpl : Repository {
         return result
     }
 
-
     override fun getMoviesBySearchFromRemoteServer(
         searchRequest: String,
         setCountsOfMovies: Int,
@@ -437,7 +495,6 @@ class RepositoryImpl : Repository {
                         result = AppState.SuccessSearch(moviesLoc)
                     }
                 }
-
             }
             is AppState.Error -> {
                 result = data
@@ -445,5 +502,4 @@ class RepositoryImpl : Repository {
         }
         return result
     }
-
 }

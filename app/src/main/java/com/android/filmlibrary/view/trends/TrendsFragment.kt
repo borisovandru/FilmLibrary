@@ -2,7 +2,9 @@ package com.android.filmlibrary.view.trends
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO
-import com.android.filmlibrary.Constant.URL_LATEST
 import com.android.filmlibrary.Constant.URL_NOW_PLAYING
 import com.android.filmlibrary.Constant.URL_POPULAR
 import com.android.filmlibrary.Constant.URL_TOP_RATED
@@ -37,13 +38,11 @@ class TrendsFragment : Fragment() {
     private val viewModel: ThreadsFragmentViewModel by lazy {
         ViewModelProvider(this).get(ThreadsFragmentViewModel::class.java)
     }
-
     private var trends: List<Trend> = listOf(
         Trend("Popular", URL_POPULAR),
         Trend("Rated", URL_TOP_RATED),
         Trend("Now playing", URL_NOW_PLAYING),
         Trend("Upcoming", URL_UPCOMING),
-        Trend("Lates", URL_LATEST)
     )
 
     private var _binding: TrendsFragmentBinding? = null
@@ -68,9 +67,6 @@ class TrendsFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesByTrend = moviesByTrend
-        /*(requireActivity().application as GlobalVariables).positionTrend = recyclerView.positi
-        currentPositionRV = recyclerView.layoutManager.getPosition()
-        recyclerView.layoutManager.positi*/
         Log.v("Debug1", "ThrendsFragment onStop")
     }
 
@@ -81,11 +77,11 @@ class TrendsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.v("Debug1", "ThreadsFragment onPause")
+        Log.v("Debug1", "ThrendsFragment onPause")
     }
 
     private fun renderTrends(data: AppState) {
-        Log.v("Debug1", "ThreadsFragment renderTrends")
+        Log.v("Debug1", "ThrendsFragment renderTrends")
         when (data) {
             is AppState.SuccessMoviesByTrends -> {
                 Log.v(
@@ -107,10 +103,8 @@ class TrendsFragment : Fragment() {
                     }
                 }
             }
-            else -> {}
         }
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.v("Debug1", "ThrendsFragment onViewCreated")
 
@@ -126,7 +120,7 @@ class TrendsFragment : Fragment() {
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
-                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
+                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,
                 Bundle().apply {
                     putInt("movieId", movieId)
                 }
@@ -134,19 +128,21 @@ class TrendsFragment : Fragment() {
         }
 
         if (moviesByTrend.isNotEmpty()) {
-            Log.v("Debug1",
-                "TrendsFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesByTrend.size)
+            Log.v(
+                "Debug1",
+                "TrendsFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesByTrend.size
+            )
             adapter.fillMoviesByTrend(this.moviesByTrend)
-        } else{
-            Log.v("Debug1",
-                "TrendsFragment onViewCreated moviesBySearch.isEmpty")
+        } else {
+            Log.v(
+                "Debug1",
+                "TrendsFragment onViewCreated moviesBySearch.isEmpty"
+            )
             val observer = Observer<AppState> { appState ->
                 renderTrends(appState)
             }
             viewModel.getData().observe(viewLifecycleOwner, observer)
             viewModel.getTrendsFromRemoteSource(trends)
         }
-
     }
-
 }

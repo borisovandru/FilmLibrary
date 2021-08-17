@@ -1,13 +1,13 @@
 package com.android.filmlibrary.view.search
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +41,7 @@ class SearchFragment : Fragment() {
         get() = _binding!!
     private var moviesBySearch = listOf<Movie>()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -61,7 +62,7 @@ class SearchFragment : Fragment() {
         Log.v("Debug1", "SearchFragment renderData")
         when (data) {
             is AppState.SuccessSearch -> {
-                moviesBySearch = data.moviesBySearch
+                moviesBySearch = data.moviesBySearches
                 binding.loadingLayoutSearch.visibility = View.GONE
                 adapter.fillMoviesBySearch(moviesBySearch)
             }
@@ -102,18 +103,14 @@ class SearchFragment : Fragment() {
         }
 
         if (moviesBySearch.isNotEmpty()) {
-            Log.v(
-                "Debug1",
-                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.size
-            )
+            Log.v("Debug1",
+                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.size)
             adapter.fillMoviesBySearch(moviesBySearch)
         }
 
         binding.searchButton.setOnClickListener {
-            Log.v(
-                "Debug1",
-                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString()
-            )
+            Log.v("Debug1",
+                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString())
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }

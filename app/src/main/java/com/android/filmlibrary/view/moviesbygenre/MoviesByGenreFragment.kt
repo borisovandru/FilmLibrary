@@ -22,15 +22,14 @@ import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
 import com.android.filmlibrary.view.showSnackBar
-import com.android.filmlibrary.viewmodel.moviesbycategory.MoviesByCategoryViewModel
-
+import com.android.filmlibrary.viewmodel.moviesbygenre.MoviesByGenreViewModel
 
 class MoviesByGenreFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private val moviesByCategoryViewModel by viewModels<MoviesByCategoryViewModel>()
+    private val moviesByCategoryViewModel by viewModels<MoviesByGenreViewModel>()
     private var moviesByGenre: MoviesByGenre = MoviesByGenre(Genre(), listOf())
-    private val viewModel: MoviesByCategoryViewModel by lazy {
+    private val viewModel: MoviesByGenreViewModel by lazy {
         ViewModelProvider(this).get(moviesByCategoryViewModel::class.java)
     }
     private val adapter = MoviesByGenreAdapter()
@@ -38,11 +37,11 @@ class MoviesByGenreFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         _binding = MoviesByGenreFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
