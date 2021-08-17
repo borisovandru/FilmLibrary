@@ -7,12 +7,12 @@ import kotlinx.android.parcel.Parcelize
 data class Movie(
     val id: Int = -1,
     val title: String = "Default movie",
-    val year: Int = 1900,
+    val year: String = "",
     val genre_ids: List<Int>,
-    val dateRelease: String,
+    val dateRelease: String?,
     val originalTitle: String,
     val overview: String,
-    val posterUrl: String,
+    val posterUrl: String?,
     val voteAverage: Double
 ) : Parcelable {
 }

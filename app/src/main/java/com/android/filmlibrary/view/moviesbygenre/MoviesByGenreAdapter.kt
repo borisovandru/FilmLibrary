@@ -12,6 +12,7 @@ import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemMovieBinding
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MoviesByGenre
+import com.android.filmlibrary.model.data.MoviesList
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -23,14 +24,17 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         this.onMovieClickListener = onMovieClickListener
     }
 
-    private var moviesByGenre: MoviesByGenre = MoviesByGenre(Genre(), listOf())
+    private var moviesByGenre: MoviesByGenre =
+        MoviesByGenre(Genre(), MoviesList(mutableListOf(), 0, 0))
+    private lateinit var genre: Genre
 
     fun fillMovies(moviesByGenre: MoviesByGenre) {
         Log.v(
             "Debug1",
-            "MoviesByCategoryAdapter fillMovies movies.movies.size=" + moviesByGenre.movies.size
+            "MoviesByCategoryAdapter fillMovies movies.movies.size=" + moviesByGenre.movies.results.size
         )
         this.moviesByGenre = moviesByGenre
+        this.genre = moviesByGenre.genre
         notifyDataSetChanged()
 
     }
@@ -48,12 +52,18 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.v("Debug1", "MoviesByCategoryAdapter onBindViewHolder")
-        val movie = moviesByGenre.movies[position]
+        val movie = moviesByGenre.movies.results[position]
         holder.movieTitle.text = movie.title
 
+        if (movie.genre_ids.isNotEmpty()) {
+            holder.movieCat.text = genre.name
+        }
+
         if (movie.dateRelease != "") {
-            val localDate = LocalDate.parse(movie.dateRelease,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            val localDate = LocalDate.parse(
+                movie.dateRelease,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            )
             val formatter = DateTimeFormatter.ofPattern("yyyy")
             val formattedDate = localDate.format(formatter)
             holder.movieYear.text = formattedDate
@@ -61,13 +71,13 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
             holder.movieYear.text = ""
         }
 
-        holder.setData(movie.posterUrl)
+        movie.posterUrl?.let { holder.setData(it) }
 
         holder.movieId = movie.id
     }
 
     override fun getItemCount(): Int {
-        return moviesByGenre.movies.size
+        return moviesByGenre.movies.results.size
     }
 
     inner class MyViewHolder(binding: ItemMovieBinding, parent: ViewGroup) :
@@ -75,14 +85,14 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
 
         val movieTitle: TextView = binding.movieTitle
         val movieYear: TextView = binding.movieYear
-        val movieCat: TextView = binding.movieCat
         private var moviePoster: ImageView = binding.moviePoster
         var movieId: Int = 0
         private val parentLoc: ViewGroup = parent
+        var movieCat: TextView = binding.movieCat
 
         fun setData(posterURL: String) {
             posterURL.let {
-                if (posterURL != "" && posterURL != "-"){
+                if (posterURL != "" && posterURL != "-") {
                     Glide.with(parentLoc.context)
                         .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
                         .into(moviePoster)

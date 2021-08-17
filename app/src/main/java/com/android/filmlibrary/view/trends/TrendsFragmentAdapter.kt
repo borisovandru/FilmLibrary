@@ -8,13 +8,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.model.data.Genre
-import com.android.filmlibrary.model.data.MovieAdv
 import com.android.filmlibrary.model.data.MoviesByTrend
+import com.bumptech.glide.Glide
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -39,6 +38,7 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
             parent,
             false
         )
+
         return MyViewHolder(binding, parent)
     }
 
@@ -70,8 +70,6 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
         private val parentLoc: ViewGroup = parent
         val trendName: TextView = itemView.findViewById(R.id.trendName)
         lateinit var genre: Genre
-        var movieAdvs: List<MovieAdv> = ArrayList()
-
 
         fun setData(moviesByTrend: MoviesByTrend) {
             Log.v("Debug1", "TrendsFragmentAdapter MyViewHolder setData")
@@ -79,13 +77,13 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
             val linearLayoutIntoScrollView: LinearLayout = binding.linearLayoutIntoScrollViewTrend
 
             linearLayoutIntoScrollView.removeAllViews()
-            for (movie in moviesByTrend.movieAdvs) {
+            for (movie in moviesByTrend.moviesList.results) {
                 val viewItemMovie: View = LayoutInflater.from(parentLoc.context)
                     .inflate(R.layout.item_movie, linearLayoutItemCategory, false)
 
                 val titleMovie = viewItemMovie.findViewById<TextView>(R.id.movieTitle)
                 val yearMovie = viewItemMovie.findViewById<TextView>(R.id.movieYear)
-                val catMovie = viewItemMovie.findViewById<TextView>(R.id.movieCat)
+                //val catMovie = viewItemMovie.findViewById<TextView>(R.id.movieCat) TODO: добавить жанры
                 val posterMovie = viewItemMovie.findViewById<ImageView>(R.id.moviePoster)
                 val ratedMovie = viewItemMovie.findViewById<TextView>(R.id.rated)
                 Log.v(
@@ -124,6 +122,11 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                 }
 
                 ratedMovie.text = movie.voteAverage.toString()
+                /*
+                TODO: добавить жанры
+                if (movie.genres.isNotEmpty()){
+                    catMovie.text = movie.genres.first().name
+                }*/
 
                 linearLayoutIntoScrollView.addView(viewItemMovie)
             }

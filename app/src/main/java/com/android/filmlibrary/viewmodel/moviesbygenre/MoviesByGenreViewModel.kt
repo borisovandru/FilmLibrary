@@ -12,11 +12,11 @@ import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByGenre
+import com.android.filmlibrary.model.data.MoviesList
 import com.android.filmlibrary.model.repository.RepositoryImpl
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 
 class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
@@ -49,7 +49,8 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
             liveDataToObserver.postValue(
                 AppState.Error(
                     Throwable(
-                        t.message ?: Constant.REQUEST_ERROR
+                        t.message
+                            ?: Constant.REQUEST_ERROR
                     )
                 )
             )
@@ -60,19 +61,23 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
+
                 val moviesByGenre: MoviesByGenre
                 val movies = mutableListOf<Movie>()
-                for (i in 0..serverResponse.results.size - 1) {
+                for (i in serverResponse.results.indices) {
 
                     var formattedDate = ""
-                    if (serverResponse.results[i].dateRelease != "") {
-                        val localDate = LocalDate.parse(
-                            serverResponse.results[i].dateRelease,
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        )
-                        val formatter = DateTimeFormatter.ofPattern("yyyy")
-                        formattedDate = localDate.format(formatter)
+                    serverResponse.results[i].dateRelease?.let {
+                        if (serverResponse.results[i].dateRelease != "") {
+                            val localDate = LocalDate.parse(
+                                serverResponse.results[i].dateRelease,
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                            )
+                            val formatter = DateTimeFormatter.ofPattern("yyyy")
+                            formattedDate = localDate.format(formatter)
+                        }
                     }
+
                     Log.v(
                         "Debug1",
                         "MoviesByGenreViewModel checkResponse i=" + i + ", id=" + serverResponse.results[i].id
@@ -80,8 +85,9 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
+
                             serverResponse.results[i].title,
-                            formattedDate.toInt(),
+                            formattedDate,
                             serverResponse.results[i].genre_ids,
                             serverResponse.results[i].dateRelease,
                             serverResponse.results[i].originalTitle,
@@ -91,16 +97,25 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
                         )
                     )
                 }
+
+                val moviesList = MoviesList(
+                    movies,
+                    serverResponse.totalPages,
+                    serverResponse.totalResults
+                )
+
                 moviesByGenre = MoviesByGenre(
                     genre,
-                    movies
+                    moviesList
                 )
+
                 AppState.SuccessMoviesByGenre(
                     moviesByGenre
                 )
             }
         }
     }
+
 
     fun getDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading

@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemMovieBinding
-import com.android.filmlibrary.model.data.Movie
-import com.bumptech.glide.Glide
+import com.android.filmlibrary.model.data.MoviesList
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -22,7 +22,11 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
         this.onMovieClickListener = onMovieClickListener
     }
 
-    private var moviesBySearch = listOf<Movie>()
+    private var moviesBySearch = MoviesList(
+        listOf(),
+        0,
+        0
+    )
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,13 +39,14 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
             parent,
             false
         )
+
         return MyViewHolder(binding, parent)
     }
 
-    fun fillMoviesBySearch(moviesBySearches: List<Movie>) {
+    fun fillMoviesBySearch(moviesBySearches: MoviesList) {
         Log.v(
             "Debug1",
-            "SearchFragmentAdapter fillMoviesByTrend moviesBySearch.size=" + moviesBySearches.size
+            "SearchFragmentAdapter fillMoviesByTrend moviesBySearch.size=" + moviesBySearches.results.size
         )
         this.moviesBySearch = moviesBySearches
         notifyDataSetChanged()
@@ -51,8 +56,14 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
     override fun onBindViewHolder(holder: SearchFragmentAdapter.MyViewHolder, position: Int) {
         Log.v("Debug1", "SearchFragmentAdapter onBindViewHolder")
 
-        val movie = moviesBySearch[position]
+        val movie = moviesBySearch.results[position]
         holder.movieTitle.text = movie.title
+
+        /*
+        TODO: добавить категории
+        if (movie.genres.isNotEmpty()){
+            holder.movieCat.text = movie.genres.first().name
+        }*/
 
         if (movie.dateRelease != "") {
             val localDate = LocalDate.parse(
@@ -65,12 +76,14 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
         } else {
             holder.movieYear.text = ""
         }
-        holder.setData(movie.posterUrl)
+
+        movie.posterUrl?.let { holder.setData(it) }
         holder.movieId = movie.id
+
     }
 
     override fun getItemCount(): Int {
-        return moviesBySearch.size
+        return moviesBySearch.results.size
     }
 
     inner class MyViewHolder(binding: ItemMovieBinding, parent: ViewGroup) :

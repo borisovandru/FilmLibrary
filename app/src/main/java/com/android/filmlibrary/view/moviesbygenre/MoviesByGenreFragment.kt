@@ -20,6 +20,7 @@ import com.android.filmlibrary.databinding.MoviesByGenreFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MoviesByGenre
+import com.android.filmlibrary.model.data.MoviesList
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
 import com.android.filmlibrary.view.showSnackBar
 import com.android.filmlibrary.viewmodel.moviesbygenre.MoviesByGenreViewModel
@@ -27,16 +28,22 @@ import com.android.filmlibrary.viewmodel.moviesbygenre.MoviesByGenreViewModel
 class MoviesByGenreFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
+
     private val moviesByCategoryViewModel by viewModels<MoviesByGenreViewModel>()
-    private var moviesByGenre: MoviesByGenre = MoviesByGenre(Genre(), listOf())
     private val viewModel: MoviesByGenreViewModel by lazy {
         ViewModelProvider(this).get(moviesByCategoryViewModel::class.java)
     }
+
     private val adapter = MoviesByGenreAdapter()
+
     private var _binding: MoviesByGenreFragmentBinding? = null
     private val binding
         get() = _binding!!
 
+    private lateinit var genre: Genre
+
+    private var moviesByGenre: MoviesByGenre =
+        MoviesByGenre(Genre(), MoviesList(mutableListOf(), 0, 0))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,10 +59,11 @@ class MoviesByGenreFragment : Fragment() {
     }
 
     private fun renderData(data: AppState) {
+        Log.v("Debug1", "MoviesByGenreFragment renderData")
         when (data) {
             is AppState.SuccessMoviesByGenre -> {
-                moviesByGenre = data.moviesByGenre
                 binding.loadingLayoutB.visibility = View.GONE
+                moviesByGenre = data.moviesByGenre
                 adapter.fillMovies(data.moviesByGenre)
             }
             is AppState.Loading -> {
@@ -75,11 +83,13 @@ class MoviesByGenreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        Log.v("Debug1", "MoviesByGenreFragment onViewCreated")
+
         recyclerView = binding.rvCatB
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
-        if ((requireActivity().application as GlobalVariables).moviesByGenre.movies.isNotEmpty())
+        if ((requireActivity().application as GlobalVariables).moviesList.results.isNotEmpty())
             moviesByGenre = (requireActivity().application as GlobalVariables).moviesByGenre
 
         adapter.setOnMovieClickListener { movieId ->
@@ -94,7 +104,7 @@ class MoviesByGenreFragment : Fragment() {
             )
         }
 
-        if (moviesByGenre.movies.isNotEmpty()) {
+        if (moviesByGenre.movies.results.isNotEmpty()) {
             Log.v(
                 "Debug1",
                 "MoviesByGenreFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch="
@@ -102,13 +112,13 @@ class MoviesByGenreFragment : Fragment() {
             adapter.fillMovies(moviesByGenre)
         }
 
-        val category = arguments?.getParcelable<Genre>(BUNDLE_EXTRA)
-        category?.let {
-            Log.v("Debug1", "MoviesByCategoryFragment onViewCreated category.id=" + category.id)
+        genre = arguments?.getParcelable(BUNDLE_EXTRA)!!
+        genre.let {
+            Log.v("Debug1", "MoviesByCategoryFragment onViewCreated category.id=" + genre.id)
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
-            viewModel.getData(category).observe(viewLifecycleOwner, observer)
+            viewModel.getData(genre).observe(viewLifecycleOwner, observer)
             viewModel.getDataFromRemoteSource()
         }
     }

@@ -39,7 +39,6 @@ class GenresFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -87,8 +86,7 @@ class GenresFragment : Fragment() {
                 )
                 moviesByGenres = data.moviesByGenres
                 binding.loadingLayoutCat.visibility = View.GONE
-                //fillMoviesByGenres(moviesByGenres)
-                adapter.fillMoviesByGenres(moviesByGenres)
+                adapter.fillMoviesByGenres(moviesByGenres, genres)
             }
             is AppState.Loading -> {
                 binding.loadingLayoutCat.visibility = View.VISIBLE
@@ -98,7 +96,7 @@ class GenresFragment : Fragment() {
                 data.error.message
                 data.error.message?.let {
                     binding.loadingLayoutCat.showSnackBar(it, R.string.ReloadMsg) {
-                        viewModel.getGenresFromRemoteSource()
+                        viewModel.getMoviesByGenresFromRemoteSource(genres)
                     }
                 }
             }
@@ -138,12 +136,13 @@ class GenresFragment : Fragment() {
                     "CategoriesFragment onViewCreated setOnCategoryClickListener categoryId=$categoryId"
                 )
                 var genre = genres.first()
-                for (genreItem in genres)
-                    if (genreItem.id == categoryId)
+                for (genreItem in genres) {
+                    if (genreItem.id == categoryId) {
                         genre = genreItem
+                    }
+                }
                 val navHostFragment: NavHostFragment =
                     activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-
                 navHostFragment.navController.navigate(
                     Constant.NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE, //Вынес в константы
                     Bundle().apply {
@@ -154,8 +153,10 @@ class GenresFragment : Fragment() {
         }
 
         adapter.setOnMovieClickListener { movieId ->
-            Log.v("Debug1",
-                "CategoriesFragment onViewCreated setOnMovieClickListener movieId=$movieId")
+            Log.v(
+                "Debug1",
+                "CategoriesFragment onViewCreated setOnMovieClickListener movieId=$movieId"
+            )
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
@@ -165,12 +166,12 @@ class GenresFragment : Fragment() {
                 }
             )
         }
-
-
         if (moviesByGenres.isNotEmpty()) {
-            Log.v("Debug1",
-                "MoviesByGenreFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch=")
-            adapter.fillMoviesByGenres(moviesByGenres)
+            Log.v(
+                "Debug1",
+                "MoviesByGenreFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch="
+            )
+            adapter.fillMoviesByGenres(moviesByGenres, genres)
         } else {
             val observer = Observer<AppState> { appState ->
                 renderGenres(appState)
@@ -186,5 +187,4 @@ class GenresFragment : Fragment() {
         (requireActivity().application as GlobalVariables).moviesByGenres = moviesByGenres
         Log.v("Debug1", "MoviesByGenreFragment onStop")
     }
-
 }

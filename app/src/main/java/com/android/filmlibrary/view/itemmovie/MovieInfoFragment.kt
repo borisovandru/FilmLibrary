@@ -34,7 +34,7 @@ class MovieInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
+        // Inflate the layout for this fragment
         Log.v("Debug1", "MovieInfoFragment onCreateView")
         _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
@@ -68,6 +68,7 @@ class MovieInfoFragment : Fragment() {
                     binding.titleMovie.text =
                         getString(R.string.titleMovie, movieData.title, movieData.originalTitle)
                 }
+
                 binding.yearMovie.text = movieData.dateRelease
 
                 for (country in movieData.countries) {
@@ -81,6 +82,7 @@ class MovieInfoFragment : Fragment() {
                         )
                     }
                 }
+
                 binding.runtimeMovie.text =
                     movieData.runtime.toString() + getString(R.string.Minutes)
 
@@ -95,7 +97,9 @@ class MovieInfoFragment : Fragment() {
                         )
                     }
                 }
+
                 binding.descrMovie.text = movieData.overview
+
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE

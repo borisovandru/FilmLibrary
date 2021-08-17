@@ -14,7 +14,7 @@ data class MovieAPI(
     val genre_ids: List<Int>,
 
     @SerializedName("release_date")
-    val dateRelease: String,
+    val dateRelease: String?,
 
     @SerializedName("original_title")
     val originalTitle: String,

@@ -14,6 +14,7 @@ import com.android.filmlibrary.Constant.SERVER_ERROR
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.MovieAdv
 import com.android.filmlibrary.model.repository.RepositoryImpl
+import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -30,15 +31,11 @@ class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppStat
     }
 
     private val callBack = object :
-        Callback<com.android.filmlibrary.model.retrofit.MovieAdvAPI> {
+        Callback<MovieAdvAPI> {
 
-        override fun onResponse(
-            call: Call<com.android.filmlibrary.model.retrofit.MovieAdvAPI>,
-            response: Response<com.android.filmlibrary.model.retrofit.MovieAdvAPI>
-        ) {
+        override fun onResponse(call: Call<MovieAdvAPI>, response: Response<MovieAdvAPI>) {
             Log.v("Debug1", "MovieInfoViewModel onResponse")
-            val serverResponse: com.android.filmlibrary.model.retrofit.MovieAdvAPI? =
-                response.body()
+            val serverResponse: MovieAdvAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
                     checkResponse(serverResponse)
@@ -48,19 +45,17 @@ class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppStat
             )
         }
 
-        override fun onFailure(
-            call: Call<com.android.filmlibrary.model.retrofit.MovieAdvAPI>,
-            t: Throwable
-        ) {
+        override fun onFailure(call: Call<MovieAdvAPI>, t: Throwable) {
             Log.v("Debug1", "MovieInfoViewModel onFailure")
             liveDataToObserver.postValue(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
         }
 
-        private fun checkResponse(serverResponse: com.android.filmlibrary.model.retrofit.MovieAdvAPI): AppState {
+        private fun checkResponse(serverResponse: MovieAdvAPI): AppState {
             Log.v("Debug1", "MovieInfoViewModel checkResponse")
             return if (serverResponse.id == -1) {
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
+
                 var formattedDate = ""
                 if (serverResponse.dateRelease != "") {
                     val localDate = LocalDate.parse(
@@ -71,10 +66,14 @@ class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppStat
                     formattedDate = localDate.format(formatter)
                 }
 
+                Log.v(
+                    "Debug1",
+                    "MovieInfoViewModel checkResponse serverResponse.testVal=" + serverResponse.testVal
+                )
+
                 AppState.SuccessMovie(
                     MovieAdv(
                         serverResponse.id,
-
                         serverResponse.title,
                         formattedDate.toInt(),
                         serverResponse.genres,
@@ -90,6 +89,7 @@ class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppStat
             }
         }
     }
+
 
     fun getMovieFromRemoteSource() {
         Log.v("Debug1", "MovieInfoViewModel getMovieFromRemoteSource")

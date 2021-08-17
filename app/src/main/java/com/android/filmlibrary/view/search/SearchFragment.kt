@@ -16,7 +16,7 @@ import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.SearchFragmentBinding
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Movie
+import com.android.filmlibrary.model.data.MoviesList
 import com.android.filmlibrary.view.showSnackBar
 import com.android.filmlibrary.viewmodel.search.SearchViewModel
 
@@ -39,8 +39,11 @@ class SearchFragment : Fragment() {
     private var _binding: SearchFragmentBinding? = null
     private val binding
         get() = _binding!!
-    private var moviesBySearch = listOf<Movie>()
-
+    private var moviesBySearch = MoviesList(
+        listOf(),
+        0,
+        0
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,8 +91,13 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
-        if ((requireActivity().application as GlobalVariables).moviesBySearch.isNotEmpty())
+        if ((requireActivity().application as GlobalVariables).moviesBySearch.results.isNotEmpty()) {
             moviesBySearch = (requireActivity().application as GlobalVariables).moviesBySearch
+        }
+
+        if (((requireActivity().application as GlobalVariables).seachString) != "") {
+            binding.searchQuery.setText((requireActivity().application as GlobalVariables).seachString)
+        }
 
         adapter.setOnMovieClickListener { movieId ->
             val bundle = Bundle()
@@ -102,15 +110,19 @@ class SearchFragment : Fragment() {
             )
         }
 
-        if (moviesBySearch.isNotEmpty()) {
-            Log.v("Debug1",
-                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.size)
+        if (moviesBySearch.results.isNotEmpty()) {
+            Log.v(
+                "Debug1",
+                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.results.size
+            )
             adapter.fillMoviesBySearch(moviesBySearch)
         }
 
         binding.searchButton.setOnClickListener {
-            Log.v("Debug1",
-                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString())
+            Log.v(
+                "Debug1",
+                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString()
+            )
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
@@ -123,7 +135,8 @@ class SearchFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesBySearch = moviesBySearch
+        (requireActivity().application as GlobalVariables).seachString =
+            binding.searchQuery.text.toString()
         Log.v("Debug1", "SearchFragment onStop")
     }
-
 }

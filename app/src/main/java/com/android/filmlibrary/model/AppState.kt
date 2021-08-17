@@ -7,7 +7,7 @@ sealed class AppState {
     data class SuccessMoviesByGenres(val moviesByGenres: List<MoviesByGenre>) :
         AppState()
 
-    data class SuccessSearch(val moviesBySearches: List<Movie>) : AppState()
+    data class SuccessSearch(val moviesBySearches: MoviesList) : AppState()
     data class SuccessMoviesByTrend(val moviesByTrends: MoviesByTrend) :
         AppState()
 
@@ -15,8 +15,6 @@ sealed class AppState {
         AppState()
 
     data class SuccessSettings(val settingsTMDB: SettingsTMDB) : AppState()
-
-    data class SuccessRawData(val rawData: Map<String, *>?) : AppState()
 
     class Error(val error: Throwable) : AppState()
     object Loading : AppState()

@@ -10,5 +10,5 @@ data class MoviesListAPI(
     val totalPages: Int,
 
     @SerializedName("total_results")
-    val totalResults: Int,
+    val totalResults: Int
 )

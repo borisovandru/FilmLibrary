@@ -1,10 +1,11 @@
 package com.android.filmlibrary.model.retrofit
 
+import com.google.gson.annotations.SerializedName
 import com.android.filmlibrary.model.data.Country
 import com.android.filmlibrary.model.data.Genre
-import com.google.gson.annotations.SerializedName
 
 data class MovieAdvAPI(
+    val testVal: Int = 15,
 
     @SerializedName("id")
     val id: Int,
@@ -36,4 +37,6 @@ data class MovieAdvAPI(
     @SerializedName("runtime")
     val runtime: Int
 )
+
+
 

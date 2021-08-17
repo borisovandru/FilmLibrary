@@ -13,18 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO
-import com.android.filmlibrary.Constant.URL_NOW_PLAYING
-import com.android.filmlibrary.Constant.URL_POPULAR
-import com.android.filmlibrary.Constant.URL_TOP_RATED
-import com.android.filmlibrary.Constant.URL_UPCOMING
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.TrendsFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.MoviesByTrend
-import com.android.filmlibrary.model.data.Trend
 import com.android.filmlibrary.view.showSnackBar
-import com.android.filmlibrary.viewmodel.thrends.ThreadsFragmentViewModel
+import com.android.filmlibrary.viewmodel.thrends.ThrendsFragmentViewModel
 
 class TrendsFragment : Fragment() {
 
@@ -35,15 +30,9 @@ class TrendsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var moviesByTrend: List<MoviesByTrend> = ArrayList()
     private val adapter = TrendsFragmentAdapter()
-    private val viewModel: ThreadsFragmentViewModel by lazy {
-        ViewModelProvider(this).get(ThreadsFragmentViewModel::class.java)
+    private val viewModel: ThrendsFragmentViewModel by lazy {
+        ViewModelProvider(this).get(ThrendsFragmentViewModel::class.java)
     }
-    private var trends: List<Trend> = listOf(
-        Trend("Popular", URL_POPULAR),
-        Trend("Rated", URL_TOP_RATED),
-        Trend("Now playing", URL_NOW_PLAYING),
-        Trend("Upcoming", URL_UPCOMING),
-    )
 
     private var _binding: TrendsFragmentBinding? = null
     private val binding
@@ -53,13 +42,13 @@ class TrendsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        Log.v("Debug1", "ThrendsFragment onCreateView")
+        Log.v("Debug1", "TrendsFragment onCreateView")
         _binding = TrendsFragmentBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
     override fun onDestroyView() {
-        Log.v("Debug1", "ThrendsFragment onDestroyView")
+        Log.v("Debug1", "TrendsFragment onDestroyView")
         _binding = null
         super.onDestroyView()
     }
@@ -67,21 +56,21 @@ class TrendsFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesByTrend = moviesByTrend
-        Log.v("Debug1", "ThrendsFragment onStop")
+        Log.v("Debug1", "TrendsFragment onStop")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.v("Debug1", "ThrendsFragment onResume")
+        Log.v("Debug1", "TrendsFragment onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.v("Debug1", "ThrendsFragment onPause")
+        Log.v("Debug1", "TrendsFragment onPause")
     }
 
     private fun renderTrends(data: AppState) {
-        Log.v("Debug1", "ThrendsFragment renderTrends")
+        Log.v("Debug1", "TrendsFragment renderTrends")
         when (data) {
             is AppState.SuccessMoviesByTrends -> {
                 Log.v(
@@ -99,14 +88,15 @@ class TrendsFragment : Fragment() {
                 binding.loadingLayoutTrend.visibility = View.GONE
                 data.error.message?.let {
                     binding.loadingLayoutTrend.showSnackBar(it, R.string.ReloadMsg) {
-                        viewModel.getTrendsFromRemoteSource(trends)
+                        viewModel.getTrendsFromRemoteSource()
                     }
                 }
             }
         }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("Debug1", "ThrendsFragment onViewCreated")
+        Log.v("Debug1", "TrendsFragment onViewCreated")
 
         recyclerView = binding.rvTrend
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN)
@@ -120,7 +110,7 @@ class TrendsFragment : Fragment() {
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
-                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,
+                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
                 Bundle().apply {
                     putInt("movieId", movieId)
                 }
@@ -142,7 +132,7 @@ class TrendsFragment : Fragment() {
                 renderTrends(appState)
             }
             viewModel.getData().observe(viewLifecycleOwner, observer)
-            viewModel.getTrendsFromRemoteSource(trends)
+            viewModel.getTrendsFromRemoteSource()
         }
     }
 }
