@@ -1,39 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.profile.ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.profile.ProfileFragment"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/profileFragment"
         app:layout_constraintBottom_toTopOf="@+id/base_image_url"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/header"
+        android:text="@string/profileFragment" />
 
     <TextView
-        android:id="@+id/base_image_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/base_secure_image_url"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:id="@+id/base_image_url" />
 
 
     <TextView
-        android:id="@+id/base_secure_image_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/base_image_url" />
+        app:layout_constraintTop_toBottomOf="@+id/base_image_url"
+        android:id="@+id/base_secure_image_url"
+        app:layout_constraintBottom_toTopOf="@+id/switchAdult"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchAdult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/base_image_url"
+        android:text="@string/adult" />
+
 
     <FrameLayout
         android:id="@+id/loadingLayout"
@@ -52,6 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
+
+
     </FrameLayout>
 
 

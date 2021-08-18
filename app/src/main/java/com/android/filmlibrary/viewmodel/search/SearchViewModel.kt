@@ -63,7 +63,7 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
             } else {
 
                 val movies = mutableListOf<Movie>()
-                for (i in 0..serverResponse.results.size - 1) {
+                for (i in serverResponse.results.indices) {
 
                     var formattedDate = ""
                     serverResponse.results[i].dateRelease?.let {

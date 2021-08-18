@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
 import com.android.filmlibrary.model.AppState
@@ -38,6 +39,8 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         Log.v("Debug1", "ProfileFragment onDestroyView")
+        (requireActivity().application as GlobalVariables).settings.adult =
+            binding.switchAdult.isChecked
         _binding = null
         super.onDestroyView()
     }
@@ -49,6 +52,7 @@ class ProfileFragment : Fragment() {
         }
         viewModel.getData().observe(viewLifecycleOwner, observer)
         viewModel.getDataFromRemoteSource()
+        binding.switchAdult.setChecked((requireActivity().application as GlobalVariables).settings.adult)
     }
 
     private fun renderData(data: AppState) {

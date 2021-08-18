@@ -1,12 +1,14 @@
 package com.android.filmlibrary
 
 import android.app.Application
-import com.android.filmlibrary.model.data.Genre
-import com.android.filmlibrary.model.data.MoviesByGenre
-import com.android.filmlibrary.model.data.MoviesByTrend
-import com.android.filmlibrary.model.data.MoviesList
+import androidx.room.Room
+import com.android.filmlibrary.model.Settings
+import com.android.filmlibrary.model.data.*
+import com.android.filmlibrary.model.room.DAO
+import com.android.filmlibrary.model.room.DataBase
+import java.lang.IllegalStateException
 
-class GlobalVariables: Application() {
+class GlobalVariables : Application() {
     var moviesByTrend: List<MoviesByTrend> = ArrayList()
     var moviesBySearch = MoviesList(
         listOf(),
@@ -19,4 +21,38 @@ class GlobalVariables: Application() {
     var genres: List<Genre> = ArrayList()
 
     var seachString: String = ""
+
+    var settings: Settings = Settings(false)
+
+
+    override fun onCreate() {
+        super.onCreate()
+        appInstance = this
+    }
+
+    companion object {
+        private var appInstance: GlobalVariables? = null
+        private var db: DataBase? = null
+        private const val DB_NAME = "Movie.db"
+
+        fun getDAO(): DAO {
+            if (db == null) {
+                synchronized(DataBase::class.java) {
+                    if (db == null) {
+                        if (appInstance == null) {
+                            throw IllegalStateException("Application ids null meanwhile creating database")
+                        }
+                        db = Room.databaseBuilder(
+                            appInstance!!.applicationContext,
+                            DataBase::class.java,
+                            DB_NAME
+                        )
+                            .allowMainThreadQueries()
+                            .build()
+                    }
+                }
+            }
+            return db!!.historyDao()
+        }
+    }
 }

@@ -8,12 +8,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MoviesByTrend
-import com.bumptech.glide.Glide
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

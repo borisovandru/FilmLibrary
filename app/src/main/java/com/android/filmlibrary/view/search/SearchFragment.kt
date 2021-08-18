@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -45,6 +46,10 @@ class SearchFragment : Fragment() {
         0
     )
 
+    private var searchHistory: List<String> = mutableListOf()
+
+    private lateinit var adapterAC: ArrayAdapter<String>// = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchHistory)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -84,8 +89,26 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun renderDataSearchHistory(data: AppState) {
+        Log.v("Debug1", "SearchFragment renderDataSearchHistory")
+        when (data) {
+            is AppState.SuccessGetSearchHistory -> {
+                searchHistory = data.searchHistory
+                adapterAC.clear()
+                adapterAC.addAll(searchHistory)
+                adapterAC.notifyDataSetChanged()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.v("Debug1", "SearchFragment onViewCreated")
+
+        binding.searchQuery.threshold = 2
+        adapterAC =
+            ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchHistory)
+        adapterAC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.searchQuery.setAdapter(adapterAC)
 
         recyclerView = binding.rvSearch
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
@@ -126,9 +149,18 @@ class SearchFragment : Fragment() {
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
-            viewModel.getData(binding.searchQuery.text.toString())
+            viewModel.setData(
+                binding.searchQuery.text.toString(),
+                (requireActivity().application as GlobalVariables).settings.adult
+            )
                 .observe(viewLifecycleOwner, observer)
             viewModel.getSearchDataFromRemoteSource()
+
+            val observer2 = Observer<AppState> { appState ->
+                renderDataSearchHistory(appState)
+            }
+            viewModel.getSearchHistory().observe(viewLifecycleOwner, observer2)
+            viewModel.getSearchHistory2()
         }
     }
 

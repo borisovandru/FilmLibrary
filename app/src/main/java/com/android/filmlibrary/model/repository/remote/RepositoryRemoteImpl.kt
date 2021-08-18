@@ -1,4 +1,4 @@
-package com.android.filmlibrary.model.repository
+package com.android.filmlibrary.model.repository.remote
 
 import android.util.Log
 import com.google.gson.GsonBuilder
@@ -28,7 +28,7 @@ import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.io.IOException
 
-class RepositoryImpl : Repository {
+class RepositoryRemoteImpl : RepositoryRemote {
 
     private val movies = mutableListOf<MovieAdv>()
 
@@ -157,6 +157,7 @@ class RepositoryImpl : Repository {
         searchRequest: String,
         setCountsOfMovies: Int,
         lang: String,
+        adult: Boolean,
         callback: Callback<MoviesListAPI>,
     ) {
         genresDTOApi.getSearch(

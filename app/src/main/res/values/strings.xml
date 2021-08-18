@@ -35,4 +35,5 @@
     <string name="titleMovie">%1$s (%2$s)</string>
     <string name="comma">%1$s, %2$s</string>
     <string name="Minutes">" min."</string>
+    <string name="adult">Adult</string>
 </resources>

@@ -46,7 +46,7 @@ interface TheMovieDBAPI {
         @Path("api_version") apiVersion: String,
         @Query("api_key") key: String,
         @Query("language") language: String,
-        @Query("query") query: String,
+        @Query("query") query: String
     ): Call<MoviesListAPI>
 
     @GET("{api_version}/{path_1}/{path_2}")

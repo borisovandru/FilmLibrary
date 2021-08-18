@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/search_fragment"
     tools:context=".view.search.SearchFragment">
 
-    <EditText
+
+    <AutoCompleteTextView
         android:id="@+id/search_query"
-        android:layout_width="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:importantForAutofill="no"
-        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/rv_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor"
-        tools:text="запрос" />
+        tools:text="запрос"
+        tools:ignore="LabelFor" />
+
 
     <ImageButton
         android:id="@+id/search_button"
@@ -55,13 +56,13 @@
     <FrameLayout
         android:id="@+id/loadingLayout_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/loadingBackground"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result"
         tools:visibility="visible">
 
         <ProgressBar
@@ -70,4 +71,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

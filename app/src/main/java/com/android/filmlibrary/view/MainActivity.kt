@@ -1,7 +1,5 @@
 package com.android.filmlibrary.view
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -10,8 +8,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.services.MainBroadcastReceiver
+import com.android.filmlibrary.sharedpref.SharedPref
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(this, navController)
 
-        registerReceiver(receiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        (this.application as GlobalVariables).settings = SharedPref(this).loadSettings()
     }
 
     override fun onDestroy() {
-        unregisterReceiver(receiver)
+        SharedPref(this).saveSettings((this.application as GlobalVariables).settings)
         super.onDestroy()
     }
 }
