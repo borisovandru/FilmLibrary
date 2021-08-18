@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/navigation_trends"
+        android:icon="@drawable/ic_new_24"
         android:title="@string/home" />
     <item
         android:id="@+id/navigation_search"
         android:icon="@drawable/ic_search_24"
         android:title="@string/search" />
     <item
-        android:id="@+id/navigation_favorite"
-        android:icon="@drawable/ic_fav_24"
-        android:title="@string/favorite" />
+        android:id="@+id/navigation_genres"
+        android:icon="@drawable/ic_categories_24"
+        android:title="@string/categories" />
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_account_24"
-        android:title="@string/progile" />
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_24"
+        android:title="@string/settings" />
 </menu>

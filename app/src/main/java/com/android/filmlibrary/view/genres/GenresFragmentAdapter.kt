@@ -1,4 +1,4 @@
-package com.android.filmlibrary.view.movies
+package com.android.filmlibrary.view.genres
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,38 +11,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
-import com.android.filmlibrary.databinding.ItemCategoryBinding
-import com.android.filmlibrary.model.data.Category
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.MoviesByCategories
+import com.android.filmlibrary.databinding.ItemGenreBinding
+import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.MoviesByGenre
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 
-class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolder>() {
+class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewHolder>() {
 
-    //-------------------------------------------------------------------
     private var onMovieClickListener: (Int) -> Unit = {}
 
     fun setOnMovieClickListener(onMovieClickListener: (Int) -> Unit) {
         this.onMovieClickListener = onMovieClickListener
     }
 
-    //-------------------------------------------------------------------
     private var onCategoryClickListener: (Int) -> Unit = {}
 
-    fun setOnCategoryClickListener(onCategoryClickListener: (Int) -> Unit) {
+    fun setOnGenresClickListener(onCategoryClickListener: (Int) -> Unit) {
         this.onCategoryClickListener = onCategoryClickListener
     }
 
-    //-------------------------------------------------------------------
+    private var moviesByCategory: List<MoviesByGenre> = ArrayList()
+    private var genres: List<Genre> = ArrayList()
 
-    private var moviesByCategory: List<MoviesByCategories> = ArrayList()
 
-    fun fillMoviesByCategory(moviesByCategory: List<MoviesByCategories>) {
+    fun fillMoviesByGenres(moviesByCategory: List<MoviesByGenre>, genres: List<Genre>) {
         Log.v(
             "Debug1",
             "CategoriesAdapter fillMoviesByCategory moviesByCategory.size=" + moviesByCategory.size
         )
         this.moviesByCategory = moviesByCategory
+        this.genres = genres
         notifyDataSetChanged()
 
     }
@@ -50,7 +50,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         Log.v("Debug1", "CategoriesAdapter onCreateViewHolder")
 
-        val binding = ItemCategoryBinding.inflate(
+        val binding = ItemGenreBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -61,13 +61,13 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Log.v("Debug1", "CategoriesAdapter onBindViewHolder")
-        holder.categoryName.text = moviesByCategory[position].category.title
-        moviesByCategory[position].category.id.let {
-            holder.categoryId = moviesByCategory[position].category.id
+        holder.categoryName.text = moviesByCategory[position].genre.name
+        moviesByCategory[position].genre.id.let {
+            holder.categoryId = moviesByCategory[position].genre.id
         }
         if (position != -1) {
             holder.setData(moviesByCategory[position])
-            holder.categoryId = moviesByCategory[position].category.id
+            holder.categoryId = moviesByCategory[position].genre.id
         }
     }
 
@@ -75,15 +75,13 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
         return moviesByCategory.size
     }
 
-    inner class MyViewHolder(private val binding: ItemCategoryBinding, parent: ViewGroup) :
+    inner class MyViewHolder(private val binding: ItemGenreBinding, parent: ViewGroup) :
         RecyclerView.ViewHolder(binding.root) {
 
         private val parentLoc: ViewGroup = parent
         val categoryName: TextView = itemView.findViewById(R.id.categoryName)
         var categoryId: Int = 0
-        lateinit var category: Category
-        var movies: List<Movie> = ArrayList()
-
+        lateinit var genre: Genre
 
         init {
             Log.v("Debug1", "CategoriesAdapter MyViewHolder init categoryId=$categoryId")
@@ -92,19 +90,20 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
             }
         }
 
-        fun setData(moviesByCategory: MoviesByCategories) {
+        fun setData(moviesByCategory: MoviesByGenre) {
             Log.v("Debug1", "CategoriesAdapter MyViewHolder setData")
             val linearLayoutItemCategory: LinearLayout = binding.linearLayoutItemCategory
             val linearLayoutIntoScrollView: LinearLayout = binding.linearLayoutIntoScrollView
 
             linearLayoutIntoScrollView.removeAllViews()
-            for (movie in moviesByCategory.movies) {
+            for (movie in moviesByCategory.movies.results) {
                 val viewItemMovie: View = LayoutInflater.from(parentLoc.context)
                     .inflate(R.layout.item_movie, linearLayoutItemCategory, false)
 
                 val titleMovie = viewItemMovie.findViewById<TextView>(R.id.movieTitle)
                 val yearMovie = viewItemMovie.findViewById<TextView>(R.id.movieYear)
                 val catMovie = viewItemMovie.findViewById<TextView>(R.id.movieCat)
+                val ratedMovie = viewItemMovie.findViewById<TextView>(R.id.rated)
                 val posterMovie = viewItemMovie.findViewById<ImageView>(R.id.moviePoster)
 
                 Log.v("Debug1", "CategoriesAdapter MyViewHolder setData for movie.id" + movie.id)
@@ -114,14 +113,34 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MyViewHolde
                 }
 
                 movie.posterUrl.let {
-                    Glide.with(viewItemMovie.context)
-                        .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
-                        .into(posterMovie)
+                    if (movie.posterUrl != "" && movie.posterUrl != "-") {
+                        Glide.with(viewItemMovie.context)
+                            .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
+                            .into(posterMovie)
+                    } else {
+                        posterMovie.setImageResource(R.drawable.empty_poster)
+                    }
                 }
 
+                ratedMovie.text = movie.voteAverage.toString()
                 titleMovie.text = movie.title
-                yearMovie.text = movie.year.toString()
-                catMovie.text = movie.category.title
+                movie.dateRelease?.let {
+                    if (movie.dateRelease != "") {
+                        val localDate = LocalDate.parse(
+                            movie.dateRelease,
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        )
+                        val formatter = DateTimeFormatter.ofPattern("yyyy")
+                        val formattedDate = localDate.format(formatter)
+                        yearMovie.text = formattedDate
+                    } else {
+                        yearMovie.text = ""
+                    }
+                }
+
+                if (movie.genre_ids.isNotEmpty()) {
+                    catMovie.text = genres.first { it.id == movie.genre_ids.first() }.name
+                }
 
                 linearLayoutIntoScrollView.addView(viewItemMovie)
             }

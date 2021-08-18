@@ -13,7 +13,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.android.filmlibrary.R
 import com.android.filmlibrary.services.MainBroadcastReceiver
 
-
 class MainActivity : AppCompatActivity() {
 
     private val receiver = MainBroadcastReceiver()
@@ -43,6 +42,4 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(receiver)
         super.onDestroy()
     }
-
 }
-

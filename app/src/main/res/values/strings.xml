@@ -3,16 +3,15 @@
     <string name="yearHead">Год:</string>
     <string name="titleHead">Название:</string>
     <string name="imagemovie">Постер фильма</string>
-    <string name="home">Главная</string>
-    <string name="favorite">Избранное</string>
+    <string name="home">Тренды</string>
+    <string name="categories">Жанры</string>
     <string name="raiting">Мои оценки</string>
     <string name="about">О программе</string>
     <string name="help">Справка</string>
     <string name="Search">Найти</string>
     <string name="logo">Logo</string>
     <string name="menu_string">Фильмы</string>
-    <string name="progile">Профиль</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="settings">Настройки</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Поиск</string>
     <string name="new_movies">Новинки</string>
@@ -26,9 +25,14 @@
     <string name="ng_name_home">Главная</string>
     <string name="ng_name_search">Поиск</string>
     <string name="ng_name_fav">Избранные</string>
-    <string name="ng_name_profile">Профиль</string>
+    <string name="ng_name_settings">Настройки</string>
     <string name="ng_name_movies_cat">Фильмы по категории</string>
     <string name="ng_name_item_movie">Инфо о фильме</string>
     <string name="ErrorMsg">Error!</string>
     <string name="ReloadMsg">Reload?</string>
+    <string name="openBr">\" (\"</string>
+    <string name="closeBr">)</string>
+    <string name="titleMovie">%1$s (%2$s)</string>
+    <string name="comma">%1$s, %2$s</string>
+    <string name="Minutes">" min."</string>
 </resources>

@@ -1,31 +1,31 @@
-package com.android.filmlibrary.viewmodel.search
+package com.android.filmlibrary.viewmodel.moviesbygenre
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORY
-import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.MoviesList
-import com.android.filmlibrary.model.repository.RepositoryImpl
-import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.android.filmlibrary.Constant
+import com.android.filmlibrary.model.AppState
+import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.Movie
+import com.android.filmlibrary.model.data.MoviesByGenre
+import com.android.filmlibrary.model.data.MoviesList
+import com.android.filmlibrary.model.repository.RepositoryImpl
+import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-
-class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
+class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
 
     private val repository = RepositoryImpl()
-    private lateinit var searchRequest: String
+    private lateinit var genre: Genre
 
-    fun getData(serachRequest: String): LiveData<AppState> {
-        this.searchRequest = serachRequest
+    fun getData(genre: Genre): LiveData<AppState> {
+        this.genre = genre
         return liveDataToObserver
     }
 
@@ -62,8 +62,9 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
+                val moviesByGenre: MoviesByGenre
                 val movies = mutableListOf<Movie>()
-                for (i in 0..serverResponse.results.size - 1) {
+                for (i in serverResponse.results.indices) {
 
                     var formattedDate = ""
                     serverResponse.results[i].dateRelease?.let {
@@ -103,18 +104,23 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
                     serverResponse.totalResults
                 )
 
-                AppState.SuccessSearch(
+                moviesByGenre = MoviesByGenre(
+                    genre,
                     moviesList
+                )
+
+                AppState.SuccessMoviesByGenre(
+                    moviesByGenre
                 )
             }
         }
     }
 
-    fun getSearchDataFromRemoteSource() {
+
+    fun getDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
-        repository.getMoviesBySearchFromRemoteServerRetroFit(
-            searchRequest,
-            COUNT_MOVIES_BY_CATEGORY,
+        repository.getMoviesByCategoryFromRemoteServerRetroFit(
+            genre,
             Constant.LANG_VALUE,
             callBack
         )

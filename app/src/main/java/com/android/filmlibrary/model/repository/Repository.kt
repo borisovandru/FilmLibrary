@@ -1,27 +1,46 @@
 package com.android.filmlibrary.model.repository
 
-import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Category
-import com.android.filmlibrary.model.data.LinkType
-import com.android.filmlibrary.model.data.Movie
+import retrofit2.Callback
+import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.MovieAdv
+import com.android.filmlibrary.model.data.Trend
+import com.android.filmlibrary.model.retrofit.ConfigurationAPI
+import com.android.filmlibrary.model.retrofit.GenresAPI
+import com.android.filmlibrary.model.retrofit.MoviesListAPI
 
 interface Repository {
-    fun getMoviesByCategoryFromRemoteServer(category: Category, cntMovies: Int): AppState
-    fun getMoviesByCategoriesFromRemoteServer(
-        categories: List<Category>,
-        cntMovies: Int
-    ): AppState
+    fun getMoviesFromLocalStorage(): List<MovieAdv>
+    fun getMovieFromLocalStorage(id: Int): MovieAdv
 
-    fun getMovieFromRemoteServer(id: Int): AppState
-    fun getCategoriesFromRemoteServer(): AppState
+    fun getMovieFromRemoteServerRetroFit(
+        movieId: Int,
+        lang: String,
+        callback: Callback<com.android.filmlibrary.model.retrofit.MovieAdvAPI>
+    )
 
-    fun getSettingsFromRemoteServer(): AppState
+    fun getGenresFromRemoteServerRetroFit(lang: String, callback: Callback<GenresAPI>)
+    fun getMoviesByCategoryFromRemoteServerRetroFit(
+        genre: Genre,
+        lang: String,
+        callback: Callback<MoviesListAPI>
+    )
 
-    fun getDataFromRemoteServer(linkType: LinkType, param1: String): AppState
+    fun getMoviesBySearchFromRemoteServerRetroFit(
+        searchRequest: String,
+        setCountsOfMovies: Int,
+        lang: String,
+        callback: Callback<MoviesListAPI>
+    )
 
+    fun getMoviesByTrendFromRemoteServerRetroFit(
+        trend: Trend,
+        cntMovies: Int,
+        lang: String,
+        callback: Callback<MoviesListAPI>,
+    )
 
-    fun getMoviesFromLocalStorage(): List<Movie>
-    fun getMovieFromLocalStorage(id: Int): Movie
-
-
+    fun getSettingsFromRemoteServerRetroFit(
+        lang: String,
+        callback: Callback<ConfigurationAPI>,
+    )
 }

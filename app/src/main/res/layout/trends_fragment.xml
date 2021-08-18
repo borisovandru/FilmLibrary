@@ -2,13 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.movies.MainFragment">
+    tools:context=".view.trends.TrendsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_cat"
+        android:id="@+id/rv_trend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="1dp"
@@ -16,10 +15,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        tools:listitem="@layout/item_category" />
+        tools:listitem="@layout/item_trend" />
 
     <FrameLayout
-        android:id="@+id/loadingLayout_cat"
+        android:id="@+id/loadingLayout_trend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/loadingBackground"
@@ -36,5 +35,4 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

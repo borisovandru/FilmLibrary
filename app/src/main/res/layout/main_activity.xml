@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/appbar_layout"
         app:navGraph="@navigation/mobile_navigation"
         tools:ignore="FragmentTagUsage"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/trends_fragment" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
