@@ -30,11 +30,13 @@ class MovieInfoFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    private var movieId: Int = -1
+    private var note: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
         Log.v("Debug1", "MovieInfoFragment onCreateView")
         _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
@@ -115,17 +117,75 @@ class MovieInfoFragment : Fragment() {
         }
     }
 
+    private fun renderDataNote(data: AppState) {
+        Log.v("Debug1", "MovieInfoFragment renderDataNote")
+        when (data) {
+            is AppState.SuccessGetNote -> {
+                data.note?.let {
+                    note = it
+                    binding.movieNote.setText(note)
+                    binding.deleteButton.visibility = View.VISIBLE
+
+                } ?: run {
+                    binding.deleteButton.visibility = View.GONE
+                }
+
+            }
+        }
+    }
+
+    private fun renderDataDeleteNote(data: AppState) {
+        Log.v("Debug1", "MovieInfoFragment renderDataDeleteNote")
+        when (data) {
+            is AppState.SuccessDeleteNote -> {
+                binding.deleteButton.visibility = View.GONE
+                binding.movieNote.setText("")
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.v("Debug1", "MovieInfoFragment onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
-        val movieId = arguments?.getInt(BUNDLE_EXTRA)
-        movieId?.let {
+        val buttonOk = binding.buttonOk
+        buttonOk.setOnClickListener {
+            val observerSetNote = Observer<AppState> { appState ->
+                renderDataNote(appState)
+            }
+            viewModel.addNoteStart()
+                .observe(viewLifecycleOwner, observerSetNote)
+            viewModel.addNote(binding.movieNote.text.toString())
+        }
+
+        arguments?.let {
+            movieId = it.getInt(BUNDLE_EXTRA)
+        }
+
+        movieId.let {
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
-            viewModel.getData(movieId).observe(viewLifecycleOwner, observer)
+            viewModel.setData(movieId).observe(viewLifecycleOwner, observer)
             viewModel.getMovieFromRemoteSource()
+
+
+            val observerNote = Observer<AppState> { appState ->
+                renderDataNote(appState)
+            }
+            viewModel.getNoteStart()
+                .observe(viewLifecycleOwner, observerNote)
+            viewModel.getNote(movieId)
+        }
+
+        val buttonDelete = binding.deleteButton
+        buttonDelete.setOnClickListener {
+            val observerDeleteNote = Observer<AppState> { appState ->
+                renderDataDeleteNote(appState)
+            }
+            viewModel.deleteNoteStart()
+                .observe(viewLifecycleOwner, observerDeleteNote)
+            viewModel.deleteNote(movieId)
         }
     }
 

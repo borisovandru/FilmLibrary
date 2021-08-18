@@ -11,23 +11,91 @@ import com.android.filmlibrary.Constant.CORRUPTED_DATA
 import com.android.filmlibrary.Constant.LANG_VALUE
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
+import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.MovieAdv
-import com.android.filmlibrary.model.repository.RepositoryImpl
+import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
+import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
-    ViewModel() {
+class MovieInfoViewModel() : ViewModel() {
 
-    private val repository = RepositoryImpl()
+    private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserverAddNote: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserverGetNote: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserverDeleteNote: MutableLiveData<AppState> = MutableLiveData()
+
+    private val repository = RepositoryRemoteImpl()
     private var movieId: Int = 1
+    private var noteText: String = ""
 
-    fun getData(movieId: Int): LiveData<AppState> {
+    private val repositoryLocal = RepositoryLocalImpl(GlobalVariables.getDAO())
+
+    fun setData(movieId: Int): LiveData<AppState> {
         Log.v("Debug1", "MovieInfoViewModel getData($movieId)")
         this.movieId = movieId
         return liveDataToObserver
+    }
+
+    fun addNoteStart(): LiveData<AppState> {
+        Log.v("Debug1", "MovieInfoViewModel addNoteStart($noteText)")
+        return liveDataToObserverAddNote
+    }
+
+    fun addNote(noteText: String) {
+        Log.v("Debug1", "MovieInfoViewModel addNote($noteText)")
+        this.noteText = noteText
+        Thread {
+            val noteCur: String?
+            noteCur = repositoryLocal.getMovieNote(movieId.toLong())
+            liveDataToObserverAddNote.postValue(
+                if (noteCur != null) {
+                    AppState.SuccessSetNote(
+                        repositoryLocal.updateMovieNote(
+                            movieId.toLong(), noteText
+                        ).toLong()
+                    )
+                } else {
+                    AppState.SuccessSetNote(
+                        repositoryLocal.insertMovieNote(
+                            movieId.toLong(), noteText
+                        )
+                    )
+                }
+            )
+        }.start()
+    }
+
+    fun getNoteStart(): LiveData<AppState> {
+        Log.v("Debug1", "MovieInfoViewModel getNoteStart")
+        return liveDataToObserverGetNote
+    }
+
+    fun getNote(movieId: Int) {
+        liveDataToObserverGetNote.value = AppState.Loading
+        this.movieId = movieId
+        Thread {
+            liveDataToObserverGetNote.postValue(
+                (AppState.SuccessGetNote(repositoryLocal.getMovieNote(movieId.toLong())))
+            )
+        }.start()
+    }
+
+    fun deleteNoteStart(): LiveData<AppState> {
+        Log.v("Debug1", "MovieInfoViewModel deleteNoteStart")
+        return liveDataToObserverDeleteNote
+    }
+
+    fun deleteNote(movieId: Int) {
+        liveDataToObserverDeleteNote.value = AppState.Loading
+        this.movieId = movieId
+        Thread {
+            liveDataToObserverDeleteNote.postValue(
+                (AppState.SuccessDeleteNote(repositoryLocal.removeMovieNote(movieId.toLong())))
+            )
+        }.start()
     }
 
     private val callBack = object :
@@ -66,11 +134,6 @@ class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppStat
                     formattedDate = localDate.format(formatter)
                 }
 
-                Log.v(
-                    "Debug1",
-                    "MovieInfoViewModel checkResponse serverResponse.testVal=" + serverResponse.testVal
-                )
-
                 AppState.SuccessMovie(
                     MovieAdv(
                         serverResponse.id,
@@ -89,7 +152,6 @@ class MovieInfoViewModel(private val liveDataToObserver: MutableLiveData<AppStat
             }
         }
     }
-
 
     fun getMovieFromRemoteSource() {
         Log.v("Debug1", "MovieInfoViewModel getMovieFromRemoteSource")

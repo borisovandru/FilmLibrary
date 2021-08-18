@@ -36,4 +36,6 @@
     <string name="comma">%1$s, %2$s</string>
     <string name="Minutes">" min."</string>
     <string name="adult">Adult</string>
+    <string name="MovieNoteHeader">Мои заметки:</string>
+    <string name="ok">OK</string>
 </resources>

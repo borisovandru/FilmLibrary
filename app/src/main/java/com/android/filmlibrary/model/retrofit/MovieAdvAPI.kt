@@ -5,7 +5,6 @@ import com.android.filmlibrary.model.data.Country
 import com.android.filmlibrary.model.data.Genre
 
 data class MovieAdvAPI(
-    val testVal: Int = 15,
 
     @SerializedName("id")
     val id: Int,

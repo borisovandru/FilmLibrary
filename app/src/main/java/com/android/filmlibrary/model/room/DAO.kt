@@ -4,23 +4,26 @@ import androidx.room.*
 
 @Dao
 interface DAO {
+
+    //Note
+    @Query("SELECT `note` FROM EntityMovieNote WHERE idMovie = :idMovie")
+    fun getMovieNote(idMovie: Long): String
+
+    @Query("UPDATE EntityMovieNote SET `note` = :note WHERE idMovie = :idMovie")
+    fun updateNote(idMovie: Long, note: String): Int
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertNote(entity: EntityMovieNote): Long
+
+    @Query("SELECT `note` FROM EntityMovieNote WHERE idMovie = :idMovie")
+    fun getInserOrUpdateNote(idMovie: Long): Int
+
+    @Query("DELETE FROM EntityMovieNote WHERE idMovie = :idMovie")
+    fun deleteNote(idMovie: Long): Int
+
+    //Fav
     @Query("SELECT * FROM EntityFavMovies")
     fun getFav(): List<EntityFavMovies>
-
-    @Query("SELECT * FROM EntityMovieNote WHERE idMovie = :idMovie")
-    fun getMovieNote(idMovie: Long): List<EntityMovieNote>
-
-    @Query("SELECT `query` FROM EntitySearchHistory")
-    fun getSearchHistory(): List<String>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertNote(entity: EntityMovieNote)
-
-    @Update
-    fun updateNote(entity: EntityMovieNote)
-
-    @Delete
-    fun deleteNote(entity: EntityMovieNote)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertFavMovie(entity: EntityFavMovies)
@@ -31,6 +34,10 @@ interface DAO {
     @Delete
     fun deleteFavMovie(entity: EntityFavMovies)
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    //SearchHistory
+    @Query("SELECT `query` FROM EntitySearchHistory")
+    fun getSearchHistory(): List<String>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertSearchQuery(entity: EntitySearchHistory)
 }

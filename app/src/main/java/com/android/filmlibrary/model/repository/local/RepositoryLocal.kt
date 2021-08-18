@@ -6,8 +6,9 @@ interface RepositoryLocal {
     fun removeFavoriteMovies()
 
     fun getMovieNote(idMovie: Long): String
-    fun addMovieNote(idMovie: Long)
-    fun removeMovieNote(idMovie: Long)
+    fun updateMovieNote(idMovie: Long, note: String): Int
+    fun insertMovieNote(idMovie: Long, note: String): Long
+    fun removeMovieNote(idMovie: Long): Int
 
     fun getSearchHistory(): List<String>
     fun addSearchQuery(query: String)
