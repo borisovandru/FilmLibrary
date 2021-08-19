@@ -1,6 +1,5 @@
 package com.android.filmlibrary.view.trends
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.EMPTY_POSTER
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.model.data.Genre
@@ -32,8 +34,6 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
         parent: ViewGroup,
         viewType: Int,
     ): TrendsFragmentAdapter.MyViewHolder {
-        Log.v("Debug1", "TrendsFragmentAdapter onCreateViewHolder")
-
         val binding = ItemTrendBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -44,17 +44,13 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
     }
 
     fun fillMoviesByTrend(moviesByTrend: List<MoviesByTrend>) {
-        Log.v(
-            "Debug1",
-            "TrendsFragmentAdapter fillMoviesByTrend moviesByTrend.size=" + moviesByTrend.size
-        )
+
         this.moviesByTrend = moviesByTrend
         notifyDataSetChanged()
 
     }
 
     override fun onBindViewHolder(holder: TrendsFragmentAdapter.MyViewHolder, position: Int) {
-        Log.v("Debug1", "TrendsFragmentAdapter onBindViewHolder")
         holder.trendName.text = moviesByTrend[position].trend.name
         if (position != -1) {
             holder.setData(moviesByTrend[position])
@@ -73,24 +69,18 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
         lateinit var genre: Genre
 
         fun setData(moviesByTrend: MoviesByTrend) {
-            Log.v("Debug1", "TrendsFragmentAdapter MyViewHolder setData")
             val linearLayoutItemCategory: LinearLayout = binding.linearLayoutItemTrend
             val linearLayoutIntoScrollView: LinearLayout = binding.linearLayoutIntoScrollViewTrend
 
             linearLayoutIntoScrollView.removeAllViews()
-            for (movie in moviesByTrend.moviesList.results) {
+            moviesByTrend.moviesList.results.forEach { movie ->
                 val viewItemMovie: View = LayoutInflater.from(parentLoc.context)
                     .inflate(R.layout.item_movie, linearLayoutItemCategory, false)
 
                 val titleMovie = viewItemMovie.findViewById<TextView>(R.id.movieTitle)
                 val yearMovie = viewItemMovie.findViewById<TextView>(R.id.movieYear)
-                //val catMovie = viewItemMovie.findViewById<TextView>(R.id.movieCat) TODO: добавить жанры
                 val posterMovie = viewItemMovie.findViewById<ImageView>(R.id.moviePoster)
                 val ratedMovie = viewItemMovie.findViewById<TextView>(R.id.rated)
-                Log.v(
-                    "Debug1",
-                    "TrendsFragmentAdapter MyViewHolder setData for movie.id" + movie.id
-                )
 
                 posterMovie.setOnClickListener {
                     onMovieClickListener(movie)
@@ -103,7 +93,8 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                             .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
                             .into(posterMovie)
                     } else {
-                        posterMovie.setImageResource(R.drawable.empty_poster)
+                        posterMovie.setImageResource(EMPTY_POSTER)
+
                     }
                 }
 
@@ -112,20 +103,16 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                 if (movie.dateRelease != "") {
                     val localDate = LocalDate.parse(
                         movie.dateRelease,
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                     )
-                    val formatter = DateTimeFormatter.ofPattern("yyyy")
+                    val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                     val formattedDate = localDate.format(formatter)
                     yearMovie.text = formattedDate
                 } else {
                     yearMovie.text = ""
                 }
+
                 ratedMovie.text = movie.voteAverage.toString()
-                /*
-                TODO: добавить жанры
-                if (movie.genres.isNotEmpty()){
-                    catMovie.text = movie.genres.first().name
-                }*/
 
                 linearLayoutIntoScrollView.addView(viewItemMovie)
             }

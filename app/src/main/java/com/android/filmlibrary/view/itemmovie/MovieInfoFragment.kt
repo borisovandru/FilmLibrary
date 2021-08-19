@@ -1,8 +1,6 @@
 package com.android.filmlibrary.view.itemmovie
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant.BASE_IMAGE_URL
+import com.android.filmlibrary.Constant.EMPTY_POSTER
+import com.android.filmlibrary.Constant.FAV_ICON
+import com.android.filmlibrary.Constant.FAV_ICON_BORDER
 import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.FragmentMovieInfoBinding
 import com.android.filmlibrary.model.AppState
@@ -45,28 +47,24 @@ class MovieInfoFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
 
-        Log.v("Debug1", "MovieInfoFragment onCreateView")
         _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
     override fun onDestroyView() {
-        Log.v("Debug1", "MovieInfoFragment onDestroyView")
         _binding = null
         super.onDestroyView()
     }
 
-    @SuppressLint("SetTextI18n")
     private fun renderData(data: AppState) {
-        Log.v("Debug1", "MovieInfoFragment renderData")
         when (data) {
             is AppState.SuccessMovie -> {
                 val movieData = data.movieAdvData
 
                 binding.countryMovie.visibility = View.VISIBLE
                 binding.progressBarCountry.visibility = View.GONE
-                for (country in movieData.countries) {
+                movieData.countries.forEach { country ->
                     if (binding.countryMovie.text.toString() == "") {
                         binding.countryMovie.text = country.name
                     } else {
@@ -85,7 +83,7 @@ class MovieInfoFragment : Fragment() {
 
                 binding.genreMovie.visibility = View.VISIBLE
                 binding.progressBarGenre.visibility = View.GONE
-                for (genre in movieData.genres) {
+                movieData.genres.forEach { genre ->
                     if (binding.genreMovie.text == "") {
                         binding.genreMovie.text = genre.name
                     } else {
@@ -116,7 +114,6 @@ class MovieInfoFragment : Fragment() {
     }
 
     private fun renderDataNote(data: AppState) {
-        Log.v("Debug1", "MovieInfoFragment renderDataNote")
         when (data) {
             is AppState.SuccessGetNote -> {
                 data.note?.let {
@@ -133,7 +130,6 @@ class MovieInfoFragment : Fragment() {
     }
 
     private fun renderDataDeleteNote(data: AppState) {
-        Log.v("Debug1", "MovieInfoFragment renderDataDeleteNote")
         when (data) {
             is AppState.SuccessDeleteNote -> {
                 binding.deleteButton.visibility = View.GONE
@@ -143,26 +139,24 @@ class MovieInfoFragment : Fragment() {
     }
 
     private fun renderDataFavorite(data: AppState) {
-        Log.v("Debug1", "MovieInfoFragment renderDataFavorite")
         when (data) {
             is AppState.SuccessAddFavorite -> {
-                binding.favoriteButton.setImageResource(R.drawable.ic_favorite_24)
+                binding.favoriteButton.setImageResource(FAV_ICON)
             }
             is AppState.SuccessRemoveFavorite -> {
-                binding.favoriteButton.setImageResource(R.drawable.ic_favorite_border_24)
+                binding.favoriteButton.setImageResource(FAV_ICON_BORDER)
             }
             is AppState.SuccessGetFavorite -> {
                 if (data.idFav != 0L) {
-                    binding.favoriteButton.setImageResource(R.drawable.ic_favorite_24)
+                    binding.favoriteButton.setImageResource(FAV_ICON)
                 } else {
-                    binding.favoriteButton.setImageResource(R.drawable.ic_favorite_border_24)
+                    binding.favoriteButton.setImageResource(FAV_ICON_BORDER)
                 }
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("Debug1", "MovieInfoFragment onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         val buttonOk = binding.buttonOk
@@ -187,7 +181,7 @@ class MovieInfoFragment : Fragment() {
                         .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + it.posterUrl)
                         .into(binding.imageMovie)
                 } else {
-                    binding.imageMovie.setImageResource(R.drawable.empty_poster)
+                    binding.imageMovie.setImageResource(EMPTY_POSTER)
                 }
                 binding.rated.text = it.voteAverage.toString()
 
@@ -252,13 +246,12 @@ class MovieInfoFragment : Fragment() {
             }
             viewModel.favoriteSetStart()
                 .observe(viewLifecycleOwner, observerFavorite)
-            viewModel.favoriteSet(movieId)
+            movie?.let { it1 -> viewModel.favoriteSet(it1) }
         }
     }
 
     companion object {
-
-        const val BUNDLE_EXTRA = "Movie"
+        const val BUNDLE_EXTRA = NAME_PARCEBLE_MOVIE
 
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()

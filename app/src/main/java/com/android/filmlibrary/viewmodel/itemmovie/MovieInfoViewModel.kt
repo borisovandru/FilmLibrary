@@ -1,6 +1,5 @@
 package com.android.filmlibrary.viewmodel.itemmovie
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,11 +7,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant.CORRUPTED_DATA
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.Constant.LANG_VALUE
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.model.AppState
+import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MovieAdv
 import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
@@ -36,18 +38,15 @@ class MovieInfoViewModel : ViewModel() {
     private val repositoryLocal = RepositoryLocalImpl(GlobalVariables.getDAO())
 
     fun setData(movieId: Int): LiveData<AppState> {
-        Log.v("Debug1", "MovieInfoViewModel getData($movieId)")
         this.movieId = movieId
         return liveDataToObserver
     }
 
     fun addNoteStart(): LiveData<AppState> {
-        Log.v("Debug1", "MovieInfoViewModel addNoteStart($noteText)")
         return liveDataToObserverAddNote
     }
 
     fun addNote(noteText: String) {
-        Log.v("Debug1", "MovieInfoViewModel addNote($noteText)")
         this.noteText = noteText
         Thread {
             val noteCur: String?
@@ -71,7 +70,6 @@ class MovieInfoViewModel : ViewModel() {
     }
 
     fun getNoteStart(): LiveData<AppState> {
-        Log.v("Debug1", "MovieInfoViewModel getNoteStart")
         return liveDataToObserverGetNote
     }
 
@@ -86,7 +84,6 @@ class MovieInfoViewModel : ViewModel() {
     }
 
     fun deleteNoteStart(): LiveData<AppState> {
-        Log.v("Debug1", "MovieInfoViewModel deleteNoteStart")
         return liveDataToObserverDeleteNote
     }
 
@@ -101,27 +98,25 @@ class MovieInfoViewModel : ViewModel() {
     }
 
     fun favoriteSetStart(): LiveData<AppState> {
-        Log.v("Debug1", "MovieInfoViewModel favoriteStart")
         return liveDataToObserverSetFavorite
     }
 
-    fun favoriteSet(movieId: Int) {
+    fun favoriteSet(movie: Movie) {
         liveDataToObserverSetFavorite.value = AppState.Loading
-        this.movieId = movieId
+        this.movieId = movie.id
         Thread {
             val isFav = repositoryLocal.getFavItem(movieId.toLong())
             liveDataToObserverSetFavorite.postValue(
                 if (isFav != 0L) {
-                    AppState.SuccessRemoveFavorite(repositoryLocal.removeFavoriteMovies(movieId.toLong()))
+                    AppState.SuccessRemoveFavorite(repositoryLocal.removeFavoriteMovies(movie.id.toLong()))
                 } else {
-                    AppState.SuccessAddFavorite(repositoryLocal.addFavoriteMovie(movieId.toLong()))
+                    AppState.SuccessAddFavorite(repositoryLocal.addFavoriteMovie(movie))
                 }
             )
         }.start()
     }
 
     fun favoriteGetStart(): LiveData<AppState> {
-        Log.v("Debug1", "MovieInfoViewModel favoriteStart")
         return liveDataToObserverGetFavorite
     }
 
@@ -139,7 +134,6 @@ class MovieInfoViewModel : ViewModel() {
         Callback<MovieAdvAPI> {
 
         override fun onResponse(call: Call<MovieAdvAPI>, response: Response<MovieAdvAPI>) {
-            Log.v("Debug1", "MovieInfoViewModel onResponse")
             val serverResponse: MovieAdvAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -151,12 +145,10 @@ class MovieInfoViewModel : ViewModel() {
         }
 
         override fun onFailure(call: Call<MovieAdvAPI>, t: Throwable) {
-            Log.v("Debug1", "MovieInfoViewModel onFailure")
             liveDataToObserver.postValue(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
         }
 
         private fun checkResponse(serverResponse: MovieAdvAPI): AppState {
-            Log.v("Debug1", "MovieInfoViewModel checkResponse")
             return if (serverResponse.id == -1) {
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
@@ -165,11 +157,12 @@ class MovieInfoViewModel : ViewModel() {
                 if (serverResponse.dateRelease != "") {
                     val localDate = LocalDate.parse(
                         serverResponse.dateRelease,
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                     )
-                    val formatter = DateTimeFormatter.ofPattern("yyyy")
+                    val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                     formattedDate = localDate.format(formatter)
                 }
+
 
                 AppState.SuccessMovie(
                     MovieAdv(
@@ -191,7 +184,6 @@ class MovieInfoViewModel : ViewModel() {
     }
 
     fun getMovieFromRemoteSource() {
-        Log.v("Debug1", "MovieInfoViewModel getMovieFromRemoteSource")
         liveDataToObserver.value = AppState.Loading
         repository.getMovieFromRemoteServerRetroFit(movieId, LANG_VALUE, callBack)
     }

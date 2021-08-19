@@ -2,6 +2,7 @@ package com.android.filmlibrary
 
 import android.app.Application
 import androidx.room.Room
+import com.android.filmlibrary.Constant.NAME_DB
 import com.android.filmlibrary.model.Settings
 import com.android.filmlibrary.model.data.*
 import com.android.filmlibrary.model.room.DAO
@@ -10,6 +11,7 @@ import java.lang.IllegalStateException
 
 class GlobalVariables : Application() {
     var moviesByTrend: List<MoviesByTrend> = ArrayList()
+    var favMovies: List<Movie> = ArrayList()
     var moviesBySearch = MoviesList(
         listOf(),
         0,
@@ -20,10 +22,9 @@ class GlobalVariables : Application() {
     var moviesByGenres: List<MoviesByGenre> = ArrayList()
     var genres: List<Genre> = ArrayList()
 
-    var searchString: String = ""
+    var seachString: String = ""
 
     var settings: Settings = Settings(false)
-
 
     override fun onCreate() {
         super.onCreate()
@@ -32,27 +33,22 @@ class GlobalVariables : Application() {
 
     companion object {
         private var appInstance: GlobalVariables? = null
-        private var db: DataBase? = null
-        private const val DB_NAME = "Movie.db"
+        private lateinit var db: DataBase
+        private const val DB_NAME = NAME_DB
 
         fun getDAO(): DAO {
-            if (db == null) {
-                synchronized(DataBase::class.java) {
-                    if (db == null) {
-                        if (appInstance == null) {
-                            throw IllegalStateException("Application ids null meanwhile creating database")
-                        }
-                        db = Room.databaseBuilder(
-                            appInstance!!.applicationContext,
-                            DataBase::class.java,
-                            DB_NAME
-                        )
-                            .allowMainThreadQueries()
-                            .build()
-                    }
+            synchronized(DataBase::class.java) {
+                if (appInstance == null) {
+                    throw IllegalStateException("Application ids null meanwhile creating database")
                 }
+                db = Room.databaseBuilder(
+                    appInstance!!.applicationContext,
+                    DataBase::class.java,
+                    DB_NAME)
+                    .allowMainThreadQueries()
+                    .build()
             }
-            return db!!.historyDao()
+            return db.historyDao()
         }
     }
 }

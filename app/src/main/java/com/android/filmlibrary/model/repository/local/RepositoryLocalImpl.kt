@@ -1,5 +1,6 @@
 package com.android.filmlibrary.model.repository.local
 
+import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.room.DAO
 import com.android.filmlibrary.model.room.EntityFavMovies
 import com.android.filmlibrary.model.room.EntityMovieNote
@@ -7,16 +8,29 @@ import com.android.filmlibrary.model.room.EntitySearchHistory
 
 class RepositoryLocalImpl(private val localDataSource: DAO) : RepositoryLocal {
 
-    override fun getFavoriteMovies(): List<Long> {
-        TODO("Not yet implemented")
+    //Fav
+    override fun getFavoriteMovies(): List<EntityFavMovies> {
+        return localDataSource.getFav()
     }
 
     override fun getFavItem(idMovie: Long): Long {
         return localDataSource.getFavItem(idMovie)
     }
 
-    override fun addFavoriteMovie(idMovie: Long): Long {
-        return localDataSource.insertFavMovie(EntityFavMovies(0, idMovie))
+    override fun addFavoriteMovie(movie: Movie): Long {
+        return localDataSource.insertFavMovie(
+            EntityFavMovies(
+                0,
+                movie.id.toLong(),
+                movie.title,
+                movie.year,
+                movie.dateRelease,
+                movie.originalTitle,
+                movie.overview,
+                movie.posterUrl,
+                movie.voteAverage,
+            )
+        )
     }
 
     override fun removeFavoriteMovies(idMovie: Long): Int {
@@ -40,7 +54,7 @@ class RepositoryLocalImpl(private val localDataSource: DAO) : RepositoryLocal {
         return localDataSource.deleteNote(idMovie)
     }
 
-
+    //SearchHistory
     override fun getSearchHistory(): List<String> {
         return localDataSource.getSearchHistory()
     }

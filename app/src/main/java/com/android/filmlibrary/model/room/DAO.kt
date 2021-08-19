@@ -16,7 +16,7 @@ interface DAO {
     fun insertNote(entity: EntityMovieNote): Long
 
     @Query("SELECT `note` FROM EntityMovieNote WHERE idMovie = :idMovie")
-    fun getInsertOrUpdateNote(idMovie: Long): Int
+    fun getInserOrUpdateNote(idMovie: Long): Int
 
     @Query("DELETE FROM EntityMovieNote WHERE idMovie = :idMovie")
     fun deleteNote(idMovie: Long): Int

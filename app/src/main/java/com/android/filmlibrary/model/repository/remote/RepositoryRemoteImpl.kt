@@ -1,6 +1,5 @@
 package com.android.filmlibrary.model.repository.remote
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -80,10 +79,6 @@ class RepositoryRemoteImpl : RepositoryRemote {
         lang: String,
         callback: Callback<MoviesListAPI>,
     ) {
-        Log.v(
-            "Debug1",
-            "RepositoryImpl getMoviesByCategoryFromRemoteServerRetroFit($genre.id) begin"
-        )
         retroFitBuilder.getMoviesByGenre(
             URL_MOVIES_BY_GENRE_DIR_1,
             URL_MOVIES_BY_GENRE_DIR_2,
@@ -100,7 +95,6 @@ class RepositoryRemoteImpl : RepositoryRemote {
         lang: String,
         callback: Callback<MovieAdvAPI>,
     ) {
-        Log.v("Debug1", "RepositoryImpl getMovieFromRemoteServer2($movieId) begin")
         retroFitBuilder.getMovie(
             VERSION_API,
             movieId,
@@ -166,7 +160,8 @@ class RepositoryRemoteImpl : RepositoryRemote {
             VERSION_API,
             BuildConfig.MOVIEDB_API_KEY,
             lang,
-            searchRequest
+            searchRequest,
+            adult
         )
             .enqueue(callback)
     }

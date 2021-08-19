@@ -1,13 +1,13 @@
 package com.android.filmlibrary.view.profile
 
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_SETTINGS
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
@@ -30,15 +30,13 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
-        Log.v("Debug1", "ProfileFragment onCreateView")
+
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
     override fun onDestroyView() {
-        Log.v("Debug1", "ProfileFragment onDestroyView")
         (requireActivity().application as GlobalVariables).settings.adult =
             binding.switchAdult.isChecked
         _binding = null
@@ -46,23 +44,18 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("Debug1", "ProfileFragment onViewCreated")
         val observer = Observer<AppState> { appState ->
             renderData(appState)
         }
         viewModel.getData().observe(viewLifecycleOwner, observer)
         viewModel.getDataFromRemoteSource()
-        binding.switchAdult.setChecked((requireActivity().application as GlobalVariables).settings.adult)
+        binding.switchAdult.isChecked = (requireActivity().application as GlobalVariables).settings.adult
     }
 
     private fun renderData(data: AppState) {
-        Log.v("Debug1", "MovieInfoFragment renderData")
         when (data) {
             is AppState.SuccessSettings -> {
-                val settingsTMDB = data.settingsTMDB
                 binding.loadingLayout.visibility = View.GONE
-                binding.baseImageUrl.text = settingsTMDB.imageBaseURL
-                binding.baseSecureImageUrl.text = settingsTMDB.imageSecureBaseURL
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -79,7 +72,7 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        const val BUNDLE_EXTRA = "Settings"
+        const val BUNDLE_EXTRA = NAME_PARCEBLE_SETTINGS
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()
             fragment.arguments = bundle

@@ -1,7 +1,6 @@
 package com.android.filmlibrary.view.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_SEARCH
+import com.android.filmlibrary.Constant.THRESHOLD
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.SearchFragmentBinding
@@ -24,7 +26,7 @@ import com.android.filmlibrary.viewmodel.search.SearchViewModel
 class SearchFragment : Fragment() {
 
     companion object {
-        const val BUNDLE_EXTRA = "search"
+        const val BUNDLE_EXTRA = NAME_PARCEBLE_SEARCH
         fun newInstance(bundle: Bundle): SearchFragment {
             val fragment = SearchFragment()
             fragment.arguments = bundle
@@ -54,20 +56,17 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        Log.v("Debug1", "SearchFragment onCreateView")
 
         _binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onDestroyView() {
-        Log.v("Debug1", "SearchFragment onDestroyView")
         _binding = null
         super.onDestroyView()
     }
 
     private fun renderData(data: AppState) {
-        Log.v("Debug1", "SearchFragment renderData")
         when (data) {
             is AppState.SuccessSearch -> {
                 moviesBySearch = data.moviesBySearches
@@ -90,7 +89,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderDataSearchHistory(data: AppState) {
-        Log.v("Debug1", "SearchFragment renderDataSearchHistory")
         when (data) {
             is AppState.SuccessGetSearchHistory -> {
                 searchHistory = data.searchHistory
@@ -102,9 +100,8 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("Debug1", "SearchFragment onViewCreated")
 
-        binding.searchQuery.threshold = 2
+        binding.searchQuery.threshold = THRESHOLD
         adapterAC =
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchHistory)
         adapterAC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -118,13 +115,13 @@ class SearchFragment : Fragment() {
             moviesBySearch = (requireActivity().application as GlobalVariables).moviesBySearch
         }
 
-        if (((requireActivity().application as GlobalVariables).searchString) != "") {
-            binding.searchQuery.setText((requireActivity().application as GlobalVariables).searchString)
+        if (((requireActivity().application as GlobalVariables).seachString) != "") {
+            binding.searchQuery.setText((requireActivity().application as GlobalVariables).seachString)
         }
 
         adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
-            bundle.putParcelable("Movie", movie)
+            bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
@@ -134,18 +131,10 @@ class SearchFragment : Fragment() {
         }
 
         if (moviesBySearch.results.isNotEmpty()) {
-            Log.v(
-                "Debug1",
-                "SearchFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch.size=" + moviesBySearch.results.size
-            )
             adapter.fillMoviesBySearch(moviesBySearch)
         }
 
         binding.searchButton.setOnClickListener {
-            Log.v(
-                "Debug1",
-                "SearchFragment onViewCreated binding.searchQuery.text.toString()=" + binding.searchQuery.text.toString()
-            )
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
@@ -167,8 +156,7 @@ class SearchFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesBySearch = moviesBySearch
-        (requireActivity().application as GlobalVariables).searchString =
+        (requireActivity().application as GlobalVariables).seachString =
             binding.searchQuery.text.toString()
-        Log.v("Debug1", "SearchFragment onStop")
     }
 }

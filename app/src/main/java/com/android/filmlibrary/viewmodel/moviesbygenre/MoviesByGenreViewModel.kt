@@ -1,6 +1,5 @@
 package com.android.filmlibrary.viewmodel.moviesbygenre
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,12 +7,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.model.data.MoviesList
-import com.android.filmlibrary.model.repository.RepositoryImpl
+import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -21,7 +22,7 @@ import java.time.format.DateTimeFormatter
 class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
 
-    private val repository = RepositoryImpl()
+    private val repository = RepositoryRemoteImpl()
     private lateinit var genre: Genre
 
     fun getData(genre: Genre): LiveData<AppState> {
@@ -33,7 +34,6 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
         Callback<MoviesListAPI> {
 
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
-            Log.v("Debug1", "MoviesByGenreViewModel onResponse")
             val serverResponse: MoviesListAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -45,7 +45,6 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
         }
 
         override fun onFailure(call: Call<MoviesListAPI>, t: Throwable) {
-            Log.v("Debug1", "MoviesByGenreViewModel onFailure")
             liveDataToObserver.postValue(
                 AppState.Error(
                     Throwable(
@@ -57,31 +56,25 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
         }
 
         private fun checkResponse(serverResponse: MoviesListAPI): AppState {
-            Log.v("Debug1", "MoviesByGenreViewModel checkResponse")
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
                 val moviesByGenre: MoviesByGenre
                 val movies = mutableListOf<Movie>()
-                for (i in serverResponse.results.indices) {
-
+                serverResponse.results.indices.forEach { i ->
                     var formattedDate = ""
                     serverResponse.results[i].dateRelease?.let {
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                             )
-                            val formatter = DateTimeFormatter.ofPattern("yyyy")
+                            val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)
                         }
                     }
 
-                    Log.v(
-                        "Debug1",
-                        "MoviesByGenreViewModel checkResponse i=" + i + ", id=" + serverResponse.results[i].id
-                    )
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
@@ -115,7 +108,6 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
             }
         }
     }
-
 
     fun getDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading

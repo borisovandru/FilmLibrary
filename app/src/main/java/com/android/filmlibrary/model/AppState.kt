@@ -31,4 +31,6 @@ sealed class AppState {
     data class SuccessGetFavorite(val idFav: Long) : AppState()
 
     data class SuccessGetSearchHistory(val searchHistory: List<String>) : AppState()
+
+    data class SuccessGetFavoriteMovies(val favMovies: List<Movie>) : AppState()
 }

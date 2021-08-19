@@ -10,6 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.EMPTY_POSTER
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemGenreBinding
 import com.android.filmlibrary.model.data.Genre
@@ -27,13 +30,14 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
         this.onMovieClickListener = onMovieClickListener
     }
 
+    private var onCategoryClickListener: (Int) -> Unit = {}
+
     fun setOnGenresClickListener(onCategoryClickListener: (Int) -> Unit) {
         this.onCategoryClickListener = onCategoryClickListener
     }
 
     private var moviesByCategory: List<MoviesByGenre> = ArrayList()
     private var genres: List<Genre> = ArrayList()
-
 
     fun fillMoviesByGenres(moviesByCategory: List<MoviesByGenre>, genres: List<Genre>) {
         Log.v(
@@ -95,13 +99,12 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
             val linearLayoutIntoScrollView: LinearLayout = binding.linearLayoutIntoScrollView
 
             linearLayoutIntoScrollView.removeAllViews()
-            for (movie in moviesByCategory.movies.results) {
+            moviesByCategory.movies.results.forEach { movie ->
                 val viewItemMovie: View = LayoutInflater.from(parentLoc.context)
                     .inflate(R.layout.item_movie, linearLayoutItemCategory, false)
 
                 val titleMovie = viewItemMovie.findViewById<TextView>(R.id.movieTitle)
                 val yearMovie = viewItemMovie.findViewById<TextView>(R.id.movieYear)
-                val catMovie = viewItemMovie.findViewById<TextView>(R.id.movieCat)
                 val ratedMovie = viewItemMovie.findViewById<TextView>(R.id.rated)
                 val posterMovie = viewItemMovie.findViewById<ImageView>(R.id.moviePoster)
 
@@ -116,7 +119,7 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
                         .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
                         .into(posterMovie)
                 } else {
-                    posterMovie.setImageResource(R.drawable.empty_poster)
+                    posterMovie.setImageResource(EMPTY_POSTER)
                 }
 
                 ratedMovie.text = movie.voteAverage.toString()
@@ -125,18 +128,14 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
                     if (movie.dateRelease != "") {
                         val localDate = LocalDate.parse(
                             movie.dateRelease,
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                            DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                         )
-                        val formatter = DateTimeFormatter.ofPattern("yyyy")
+                        val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                         val formattedDate = localDate.format(formatter)
                         yearMovie.text = formattedDate
                     } else {
                         yearMovie.text = ""
                     }
-                }
-
-                if (movie.genre_ids.isNotEmpty()) {
-                    catMovie.text = genres.first { it.id == movie.genre_ids.first() }.name
                 }
 
                 linearLayoutIntoScrollView.addView(viewItemMovie)

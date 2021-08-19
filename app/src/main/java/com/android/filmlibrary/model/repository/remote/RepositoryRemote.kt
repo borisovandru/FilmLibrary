@@ -12,7 +12,6 @@ interface RepositoryRemote {
     fun getMoviesFromLocalStorage(): List<MovieAdv>
     fun getMovieFromLocalStorage(id: Int): MovieAdv
 
-    //Remote
     fun getMovieFromRemoteServerRetroFit(
         movieId: Int,
         lang: String,

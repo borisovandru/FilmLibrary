@@ -1,6 +1,5 @@
 package com.android.filmlibrary.viewmodel.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORY
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.GlobalVariables.Companion.getDAO
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
@@ -19,7 +20,7 @@ import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class SearchViewModel: ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
     private val liveDataToObserver2: MutableLiveData<AppState> = MutableLiveData()
@@ -54,7 +55,6 @@ class SearchViewModel: ViewModel() {
         Callback<MoviesListAPI> {
 
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
-            Log.v("Debug1", "MoviesByGenreViewModel onResponse")
             val serverResponse: MoviesListAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -66,32 +66,35 @@ class SearchViewModel: ViewModel() {
         }
 
         override fun onFailure(call: Call<MoviesListAPI>, t: Throwable) {
-            Log.v("Debug1", "MoviesByGenreViewModel onFailure")
-            liveDataToObserver.postValue(AppState.Error(Throwable(t.message
-                ?: Constant.REQUEST_ERROR)))
+            liveDataToObserver.postValue(
+                AppState.Error(
+                    Throwable(
+                        t.message
+                            ?: Constant.REQUEST_ERROR
+                    )
+                )
+            )
         }
 
         private fun checkResponse(serverResponse: MoviesListAPI): AppState {
-            Log.v("Debug1", "MoviesByGenreViewModel checkResponse")
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
                 val movies = mutableListOf<Movie>()
-                for (i in serverResponse.results.indices) {
-
+                serverResponse.results.indices.forEach { i ->
                     var formattedDate = ""
                     serverResponse.results[i].dateRelease?.let {
                         if (serverResponse.results[i].dateRelease != "") {
-                            val localDate = LocalDate.parse(serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                            val formatter = DateTimeFormatter.ofPattern("yyyy")
+                            val localDate = LocalDate.parse(
+                                serverResponse.results[i].dateRelease,
+                                DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
+                            )
+                            val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)
                         }
                     }
 
-                    Log.v("Debug1",
-                        "MoviesByGenreViewModel checkResponse i=" + i + ", id=" + serverResponse.results[i].id)
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
@@ -108,7 +111,8 @@ class SearchViewModel: ViewModel() {
                     )
                 }
 
-                val moviesList = MoviesList(movies,
+                val moviesList = MoviesList(
+                    movies,
                     serverResponse.totalPages,
                     serverResponse.totalResults
                 )

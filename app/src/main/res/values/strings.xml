@@ -5,7 +5,7 @@
     <string name="imagemovie">Постер фильма</string>
     <string name="home">Тренды</string>
     <string name="categories">Жанры</string>
-    <string name="rating">Мои оценки</string>
+    <string name="raiting">Мои оценки</string>
     <string name="about">О программе</string>
     <string name="help">Справка</string>
     <string name="Search">Найти</string>
@@ -39,4 +39,5 @@
     <string name="MovieNoteHeader">Мои заметки:</string>
     <string name="ok">OK</string>
     <string name="favorite">Избранные</string>
+    <string name="settingsAdult">Adult</string>
 </resources>

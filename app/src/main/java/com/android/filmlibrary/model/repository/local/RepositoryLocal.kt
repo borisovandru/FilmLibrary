@@ -1,9 +1,12 @@
 package com.android.filmlibrary.model.repository.local
 
+import com.android.filmlibrary.model.data.Movie
+import com.android.filmlibrary.model.room.EntityFavMovies
+
 interface RepositoryLocal {
-    fun getFavoriteMovies(): List<Long>
+    fun getFavoriteMovies(): List<EntityFavMovies>
     fun getFavItem(idMovie: Long): Long
-    fun addFavoriteMovie(idMovie: Long): Long
+    fun addFavoriteMovie(movie: Movie): Long
     fun removeFavoriteMovies(idMovie: Long): Int
 
     fun getMovieNote(idMovie: Long): String
