@@ -13,6 +13,7 @@ import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemGenreBinding
 import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByGenre
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -20,13 +21,11 @@ import kotlin.collections.ArrayList
 
 class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewHolder>() {
 
-    private var onMovieClickListener: (Int) -> Unit = {}
+    private var onMovieClickListener: (Movie) -> Unit = {}
 
-    fun setOnMovieClickListener(onMovieClickListener: (Int) -> Unit) {
+    fun setOnMovieClickListener(onMovieClickListener: (Movie) -> Unit) {
         this.onMovieClickListener = onMovieClickListener
     }
-
-    private var onCategoryClickListener: (Int) -> Unit = {}
 
     fun setOnGenresClickListener(onCategoryClickListener: (Int) -> Unit) {
         this.onCategoryClickListener = onCategoryClickListener
@@ -109,17 +108,15 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
                 Log.v("Debug1", "CategoriesAdapter MyViewHolder setData for movie.id" + movie.id)
 
                 posterMovie.setOnClickListener {
-                    onMovieClickListener(movie.id)
+                    onMovieClickListener(movie)
                 }
 
-                movie.posterUrl.let {
-                    if (movie.posterUrl != "" && movie.posterUrl != "-") {
-                        Glide.with(viewItemMovie.context)
-                            .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
-                            .into(posterMovie)
-                    } else {
-                        posterMovie.setImageResource(R.drawable.empty_poster)
-                    }
+                if (movie.posterUrl != "" && movie.posterUrl != "-" && movie.posterUrl != null) {
+                    Glide.with(viewItemMovie.context)
+                        .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + movie.posterUrl)
+                        .into(posterMovie)
+                } else {
+                    posterMovie.setImageResource(R.drawable.empty_poster)
                 }
 
                 ratedMovie.text = movie.voteAverage.toString()

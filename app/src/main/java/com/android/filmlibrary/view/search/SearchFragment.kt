@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
 
     private var searchHistory: List<String> = mutableListOf()
 
-    private lateinit var adapterAC: ArrayAdapter<String>// = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchHistory)
+    private lateinit var adapterAC: ArrayAdapter<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -118,13 +118,13 @@ class SearchFragment : Fragment() {
             moviesBySearch = (requireActivity().application as GlobalVariables).moviesBySearch
         }
 
-        if (((requireActivity().application as GlobalVariables).seachString) != "") {
-            binding.searchQuery.setText((requireActivity().application as GlobalVariables).seachString)
+        if (((requireActivity().application as GlobalVariables).searchString) != "") {
+            binding.searchQuery.setText((requireActivity().application as GlobalVariables).searchString)
         }
 
-        adapter.setOnMovieClickListener { movieId ->
+        adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
-            bundle.putInt("movieId", movieId)
+            bundle.putParcelable("Movie", movie)
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
@@ -167,7 +167,7 @@ class SearchFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesBySearch = moviesBySearch
-        (requireActivity().application as GlobalVariables).seachString =
+        (requireActivity().application as GlobalVariables).searchString =
             binding.searchQuery.text.toString()
         Log.v("Debug1", "SearchFragment onStop")
     }

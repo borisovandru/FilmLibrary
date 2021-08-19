@@ -26,5 +26,9 @@ sealed class AppState {
     data class SuccessSetNote(val countNotes: Long) : AppState()
     data class SuccessDeleteNote(val countNotes: Int) : AppState()
 
+    data class SuccessAddFavorite(val countNotes: Long) : AppState()
+    data class SuccessRemoveFavorite(val countNotes: Int) : AppState()
+    data class SuccessGetFavorite(val idFav: Long) : AppState()
+
     data class SuccessGetSearchHistory(val searchHistory: List<String>) : AppState()
 }

@@ -11,6 +11,7 @@ import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemMovieBinding
 import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.model.data.MoviesList
 import java.time.LocalDate
@@ -18,9 +19,9 @@ import java.time.format.DateTimeFormatter
 
 class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHolder>() {
 
-    private var onMovieClickListener: (Int) -> Unit = {}
+    private var onMovieClickListener: (Movie) -> Unit = {}
 
-    fun setOnMovieClickListener(onMovieClickListener: (Int) -> Unit) {
+    fun setOnMovieClickListener(onMovieClickListener: (Movie) -> Unit) {
         this.onMovieClickListener = onMovieClickListener
     }
 
@@ -72,8 +73,8 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         }
 
         movie.posterUrl?.let { holder.setData(it) }
-
         holder.movieId = movie.id
+        holder.movie = movie
     }
 
     override fun getItemCount(): Int {
@@ -89,23 +90,25 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         var movieId: Int = 0
         private val parentLoc: ViewGroup = parent
         var movieCat: TextView = binding.movieCat
+        var movie: Movie? = null
 
         fun setData(posterURL: String) {
-            posterURL.let {
-                if (posterURL != "" && posterURL != "-") {
-                    Glide.with(parentLoc.context)
-                        .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
-                        .into(moviePoster)
-                } else {
-                    moviePoster.setImageResource(R.drawable.empty_poster)
-                }
+            if (posterURL != "" && posterURL != "-" && posterURL != null) {
+                Glide.with(parentLoc.context)
+                    .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
+                    .into(moviePoster)
+            } else {
+                moviePoster.setImageResource(R.drawable.empty_poster)
             }
+
         }
 
         init {
             binding.root.setOnClickListener {
-                onMovieClickListener(movieId)
+                movie?.let { it1 -> onMovieClickListener(it1) }
             }
         }
     }
+
+
 }

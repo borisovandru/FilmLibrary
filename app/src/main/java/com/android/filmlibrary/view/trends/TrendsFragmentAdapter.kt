@@ -13,15 +13,16 @@ import com.android.filmlibrary.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.model.data.Genre
+import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByTrend
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewHolder>() {
 
-    private var onMovieClickListener: (Int) -> Unit = {}
+    private var onMovieClickListener: (Movie) -> Unit = {}
 
-    fun setOnMovieClickListener(onMovieClickListener: (Int) -> Unit) {
+    fun setOnMovieClickListener(onMovieClickListener: (Movie) -> Unit) {
         this.onMovieClickListener = onMovieClickListener
     }
 
@@ -92,7 +93,7 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                 )
 
                 posterMovie.setOnClickListener {
-                    onMovieClickListener(movie.id)
+                    onMovieClickListener(movie)
                 }
 
                 movie.posterUrl.let {
@@ -103,7 +104,6 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                             .into(posterMovie)
                     } else {
                         posterMovie.setImageResource(R.drawable.empty_poster)
-
                     }
                 }
 
@@ -120,7 +120,6 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                 } else {
                     yearMovie.text = ""
                 }
-
                 ratedMovie.text = movie.voteAverage.toString()
                 /*
                 TODO: добавить жанры

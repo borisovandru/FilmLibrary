@@ -24,7 +24,7 @@ import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ThrendsFragmentViewModel(private val repository: Repository = RepositoryImpl()) :
+class ThreadsFragmentViewModel(private val repository: Repository = RepositoryImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()

@@ -57,7 +57,7 @@ class GenresFragment : Fragment() {
             is AppState.SuccessGenres -> {
                 Log.v(
                     "Debug1",
-                    "CategoriesFragment renderData AppState.SuccessCategories data.catgoriesData.size=" + data.genreData.size
+                    "CategoriesFragment renderData AppState.SuccessCategories data.categoriesData.size=" + data.genreData.size
                 )
                 val genresData = data.genreData
                 binding.loadingLayoutCat.visibility = View.GONE
@@ -152,20 +152,21 @@ class GenresFragment : Fragment() {
             }
         }
 
-        adapter.setOnMovieClickListener { movieId ->
+        adapter.setOnMovieClickListener { movie ->
             Log.v(
                 "Debug1",
-                "CategoriesFragment onViewCreated setOnMovieClickListener movieId=$movieId"
+                "CategoriesFragment onViewCreated setOnMovieClickListener movieId=$movie.id"
             )
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(
-                Constant.NAVIGATE_FROM_GENRES_TO_MOVIE_INFO,  //Вынес в константы
+                Constant.NAVIGATE_FROM_GENRES_TO_MOVIE_INFO,
                 Bundle().apply {
-                    putInt("movieId", movieId)
+                    putParcelable("Movie", movie)
                 }
             )
         }
+
         if (moviesByGenres.isNotEmpty()) {
             Log.v(
                 "Debug1",

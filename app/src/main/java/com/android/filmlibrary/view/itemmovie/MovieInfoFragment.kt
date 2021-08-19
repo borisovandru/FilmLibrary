@@ -1,10 +1,12 @@
 package com.android.filmlibrary.view.itemmovie
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,6 +17,7 @@ import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.FragmentMovieInfoBinding
 import com.android.filmlibrary.model.AppState
+import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.view.showSnackBar
 import com.android.filmlibrary.viewmodel.itemmovie.MovieInfoViewModel
 
@@ -31,12 +34,17 @@ class MovieInfoFragment : Fragment() {
         get() = _binding!!
 
     private var movieId: Int = -1
+    private var movie: Movie? = null
+
     private var note: String = ""
+
+    private lateinit var buttonFavorite: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+
         Log.v("Debug1", "MovieInfoFragment onCreateView")
         _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
 
@@ -49,30 +57,15 @@ class MovieInfoFragment : Fragment() {
         super.onDestroyView()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun renderData(data: AppState) {
         Log.v("Debug1", "MovieInfoFragment renderData")
         when (data) {
             is AppState.SuccessMovie -> {
                 val movieData = data.movieAdvData
-                binding.loadingLayout.visibility = View.GONE
-                if (movieData.posterUrl != "" && movieData.posterUrl != "-") {
-                    Glide.with(this)
-                        .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + movieData.posterUrl)
-                        .into(binding.imageMovie)
-                } else {
-                    binding.imageMovie.setImageResource(R.drawable.empty_poster)
-                }
-                binding.rated.text = movieData.voteAverage.toString()
 
-                if (movieData.title == movieData.originalTitle) {
-                    binding.titleMovie.text = movieData.title
-                } else {
-                    binding.titleMovie.text =
-                        getString(R.string.titleMovie, movieData.title, movieData.originalTitle)
-                }
-
-                binding.yearMovie.text = movieData.dateRelease
-
+                binding.countryMovie.visibility = View.VISIBLE
+                binding.progressBarCountry.visibility = View.GONE
                 for (country in movieData.countries) {
                     if (binding.countryMovie.text.toString() == "") {
                         binding.countryMovie.text = country.name
@@ -85,9 +78,13 @@ class MovieInfoFragment : Fragment() {
                     }
                 }
 
+                binding.progressBarRuntime.visibility = View.GONE
+                binding.runtimeMovie.visibility = View.VISIBLE
                 binding.runtimeMovie.text =
                     movieData.runtime.toString() + getString(R.string.Minutes)
 
+                binding.genreMovie.visibility = View.VISIBLE
+                binding.progressBarGenre.visibility = View.GONE
                 for (genre in movieData.genres) {
                     if (binding.genreMovie.text == "") {
                         binding.genreMovie.text = genre.name
@@ -99,17 +96,18 @@ class MovieInfoFragment : Fragment() {
                         )
                     }
                 }
-
-                binding.descrMovie.text = movieData.overview
-
             }
             is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE
+                binding.progressBarCountry.visibility = View.VISIBLE
+                binding.progressBarRuntime.visibility = View.VISIBLE
+                binding.progressBarGenre.visibility = View.VISIBLE
             }
             is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
+                binding.progressBarCountry.visibility = View.VISIBLE
+                binding.progressBarRuntime.visibility = View.VISIBLE
+                binding.progressBarGenre.visibility = View.VISIBLE
                 data.error.message?.let {
-                    binding.loadingLayout.showSnackBar(it, R.string.ReloadMsg) {
+                    binding.progressBarCountry.showSnackBar(it, R.string.ReloadMsg) {
                         viewModel.getMovieFromRemoteSource()
                     }
                 }
@@ -144,6 +142,25 @@ class MovieInfoFragment : Fragment() {
         }
     }
 
+    private fun renderDataFavorite(data: AppState) {
+        Log.v("Debug1", "MovieInfoFragment renderDataFavorite")
+        when (data) {
+            is AppState.SuccessAddFavorite -> {
+                binding.favoriteButton.setImageResource(R.drawable.ic_favorite_24)
+            }
+            is AppState.SuccessRemoveFavorite -> {
+                binding.favoriteButton.setImageResource(R.drawable.ic_favorite_border_24)
+            }
+            is AppState.SuccessGetFavorite -> {
+                if (data.idFav != 0L) {
+                    binding.favoriteButton.setImageResource(R.drawable.ic_favorite_24)
+                } else {
+                    binding.favoriteButton.setImageResource(R.drawable.ic_favorite_border_24)
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.v("Debug1", "MovieInfoFragment onViewCreated")
         super.onViewCreated(view, savedInstanceState)
@@ -158,24 +175,65 @@ class MovieInfoFragment : Fragment() {
             viewModel.addNote(binding.movieNote.text.toString())
         }
 
-        arguments?.let {
-            movieId = it.getInt(BUNDLE_EXTRA)
+        buttonFavorite = binding.favoriteButton
+
+        arguments?.let { it ->
+            movie = it.getParcelable(BUNDLE_EXTRA)
+            movieId = movie?.id ?: 0
+
+            movie?.let {
+                if (it.posterUrl != "" && it.posterUrl != "-" && it.posterUrl != null) {
+                    Glide.with(this)
+                        .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + it.posterUrl)
+                        .into(binding.imageMovie)
+                } else {
+                    binding.imageMovie.setImageResource(R.drawable.empty_poster)
+                }
+                binding.rated.text = it.voteAverage.toString()
+
+                if (it.title == it.originalTitle) {
+                    binding.titleMovie.text = it.title
+                } else {
+                    binding.titleMovie.text =
+                        getString(R.string.titleMovie, it.title, it.originalTitle)
+                }
+                binding.yearMovie.text = it.dateRelease
+                binding.descrMovie.text = it.overview
+            }
         }
 
         movieId.let {
+
+            //Ставим наблюдателя на получения данных о фильме
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
             viewModel.setData(movieId).observe(viewLifecycleOwner, observer)
             viewModel.getMovieFromRemoteSource()
 
-
+            //Ставим наблюдателя на получения результата получения заметки
             val observerNote = Observer<AppState> { appState ->
                 renderDataNote(appState)
             }
             viewModel.getNoteStart()
                 .observe(viewLifecycleOwner, observerNote)
             viewModel.getNote(movieId)
+
+            //Ставим наблюдателя на получения результата удаления заметки
+            val observerDeleteNote = Observer<AppState> { appState ->
+                renderDataDeleteNote(appState)
+            }
+            viewModel.deleteNoteStart()
+                .observe(viewLifecycleOwner, observerDeleteNote)
+            viewModel.deleteNote(movieId)
+
+            //Ставим наблюдателя на получения статуса фаворита
+            val observerGetFavorite = Observer<AppState> { appState ->
+                renderDataFavorite(appState)
+            }
+            viewModel.favoriteGetStart()
+                .observe(viewLifecycleOwner, observerGetFavorite)
+            viewModel.favoriteGet(movieId)
         }
 
         val buttonDelete = binding.deleteButton
@@ -187,10 +245,20 @@ class MovieInfoFragment : Fragment() {
                 .observe(viewLifecycleOwner, observerDeleteNote)
             viewModel.deleteNote(movieId)
         }
+
+        buttonFavorite.setOnClickListener {
+            val observerFavorite = Observer<AppState> { appState ->
+                renderDataFavorite(appState)
+            }
+            viewModel.favoriteSetStart()
+                .observe(viewLifecycleOwner, observerFavorite)
+            viewModel.favoriteSet(movieId)
+        }
     }
 
     companion object {
-        const val BUNDLE_EXTRA = "movieId"
+
+        const val BUNDLE_EXTRA = "Movie"
 
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()

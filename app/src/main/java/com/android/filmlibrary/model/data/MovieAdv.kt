@@ -13,7 +13,8 @@ data class MovieAdv(
     val dateRelease: String,
     val originalTitle: String,
     val overview: String,
-    val posterUrl: String,
+    val posterUrl: String?,
     val voteAverage: Double,
     val runtime: Int
 ) : Parcelable
+

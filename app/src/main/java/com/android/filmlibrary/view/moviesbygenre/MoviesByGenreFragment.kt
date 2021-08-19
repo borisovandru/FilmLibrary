@@ -49,6 +49,7 @@ class MoviesByGenreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+
         _binding = MoviesByGenreFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -92,9 +93,9 @@ class MoviesByGenreFragment : Fragment() {
         if ((requireActivity().application as GlobalVariables).moviesList.results.isNotEmpty())
             moviesByGenre = (requireActivity().application as GlobalVariables).moviesByGenre
 
-        adapter.setOnMovieClickListener { movieId ->
+        adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
-            bundle.putInt("movieId", movieId)
+            bundle.putParcelable("Movie", movie)
 
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

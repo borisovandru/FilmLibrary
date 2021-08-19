@@ -58,15 +58,15 @@
                 android:layout_height="0dp"
                 android:autofillHints="@string/MovieNoteHeader"
                 android:gravity="start"
-                android:inputType="text"
-                android:labelFor="@id/movieNoteHeader"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/button_ok"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageMovie"
                 app:layout_constraintTop_toBottomOf="@+id/movieNoteHeader"
-                tools:ignore="LabelFor"
-                tools:text="Любопытное кинцо" />
+                tools:text="Любопытное кинцо"
+                android:inputType="text"
+                android:labelFor="@id/movieNoteHeader"
+                tools:ignore="LabelFor" />
 
 
             <ImageButton
@@ -87,11 +87,11 @@
                 android:id="@+id/button_ok"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/ok"
-                app:layout_constraintBottom_toTopOf="@+id/titleMovie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageMovie"
-                app:layout_constraintTop_toBottomOf="@+id/movieNote" />
+                app:layout_constraintTop_toBottomOf="@+id/movieNote"
+                app:layout_constraintBottom_toTopOf="@+id/titleMovie"
+                android:text="@string/ok"/>
 
             <TextView
                 android:id="@+id/rated"
@@ -146,14 +146,14 @@
             <ProgressBar
                 android:id="@+id/progressBarRuntime"
                 style="?android:attr/progressBarStyleSmall"
+                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/runtimeMovie"
                 app:layout_constraintEnd_toEndOf="@+id/runtimeMovie"
                 app:layout_constraintStart_toStartOf="@+id/runtimeMovie"
-                app:layout_constraintTop_toTopOf="@+id/runtimeMovie" />
+                app:layout_constraintTop_toTopOf="@+id/runtimeMovie"
+                app:layout_constraintBottom_toBottomOf="@+id/runtimeMovie"/>
 
             <TextView
                 android:id="@+id/countryMovie"
@@ -170,14 +170,14 @@
             <ProgressBar
                 android:id="@+id/progressBarCountry"
                 style="?android:attr/progressBarStyleSmall"
+                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/countryMovie"
                 app:layout_constraintEnd_toEndOf="@+id/countryMovie"
                 app:layout_constraintStart_toStartOf="@+id/countryMovie"
-                app:layout_constraintTop_toTopOf="@+id/countryMovie" />
+                app:layout_constraintTop_toTopOf="@+id/countryMovie"
+                app:layout_constraintBottom_toBottomOf="@+id/countryMovie"/>
 
             <TextView
                 android:id="@+id/genreMovie"
@@ -194,14 +194,14 @@
             <ProgressBar
                 android:id="@+id/progressBarGenre"
                 style="?android:attr/progressBarStyleSmall"
+                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/genreMovie"
                 app:layout_constraintEnd_toEndOf="@+id/genreMovie"
                 app:layout_constraintStart_toStartOf="@+id/genreMovie"
-                app:layout_constraintTop_toTopOf="@+id/genreMovie" />
+                app:layout_constraintTop_toTopOf="@+id/genreMovie"
+                app:layout_constraintBottom_toBottomOf="@+id/genreMovie"/>
 
             <TextView
                 android:id="@+id/descrMovie"

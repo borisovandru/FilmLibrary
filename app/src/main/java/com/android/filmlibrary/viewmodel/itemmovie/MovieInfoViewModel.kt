@@ -20,12 +20,14 @@ import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class MovieInfoViewModel() : ViewModel() {
+class MovieInfoViewModel : ViewModel() {
 
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
     private val liveDataToObserverAddNote: MutableLiveData<AppState> = MutableLiveData()
     private val liveDataToObserverGetNote: MutableLiveData<AppState> = MutableLiveData()
     private val liveDataToObserverDeleteNote: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserverSetFavorite: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserverGetFavorite: MutableLiveData<AppState> = MutableLiveData()
 
     private val repository = RepositoryRemoteImpl()
     private var movieId: Int = 1
@@ -94,6 +96,41 @@ class MovieInfoViewModel() : ViewModel() {
         Thread {
             liveDataToObserverDeleteNote.postValue(
                 (AppState.SuccessDeleteNote(repositoryLocal.removeMovieNote(movieId.toLong())))
+            )
+        }.start()
+    }
+
+    fun favoriteSetStart(): LiveData<AppState> {
+        Log.v("Debug1", "MovieInfoViewModel favoriteStart")
+        return liveDataToObserverSetFavorite
+    }
+
+    fun favoriteSet(movieId: Int) {
+        liveDataToObserverSetFavorite.value = AppState.Loading
+        this.movieId = movieId
+        Thread {
+            val isFav = repositoryLocal.getFavItem(movieId.toLong())
+            liveDataToObserverSetFavorite.postValue(
+                if (isFav != 0L) {
+                    AppState.SuccessRemoveFavorite(repositoryLocal.removeFavoriteMovies(movieId.toLong()))
+                } else {
+                    AppState.SuccessAddFavorite(repositoryLocal.addFavoriteMovie(movieId.toLong()))
+                }
+            )
+        }.start()
+    }
+
+    fun favoriteGetStart(): LiveData<AppState> {
+        Log.v("Debug1", "MovieInfoViewModel favoriteStart")
+        return liveDataToObserverGetFavorite
+    }
+
+    fun favoriteGet(movieId: Int) {
+        liveDataToObserverGetFavorite.value = AppState.Loading
+        this.movieId = movieId
+        Thread {
+            liveDataToObserverGetFavorite.postValue(
+                AppState.SuccessGetFavorite(repositoryLocal.getFavItem(movieId.toLong()))
             )
         }.start()
     }

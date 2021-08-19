@@ -16,7 +16,7 @@ interface DAO {
     fun insertNote(entity: EntityMovieNote): Long
 
     @Query("SELECT `note` FROM EntityMovieNote WHERE idMovie = :idMovie")
-    fun getInserOrUpdateNote(idMovie: Long): Int
+    fun getInsertOrUpdateNote(idMovie: Long): Int
 
     @Query("DELETE FROM EntityMovieNote WHERE idMovie = :idMovie")
     fun deleteNote(idMovie: Long): Int
@@ -25,14 +25,17 @@ interface DAO {
     @Query("SELECT * FROM EntityFavMovies")
     fun getFav(): List<EntityFavMovies>
 
+    @Query("SELECT `id` FROM EntityFavMovies where idMovie = :idMovie")
+    fun getFavItem(idMovie: Long): Long
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertFavMovie(entity: EntityFavMovies)
+    fun insertFavMovie(entity: EntityFavMovies): Long
 
     @Update
     fun updateFavMovie(entity: EntityFavMovies)
 
-    @Delete
-    fun deleteFavMovie(entity: EntityFavMovies)
+    @Query("DELETE FROM EntityFavMovies WHERE idMovie = :idMovie")
+    fun deleteFavMovie(idMovie: Long): Int
 
     //SearchHistory
     @Query("SELECT `query` FROM EntitySearchHistory")
