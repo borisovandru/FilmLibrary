@@ -26,6 +26,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/empty_poster" />
 
+            <ImageButton
+                android:id="@+id/favorite_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/favorite"
+                android:src="@drawable/ic_favorite_border_24"
+                app:layout_constraintBottom_toBottomOf="@+id/movieNoteHeader"
+                app:layout_constraintEnd_toEndOf="@+id/movieNoteHeader"
+                app:layout_constraintHorizontal_bias="0.09"
+                app:layout_constraintStart_toStartOf="@+id/movieNoteHeader"
+                app:layout_constraintTop_toTopOf="@+id/movieNoteHeader"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/movieNoteHeader"
@@ -124,33 +137,71 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/yearMovie"
                 app:layout_constraintTop_toBottomOf="@+id/titleMovie"
                 tools:text="129 мин" />
 
+            <ProgressBar
+                android:id="@+id/progressBarRuntime"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/runtimeMovie"
+                app:layout_constraintEnd_toEndOf="@+id/runtimeMovie"
+                app:layout_constraintStart_toStartOf="@+id/runtimeMovie"
+                app:layout_constraintTop_toTopOf="@+id/runtimeMovie" />
 
             <TextView
                 android:id="@+id/countryMovie"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/yearMovie"
                 tools:text="US" />
 
+            <ProgressBar
+                android:id="@+id/progressBarCountry"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/countryMovie"
+                app:layout_constraintEnd_toEndOf="@+id/countryMovie"
+                app:layout_constraintStart_toStartOf="@+id/countryMovie"
+                app:layout_constraintTop_toTopOf="@+id/countryMovie" />
 
             <TextView
                 android:id="@+id/genreMovie"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/countryMovie"
                 tools:text="Комедия, Приключения" />
+
+            <ProgressBar
+                android:id="@+id/progressBarGenre"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/genreMovie"
+                app:layout_constraintEnd_toEndOf="@+id/genreMovie"
+                app:layout_constraintStart_toStartOf="@+id/genreMovie"
+                app:layout_constraintTop_toTopOf="@+id/genreMovie" />
 
             <TextView
                 android:id="@+id/descrMovie"
@@ -168,20 +219,5 @@
 
     </ScrollView>
 
-
-    <FrameLayout
-        android:id="@+id/loadingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/loadingBackground"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
