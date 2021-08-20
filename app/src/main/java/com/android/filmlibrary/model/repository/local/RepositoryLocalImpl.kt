@@ -1,65 +1,34 @@
 package com.android.filmlibrary.model.repository.local
 
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.room.DAO
-import com.android.filmlibrary.model.room.EntityFavMovies
-import com.android.filmlibrary.model.room.EntityMovieNote
-import com.android.filmlibrary.model.room.EntitySearchHistory
+import android.content.ContentResolver
+import android.database.Cursor
+import android.provider.ContactsContract
+import com.android.filmlibrary.ContextProvider
+import com.android.filmlibrary.IContextProvider
 
-class RepositoryLocalImpl(private val localDataSource: DAO) : RepositoryLocal {
+class RepositoryLocalImpl(contextProvider: IContextProvider = ContextProvider) : RepositoryLocal {
 
-    //Fav
-    override fun getFavoriteMovies(): List<EntityFavMovies> {
-        return localDataSource.getFav()
-    }
+    private val contentResolver: ContentResolver = contextProvider.context.contentResolver
 
-    override fun getFavItem(idMovie: Long): Long {
-        return localDataSource.getFavItem(idMovie)
-    }
-
-    override fun addFavoriteMovie(movie: Movie): Long {
-        return localDataSource.insertFavMovie(
-            EntityFavMovies(
-                0,
-                movie.id.toLong(),
-                movie.title,
-                movie.year,
-                movie.dateRelease,
-                movie.originalTitle,
-                movie.overview,
-                movie.posterUrl,
-                movie.voteAverage,
-            )
+    override fun getListOfContact(): List<String> {
+        val cursorWithContacts: Cursor? = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null,
+            null,
+            null,
+            ContactsContract.Contacts.DISPLAY_NAME + " ASC"
         )
-    }
 
-    override fun removeFavoriteMovies(idMovie: Long): Int {
-        return localDataSource.deleteFavMovie(idMovie)
-    }
+        val answer = mutableListOf<String>()
 
-    //Note
-    override fun getMovieNote(idMovie: Long): String {
-        return localDataSource.getMovieNote(idMovie)
-    }
-
-    override fun updateMovieNote(idMovie: Long, note: String): Int {
-        return localDataSource.updateNote(idMovie, note)
-    }
-
-    override fun insertMovieNote(idMovie: Long, note: String): Long {
-        return localDataSource.insertNote(EntityMovieNote(0, idMovie, note))
-    }
-
-    override fun removeMovieNote(idMovie: Long): Int {
-        return localDataSource.deleteNote(idMovie)
-    }
-
-    //SearchHistory
-    override fun getSearchHistory(): List<String> {
-        return localDataSource.getSearchHistory()
-    }
-
-    override fun addSearchQuery(query: String) {
-        localDataSource.insertSearchQuery(EntitySearchHistory(0, query))
+        cursorWithContacts?.let { cursor ->
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+                answer.add(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)))
+                cursor.moveToNext()
+            }
+            cursorWithContacts.close()
+        }
+        return answer
     }
 }

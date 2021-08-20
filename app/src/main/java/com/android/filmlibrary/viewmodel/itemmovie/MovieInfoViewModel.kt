@@ -16,7 +16,7 @@ import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MovieAdv
-import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
+import com.android.filmlibrary.model.repository.localdb.RepositoryLocalDBImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import java.time.LocalDate
@@ -35,7 +35,7 @@ class MovieInfoViewModel : ViewModel() {
     private var movieId: Int = 1
     private var noteText: String = ""
 
-    private val repositoryLocal = RepositoryLocalImpl(GlobalVariables.getDAO())
+    private val repositoryLocal = RepositoryLocalDBImpl(GlobalVariables.getDAO())
 
     fun setData(movieId: Int): LiveData<AppState> {
         this.movieId = movieId
@@ -162,7 +162,6 @@ class MovieInfoViewModel : ViewModel() {
                     val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                     formattedDate = localDate.format(formatter)
                 }
-
 
                 AppState.SuccessMovie(
                     MovieAdv(

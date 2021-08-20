@@ -47,7 +47,6 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
     fun fillMoviesBySearch(moviesBySearches: MoviesList) {
         this.moviesBySearch = moviesBySearches
         notifyDataSetChanged()
-
     }
 
     override fun onBindViewHolder(holder: SearchFragmentAdapter.MyViewHolder, position: Int) {

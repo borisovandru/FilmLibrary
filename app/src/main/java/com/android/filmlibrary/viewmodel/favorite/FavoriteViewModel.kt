@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
+import com.android.filmlibrary.model.repository.localdb.RepositoryLocalDBImpl
 import com.android.filmlibrary.model.room.EntityFavMovies
 
 class FavoriteViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
-    private val repositoryLocal = RepositoryLocalImpl(GlobalVariables.getDAO())
+    private val repositoryLocal = RepositoryLocalDBImpl(GlobalVariables.getDAO())
 
     fun getFavoriteStart(): LiveData<AppState> {
         return liveDataToObserver

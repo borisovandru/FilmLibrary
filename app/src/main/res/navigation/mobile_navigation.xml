@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_trends"
-        android:name="com.android.filmlibrary.view.trends.TrendsFragment"
+        android:name="com.android.filmlibrary.view.itemmovie.MovieInfoFragment"
         android:label="@string/ng_name_home"
         tools:layout="@layout/trends_fragment">
         <action
@@ -39,7 +39,6 @@
             app:destination="@id/movieInfoFragment" />
     </fragment>
 
-
     <fragment
         android:id="@+id/moviesByGenresFragment"
         android:name="com.android.filmlibrary.view.moviesbygenre.MoviesByGenreFragment"
@@ -54,7 +53,7 @@
         android:id="@+id/movieInfoFragment"
         android:name="com.android.filmlibrary.view.itemmovie.MovieInfoFragment"
         android:label="@string/ng_name_item_movie"
-        tools:layout="@layout/fragment_movie_info">
+        tools:layout="@layout/movie_info_fragment">
         <action
             android:id="@+id/action_movieInfoFragment_to_navigation_search"
             app:destination="@id/navigation_search"
@@ -76,5 +75,4 @@
             android:id="@+id/action_favoriteFragment_to_movieInfoFragment"
             app:destination="@id/movieInfoFragment" />
     </fragment>
-
 </navigation>

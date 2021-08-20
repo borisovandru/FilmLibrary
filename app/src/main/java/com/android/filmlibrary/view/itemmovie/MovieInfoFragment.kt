@@ -17,7 +17,7 @@ import com.android.filmlibrary.Constant.FAV_ICON_BORDER
 import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.R
-import com.android.filmlibrary.databinding.FragmentMovieInfoBinding
+import com.android.filmlibrary.databinding.MovieInfoFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.view.showSnackBar
@@ -31,7 +31,7 @@ class MovieInfoFragment : Fragment() {
         ViewModelProvider(this).get(movieInfoViewModel::class.java)
     }
 
-    private var _binding: FragmentMovieInfoBinding? = null
+    private var _binding: MovieInfoFragmentBinding? = null
     private val binding
         get() = _binding!!
 
@@ -47,7 +47,7 @@ class MovieInfoFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
 
-        _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
+        _binding = MovieInfoFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -171,7 +171,7 @@ class MovieInfoFragment : Fragment() {
 
         buttonFavorite = binding.favoriteButton
 
-        arguments?.let { it ->
+        arguments?.let {
             movie = it.getParcelable(BUNDLE_EXTRA)
             movieId = movie?.id ?: 0
 

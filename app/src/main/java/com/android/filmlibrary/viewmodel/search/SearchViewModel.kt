@@ -14,7 +14,7 @@ import com.android.filmlibrary.GlobalVariables.Companion.getDAO
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesList
-import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
+import com.android.filmlibrary.model.repository.localdb.RepositoryLocalDBImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
@@ -29,7 +29,7 @@ class SearchViewModel : ViewModel() {
     private lateinit var searchRequest: String
     private var adult: Boolean = false
 
-    private val repositoryLocal = RepositoryLocalImpl(getDAO())
+    private val repositoryLocal = RepositoryLocalDBImpl(getDAO())
 
     fun setData(searchRequest: String, adult: Boolean): LiveData<AppState> {
         this.searchRequest = searchRequest

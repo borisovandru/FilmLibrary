@@ -9,13 +9,16 @@ import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.SettingsTMDB
+import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.ConfigurationAPI
 
 class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
 
-    private val repository = RepositoryRemoteImpl()
+    private val repositoryRemoteDB = RepositoryRemoteImpl()
+    private val repositoryLocal = RepositoryLocalImpl()
+    val contacts: MutableLiveData<AppState> = MutableLiveData()
 
     fun getData(): LiveData<AppState> {
         return liveDataToObserver
@@ -69,9 +72,15 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
 
     fun getDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
-        repository.getSettingsFromRemoteServerRetroFit(
+        repositoryRemoteDB.getSettingsFromRemoteServerRetroFit(
             Constant.LANG_VALUE,
             callBack
         )
+    }
+
+    fun getContacts() {
+        contacts.value = AppState.Loading
+        val answer = repositoryLocal.getListOfContact()
+        contacts.value = AppState.SuccessGetContacts(answer)
     }
 }
