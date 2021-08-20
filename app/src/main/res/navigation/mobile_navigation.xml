@@ -67,4 +67,14 @@
         android:label="@string/ng_name_settings"
         tools:layout="@layout/profile_fragment" />
 
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.android.filmlibrary.view.favorite.FavoriteFragment"
+        android:label="@string/favorite"
+        tools:layout="@layout/favorite_fragment">
+        <action
+            android:id="@+id/action_favoriteFragment_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment" />
+    </fragment>
+
 </navigation>

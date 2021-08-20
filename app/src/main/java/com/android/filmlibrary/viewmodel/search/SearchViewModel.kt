@@ -1,39 +1,60 @@
 package com.android.filmlibrary.viewmodel.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORY
-import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.MoviesList
-import com.android.filmlibrary.model.repository.RepositoryImpl
-import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORY
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.GlobalVariables.Companion.getDAO
+import com.android.filmlibrary.model.AppState
+import com.android.filmlibrary.model.data.Movie
+import com.android.filmlibrary.model.data.MoviesList
+import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
+import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
+import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+class SearchViewModel : ViewModel() {
 
-class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
-    ViewModel() {
+    private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserver2: MutableLiveData<AppState> = MutableLiveData()
 
-    private val repository = RepositoryImpl()
+    private val repository = RepositoryRemoteImpl()
     private lateinit var searchRequest: String
+    private var adult: Boolean = false
 
-    fun getData(serachRequest: String): LiveData<AppState> {
-        this.searchRequest = serachRequest
+    private val repositoryLocal = RepositoryLocalImpl(getDAO())
+
+    fun setData(searchRequest: String, adult: Boolean): LiveData<AppState> {
+        this.searchRequest = searchRequest
+        this.adult = adult
+        repositoryLocal.addSearchQuery(searchRequest)
         return liveDataToObserver
+    }
+
+    fun getSearchHistory(): LiveData<AppState> {
+        return liveDataToObserver2
+    }
+
+    fun getSearchHistory2() {
+        liveDataToObserver2.value = AppState.Loading
+        Thread {
+            liveDataToObserver2.postValue(
+                (AppState.SuccessGetSearchHistory(repositoryLocal.getSearchHistory()))
+            )
+        }.start()
     }
 
     private val callBack = object :
         Callback<MoviesListAPI> {
 
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
-            Log.v("Debug1", "MoviesByGenreViewModel onResponse")
             val serverResponse: MoviesListAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -45,7 +66,6 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
         }
 
         override fun onFailure(call: Call<MoviesListAPI>, t: Throwable) {
-            Log.v("Debug1", "MoviesByGenreViewModel onFailure")
             liveDataToObserver.postValue(
                 AppState.Error(
                     Throwable(
@@ -57,30 +77,24 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
         }
 
         private fun checkResponse(serverResponse: MoviesListAPI): AppState {
-            Log.v("Debug1", "MoviesByGenreViewModel checkResponse")
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
                 val movies = mutableListOf<Movie>()
-                for (i in 0..serverResponse.results.size - 1) {
-
+                serverResponse.results.indices.forEach { i ->
                     var formattedDate = ""
                     serverResponse.results[i].dateRelease?.let {
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                             )
-                            val formatter = DateTimeFormatter.ofPattern("yyyy")
+                            val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)
                         }
                     }
 
-                    Log.v(
-                        "Debug1",
-                        "MoviesByGenreViewModel checkResponse i=" + i + ", id=" + serverResponse.results[i].id
-                    )
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
@@ -116,6 +130,7 @@ class SearchViewModel(private val liveDataToObserver: MutableLiveData<AppState> 
             searchRequest,
             COUNT_MOVIES_BY_CATEGORY,
             Constant.LANG_VALUE,
+            adult,
             callBack
         )
     }

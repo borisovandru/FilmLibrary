@@ -1,6 +1,5 @@
-package com.android.filmlibrary.model.repository
+package com.android.filmlibrary.model.repository.remote
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -28,7 +27,7 @@ import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.io.IOException
 
-class RepositoryImpl : Repository {
+class RepositoryRemoteImpl : RepositoryRemote {
 
     private val movies = mutableListOf<MovieAdv>()
 
@@ -80,10 +79,6 @@ class RepositoryImpl : Repository {
         lang: String,
         callback: Callback<MoviesListAPI>,
     ) {
-        Log.v(
-            "Debug1",
-            "RepositoryImpl getMoviesByCategoryFromRemoteServerRetroFit($genre.id) begin"
-        )
         retroFitBuilder.getMoviesByGenre(
             URL_MOVIES_BY_GENRE_DIR_1,
             URL_MOVIES_BY_GENRE_DIR_2,
@@ -100,7 +95,6 @@ class RepositoryImpl : Repository {
         lang: String,
         callback: Callback<MovieAdvAPI>,
     ) {
-        Log.v("Debug1", "RepositoryImpl getMovieFromRemoteServer2($movieId) begin")
         retroFitBuilder.getMovie(
             VERSION_API,
             movieId,
@@ -157,6 +151,7 @@ class RepositoryImpl : Repository {
         searchRequest: String,
         setCountsOfMovies: Int,
         lang: String,
+        adult: Boolean,
         callback: Callback<MoviesListAPI>,
     ) {
         genresDTOApi.getSearch(
@@ -165,7 +160,8 @@ class RepositoryImpl : Repository {
             VERSION_API,
             BuildConfig.MOVIEDB_API_KEY,
             lang,
-            searchRequest
+            searchRequest,
+            adult
         )
             .enqueue(callback)
     }

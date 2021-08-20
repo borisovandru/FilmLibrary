@@ -21,4 +21,16 @@ sealed class AppState {
 
     data class SuccessMovie(val movieAdvData: MovieAdv) : AppState()
     data class SuccessGenres(val genreData: List<Genre>) : AppState()
+
+    data class SuccessGetNote(val note: String?) : AppState()
+    data class SuccessSetNote(val countNotes: Long) : AppState()
+    data class SuccessDeleteNote(val countNotes: Int) : AppState()
+
+    data class SuccessAddFavorite(val countNotes: Long) : AppState()
+    data class SuccessRemoveFavorite(val countNotes: Int) : AppState()
+    data class SuccessGetFavorite(val idFav: Long) : AppState()
+
+    data class SuccessGetSearchHistory(val searchHistory: List<String>) : AppState()
+
+    data class SuccessGetFavoriteMovies(val favMovies: List<Movie>) : AppState()
 }

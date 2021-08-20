@@ -1,6 +1,5 @@
 package com.android.filmlibrary.viewmodel.profile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,16 +9,15 @@ import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.SettingsTMDB
-import com.android.filmlibrary.model.repository.RepositoryImpl
+import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.ConfigurationAPI
 
 class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()) :
     ViewModel() {
 
-    private val repository = RepositoryImpl()
+    private val repository = RepositoryRemoteImpl()
 
     fun getData(): LiveData<AppState> {
-        Log.v("Debug1", "ProfileViewModel getData")
         return liveDataToObserver
     }
 
@@ -30,7 +28,6 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
             call: Call<ConfigurationAPI>,
             response: Response<ConfigurationAPI>,
         ) {
-            Log.v("Debug1", "MovieInfoViewModel onResponse")
             val serverResponse: ConfigurationAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -42,7 +39,6 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
         }
 
         override fun onFailure(call: Call<ConfigurationAPI>, t: Throwable) {
-            Log.v("Debug1", "MovieInfoViewModel onFailure")
             liveDataToObserver.postValue(
                 AppState.Error(
                     Throwable(
@@ -54,7 +50,6 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
         }
 
         private fun checkResponse(serverResponse: ConfigurationAPI): AppState {
-            Log.v("Debug1", "MovieInfoViewModel checkResponse")
             return if (serverResponse.images.baseURL == "") {
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
@@ -73,7 +68,6 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
     }
 
     fun getDataFromRemoteSource() {
-        Log.v("Debug1", "ProfileViewModel getDataFromRemoteSource")
         liveDataToObserver.value = AppState.Loading
         repository.getSettingsFromRemoteServerRetroFit(
             Constant.LANG_VALUE,

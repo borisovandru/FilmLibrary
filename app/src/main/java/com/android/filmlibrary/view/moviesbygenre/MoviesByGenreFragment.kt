@@ -1,7 +1,6 @@
 package com.android.filmlibrary.view.moviesbygenre
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_GENRE
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
@@ -49,6 +50,7 @@ class MoviesByGenreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+
         _binding = MoviesByGenreFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,7 +61,6 @@ class MoviesByGenreFragment : Fragment() {
     }
 
     private fun renderData(data: AppState) {
-        Log.v("Debug1", "MoviesByGenreFragment renderData")
         when (data) {
             is AppState.SuccessMoviesByGenre -> {
                 binding.loadingLayoutB.visibility = View.GONE
@@ -83,8 +84,6 @@ class MoviesByGenreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        Log.v("Debug1", "MoviesByGenreFragment onViewCreated")
-
         recyclerView = binding.rvCatB
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
@@ -92,9 +91,9 @@ class MoviesByGenreFragment : Fragment() {
         if ((requireActivity().application as GlobalVariables).moviesList.results.isNotEmpty())
             moviesByGenre = (requireActivity().application as GlobalVariables).moviesByGenre
 
-        adapter.setOnMovieClickListener { movieId ->
+        adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
-            bundle.putInt("movieId", movieId)
+            bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
 
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -105,16 +104,11 @@ class MoviesByGenreFragment : Fragment() {
         }
 
         if (moviesByGenre.movies.results.isNotEmpty()) {
-            Log.v(
-                "Debug1",
-                "MoviesByGenreFragment onViewCreated moviesBySearch.isNotEmpty() moviesBySearch="
-            )
             adapter.fillMovies(moviesByGenre)
         }
 
         genre = arguments?.getParcelable(BUNDLE_EXTRA)!!
         genre.let {
-            Log.v("Debug1", "MoviesByCategoryFragment onViewCreated category.id=" + genre.id)
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
@@ -126,11 +120,10 @@ class MoviesByGenreFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesByGenre = moviesByGenre
-        Log.v("Debug1", "MoviesByCategoryFragment onStop")
     }
 
     companion object {
-        const val BUNDLE_EXTRA = "category"
+        const val BUNDLE_EXTRA = NAME_PARCEBLE_GENRE
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()
             fragment.arguments = bundle

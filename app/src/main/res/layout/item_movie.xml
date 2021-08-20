@@ -50,23 +50,13 @@
             tools:text="Название фильма очень длинное" />
 
         <TextView
-            android:id="@+id/movieCat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieTitle"
-            tools:text="Категория №3" />
-
-        <TextView
             android:id="@+id/movieYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieCat"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle"
             tools:text="1900" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.android.filmlibrary.viewmodel.genres
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,21 +8,24 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.CORRUPTED_DATA
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
+import com.android.filmlibrary.Constant.URL_GENRES_PATH
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MoviesByGenre
 import com.android.filmlibrary.model.data.MoviesList
-import com.android.filmlibrary.model.repository.Repository
-import com.android.filmlibrary.model.repository.RepositoryImpl
+import com.android.filmlibrary.model.repository.remote.RepositoryRemote
+import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.GenresAPI
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
+class GenresViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()
@@ -45,11 +47,10 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
         Callback<MoviesListAPI> {
 
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
-            Log.v("Debug1", "GenresViewModel callBackMoviesList onResponse")
 
             val genreId: String = (response.raw().networkResponse()
                 ?.request()
-                ?.url()?.queryParameter("with_genres") ?: "")
+                ?.url()?.queryParameter(URL_GENRES_PATH) ?: "")
 
             response.raw().networkResponse()
 
@@ -67,35 +68,28 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
         }
 
         override fun onFailure(call: Call<MoviesListAPI>, t: Throwable) {
-            Log.v("Debug1", "GenresViewModel callBackMoviesList onFailure")
             successItemGenre(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
         }
 
         private fun checkResponse(serverResponse: MoviesListAPI, genre: Genre): AppState {
-            Log.v("Debug1", "GenresViewModel callBackMoviesList checkResponse")
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
                 val movies = mutableListOf<Movie>()
-                for (i in serverResponse.results.indices) {
-
+                serverResponse.results.indices.forEach { i ->
                     var formattedDate = ""
                     serverResponse.results[i].dateRelease?.let {
                         formattedDate = ""
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                             )
-                            val formatter = DateTimeFormatter.ofPattern("yyyy")
+                            val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)
                         }
                     }
 
-                    Log.v(
-                        "Debug1",
-                        "MoviesByGenreViewModel callBackMoviesList checkResponse i=" + i + ", id=" + serverResponse.results[i].id
-                    )
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
@@ -151,24 +145,20 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
     fun getMoviesByGenresFromRemoteSource(genres: List<Genre>) {
         liveDataToObserver2.value = AppState.Loading
 
-        for (genre in genres) {
-            repository.getMoviesByCategoryFromRemoteServerRetroFit(
+        genres.forEach { genre ->
+            repositoryRemote.getMoviesByCategoryFromRemoteServerRetroFit(
                 genre,
                 Constant.LANG_VALUE,
                 callBackMoviesList
             )
         }
-
     }
 
-
     //Genres
-
     private val callBackGenres = object :
         Callback<GenresAPI> {
 
         override fun onResponse(call: Call<GenresAPI>, response: Response<GenresAPI>) {
-            Log.v("Debug1", "GenresViewModel callBackGenres onResponse")
             val serverResponse: GenresAPI? = response.body()
             liveDataToObserver.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -180,17 +170,14 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
         }
 
         override fun onFailure(call: Call<GenresAPI>, t: Throwable) {
-            Log.v("Debug1", "GenresViewModel callBackGenres onFailure")
             liveDataToObserver.postValue(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
         }
 
         private fun checkResponse(serverResponse: GenresAPI): AppState {
-            Log.v("Debug1", "GenresViewModel callBackGenres checkResponse")
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
-
-                for (i in serverResponse.results.indices) {
+                serverResponse.results.indices.forEach { i ->
                     genres.add(
                         Genre(
                             serverResponse.results[i].id,
@@ -198,7 +185,6 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
                         )
                     )
                 }
-
                 AppState.SuccessGenres(
                     genres
                 )
@@ -208,7 +194,7 @@ class GenresViewModel(private val repository: Repository = RepositoryImpl()) :
 
     fun getGenresFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
-        repository.getGenresFromRemoteServerRetroFit(
+        repositoryRemote.getGenresFromRemoteServerRetroFit(
             Constant.LANG_VALUE,
             callBackGenres
         )

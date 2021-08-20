@@ -1,4 +1,4 @@
-package com.android.filmlibrary.model.repository
+package com.android.filmlibrary.model.repository.remote
 
 import retrofit2.Callback
 import com.android.filmlibrary.model.data.Genre
@@ -8,7 +8,7 @@ import com.android.filmlibrary.model.retrofit.ConfigurationAPI
 import com.android.filmlibrary.model.retrofit.GenresAPI
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
 
-interface Repository {
+interface RepositoryRemote {
     fun getMoviesFromLocalStorage(): List<MovieAdv>
     fun getMovieFromLocalStorage(id: Int): MovieAdv
 
@@ -29,6 +29,7 @@ interface Repository {
         searchRequest: String,
         setCountsOfMovies: Int,
         lang: String,
+        adult: Boolean,
         callback: Callback<MoviesListAPI>
     )
 

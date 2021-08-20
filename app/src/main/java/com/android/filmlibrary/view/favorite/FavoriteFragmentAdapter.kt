@@ -1,4 +1,4 @@
-package com.android.filmlibrary.view.moviesbygenre
+package com.android.filmlibrary.view.favorite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,14 +11,11 @@ import com.android.filmlibrary.Constant.EMPTY_POSTER
 import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
 import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.databinding.ItemMovieBinding
-import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.data.MoviesByGenre
-import com.android.filmlibrary.model.data.MoviesList
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHolder>() {
+class FavoriteFragmentAdapter : RecyclerView.Adapter<FavoriteFragmentAdapter.MyViewHolder>() {
 
     private var onMovieClickListener: (Movie) -> Unit = {}
 
@@ -26,28 +23,31 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         this.onMovieClickListener = onMovieClickListener
     }
 
-    private var moviesByGenre: MoviesByGenre =
-        MoviesByGenre(Genre(), MoviesList(mutableListOf(), 0, 0))
-    private lateinit var genre: Genre
+    private var moviesFav: List<Movie> = listOf()
 
-    fun fillMovies(moviesByGenre: MoviesByGenre) {
-        this.moviesByGenre = moviesByGenre
-        this.genre = moviesByGenre.genre
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): FavoriteFragmentAdapter.MyViewHolder {
 
         val binding = ItemMovieBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
+
         return MyViewHolder(binding, parent)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val movie = moviesByGenre.movies.results[position]
+    fun fillMoviesBySearch(moviesFav: List<Movie>) {
+        this.moviesFav = moviesFav
+        notifyDataSetChanged()
+
+    }
+
+    override fun onBindViewHolder(holder: FavoriteFragmentAdapter.MyViewHolder, position: Int) {
+
+        val movie = moviesFav[position]
         holder.movieTitle.text = movie.title
 
         if (movie.dateRelease != "") {
@@ -62,13 +62,13 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
             holder.movieYear.text = ""
         }
 
-        movie.posterUrl?.let { holder.setData(it) }
+        holder.setData(movie.posterUrl)
         holder.movieId = movie.id
         holder.movie = movie
     }
 
     override fun getItemCount(): Int {
-        return moviesByGenre.movies.results.size
+        return moviesFav.size
     }
 
     inner class MyViewHolder(binding: ItemMovieBinding, parent: ViewGroup) :
@@ -77,24 +77,28 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         val movieTitle: TextView = binding.movieTitle
         val movieYear: TextView = binding.movieYear
         private var moviePoster: ImageView = binding.moviePoster
-        var movieId: Int = 0
-        private val parentLoc: ViewGroup = parent
         var movie: Movie? = null
+        var movieId: Int = movie?.id ?: 0
+        private val parentLoc: ViewGroup = parent
 
-        fun setData(posterURL: String) {
-            if (posterURL != "" && posterURL != "-") {
-                Glide.with(parentLoc.context)
-                    .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
-                    .into(moviePoster)
-            } else {
+        fun setData(posterURL: String?) {
+
+            posterURL?.let {
+                if (posterURL != "" && posterURL != "-") {
+                    Glide.with(parentLoc.context)
+                        .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
+                        .into(moviePoster)
+                } else {
+                    moviePoster.setImageResource(EMPTY_POSTER)
+                }
+            } ?: run {
                 moviePoster.setImageResource(EMPTY_POSTER)
             }
-
         }
 
         init {
             binding.root.setOnClickListener {
-                movie?.let { it1 -> onMovieClickListener(it1) }
+                movie?.let { movie -> onMovieClickListener(movie) }
             }
         }
     }
