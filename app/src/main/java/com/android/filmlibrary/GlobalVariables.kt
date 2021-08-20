@@ -22,7 +22,7 @@ class GlobalVariables : Application() {
     var moviesByGenres: List<MoviesByGenre> = ArrayList()
     var genres: List<Genre> = ArrayList()
 
-    var seachString: String = ""
+    var searchString: String = ""
 
     var settings: Settings = Settings(false)
 
