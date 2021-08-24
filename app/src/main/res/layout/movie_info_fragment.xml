@@ -207,17 +207,117 @@
                 android:id="@+id/descrMovie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
+                android:textAlignment="gravity"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/credits"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genreMovie"
                 tools:text="Mio Kimijima, a very popular busty sister, seduces a man by getting her beautiful big tits wet with indecent sweat! The air-conditioning is broken and it's hot in the office ... Sweaty sheer bra, nipples, and pantyhose with unevenness tempt you! Sweaty tongue sex with slimy fucking, plump ass job and greedy cock of strong men! Please enjoy plenty of shiny beautiful breasts and beautiful body, clothes x sheer erotic x sweaty x superb erotic body!" />
 
+            <TextView
+                android:id="@+id/credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Credits"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/cast"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descrMovie"
+                tools:text="Полный актёрский и съёмочный состав" />
+
+            <ProgressBar
+                android:id="@+id/progressBarCredits"
+                style="?android:attr/progressBarStyleLargeInverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/crewTable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/cast" />
+
+            <TextView
+                android:id="@+id/cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Acters"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/castTable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/credits"
+                tools:text="Актёры:" />
+
+            <TableLayout
+                android:id="@+id/castTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/crew"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cast">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:gravity="center"
+                        android:text="@string/ActerName" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:text="@string/ActerRole" />
+                </TableRow>
+
+            </TableLayout>
+
+
+            <TextView
+                android:id="@+id/crew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/CrewPers"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/crewTable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/castTable"
+                tools:text="Съёмочный персонал:" />
+
+            <TableLayout
+                android:id="@+id/crewTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/crew">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:gravity="center"
+                        android:text="@string/nameCrew" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:text="@string/crewRole" />
+                </TableRow>
+
+            </TableLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

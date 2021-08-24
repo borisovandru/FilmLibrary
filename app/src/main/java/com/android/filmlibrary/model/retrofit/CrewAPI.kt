@@ -25,10 +25,10 @@ data class CrewAPI(
     val popularity: Double,
 
     @SerializedName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
 
     @SerializedName("credit_id")
-    val creditId: Int,
+    val creditId: String,
 
     @SerializedName("department")
     val department: String,

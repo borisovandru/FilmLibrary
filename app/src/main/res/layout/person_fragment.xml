@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/personInfo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.person.PersonFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imagePerson"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/person_image"
+                app:layout_constraintEnd_toStartOf="@+id/namePerson"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/empty_poster" />
+
+            <TextView
+                android:id="@+id/namePerson"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/imagePerson"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Dwayne Johnson" />
+
+            <TextView
+                android:id="@+id/birthdayPerson"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/imagePerson"
+                app:layout_constraintTop_toBottomOf="@+id/namePerson"
+                tools:text="1900" />
+
+            <ProgressBar
+                android:id="@+id/progressBarbirthdayPerson"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintStart_toEndOf="@+id/imagePerson"
+                app:layout_constraintTop_toBottomOf="@+id/namePerson" />
+
+            <TextView
+                android:id="@+id/placeBirthPerson"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imagePerson"
+                app:layout_constraintTop_toBottomOf="@+id/birthdayPerson"
+                tools:text="очень длинное место рождения, котрое не влезает" />
+
+            <ProgressBar
+                android:id="@+id/progressBarPlaceBirthPerson"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintStart_toEndOf="@+id/imagePerson"
+                app:layout_constraintTop_toBottomOf="@+id/birthdayPerson" />
+
+            <TextView
+                android:id="@+id/biographyPerson"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imagePerson"
+                tools:text="Дуэйн Джонсон - американский рестлер и киноактёр, известный также под псевдонимом Скала (англ. The Rock) родился 2 мая 1972 года, Хейвард, США.\n\nС 1996 года по 2004 год выступал в World Wrestling Federation/Entertainment (WWF/E). С 2011 года вновь работает в WWE, нерегулярно выступая в основном на бренде Raw. Является восьмикратным чемпионом WWF/E, двукратным чемпионом WCW, двукратным интерконтинентальным чемпионом WWF и пятикратным командным чемпионом WWF. Также является шестым чемпионом Тройной короны и победителем Королевской битвы 2000 года.\n\nВ 2000 году Джонсон написал автобиографическую книгу «The Rock Says», которая дебютировала на первом месте в списке бестселлеров New York Times. С 2001 года он начал сниматься в кино, а в 2002 году исполнил главную роль в фильме «Царь скорпионов». Его гонорар в 5,5 миллионов долларов был занесён в Книгу рекордов Гиннесса как наивысший гонорар за первую главную роль. Кроме того, Джонсон снялся в таких фильмах, как «Мумия возвращается», «Широко шагая», «Сокровище Амазонки», «Doom», «Зубная фея», «Копы в глубоком запасе», «G.I. Joe: Бросок кобры 2», «Геракл», а также в киносерии «Форсаж».\n\nРодился 2 мая 1972 года в городе Хейвард (штат Калифорния) в семье известного рестлера Соулмена Рокки Джонсона и промоутера Аты Майвиа. Семья матери имеет полинезийское происхождение и происходит с островов Самоа, отец происходит из чёрных новошотландцев. Дед по материнской линии Хай Чиф Питер Майвия также был рестлером, а бабушка Лиа Майвиа руководила рестлерским промоушеном Polynesian Pacific Pro Wrestling с 1982 по 1988 год. В детстве некоторое время жил в Окленде, Новая Зеландия с семьёй матери. В Окленде посещал начальную школу Ричмонд Роад. Позже переехал в Гонолулу, Гавайи, где проучился до 11 класса в старшей школе имени президента Уильяма Мак-Кинли. Перед 11 классом родители переехали в Бетлехем, Пенсильвания, где он посещал старшую школу Бетлехем Фридом. Здесь он стал играть в американский футбол за школьную команду, а также был членом школьной команды по лёгкой атлетике и борьбе. По окончании школы многие университеты предлагали ему поступить к ним, и Джонсон выбрал Университет Майами, который предложил ему стипендию, включающую полное содержание. Джонсон производил хорошее впечатление на тренеров и товарищей по команде и считался одним из многообещающих игроков. Однако, в то же время в «Майами Харикейнс» пришёл Уоррен Сэпп — будущая звезда НФЛ, который играл на той же позиции, что и Дуэйн. За 4 года в «Харикейнс», Джонсон вышел на поле в 39 играх, из которых всего в одной в стартовом составе. В 1991 году он вместе с футбольной командой стал победителем национального чемпионата NCAA. Джонсон окончил обучение в университете в 1995 году, получив степень бакалавра по криминологии и психологии. По окончании университета он подписал трёхлетний контракт с командой «Калгари Стампидерс» из Канадской футбольной лиги, но, отыграв всего сезон, получил травму спины и вынужден был окончить карьеру профессионального футболиста.\n\nДуэйн Джонсон является хорошим другом актёра и бывшего губернатора Калифорнии Арнольда Шварценеггера.\n\nСчитается, что Джонсон узнал о гибели Усамы Бен Ладена раньше, чем большинство американцев. Его намекающее на это событие сообщение в Twitter было опубликовано задолго до официального заявления и вызвало резонанс в СМИ" />
+
+            <ProgressBar
+                android:id="@+id/progressBarBiographyPerson"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imagePerson" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

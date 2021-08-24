@@ -7,8 +7,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
+import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
@@ -68,9 +68,9 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_TMDB)
+                                DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
                             )
-                            val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
+                            val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)
                         }
                     }

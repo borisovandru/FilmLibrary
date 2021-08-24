@@ -23,6 +23,11 @@ object Constant {
 
     const val URL_TRENDS_1: String = "movie"
 
+    const val URL_PERSON_1: String = "person"
+
+    const val URL_CREDITS_1: String = "movie"
+    const val URL_CREDITS_2: String = "credits"
+
     const val URL_NOW_PLAYING: String = "now_playing"
     const val URL_POPULAR: String = "popular"
     const val URL_TOP_RATED: String = "top_rated"
@@ -43,6 +48,8 @@ object Constant {
     const val NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO: Int = R.id.action_moviesByGenresFragment_to_movieInfoFragment
     const val NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO: Int = R.id.action_navigation_search_to_movieInfoFragment
     const val NAVIGATE_FROM_FAV_TO_MOVIE_INFO: Int = R.id.action_favoriteFragment_to_movieInfoFragment
+    const val NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO: Int = R.id.action_movieInfoFragment_to_personFragment
+    const val NAVIGATE_FROM_PERSON_TO_MAP: Int = R.id.action_personFragment_to_mapsFragment
 
     const val SERVER_ERROR = "Ошибка сервера"
     const val REQUEST_ERROR = "Ошибка запроса на сервер"
@@ -56,9 +63,11 @@ object Constant {
     const val NAME_PARCEBLE_GENRE = "category"
     const val NAME_PARCEBLE_SETTINGS = "Settings"
     const val NAME_PARCEBLE_SEARCH = "search"
+    const val NAME_PARCEBLE_PERSON = "person"
+    const val NAME_PARCEBLE_MAP = "map"
 
-    const val FORMATTED_STRING_DATE_TMDB = "yyyy-MM-dd"
-    const val FORMATTED_STRING_YEAR = "yyyy"
+    const val FORMATED_STRING_DATE_TMDB = "yyyy-MM-dd"
+    const val FORMATED_STRING_YEAR = "yyyy"
 
     const val URL_TREND_POSITION = 2
 

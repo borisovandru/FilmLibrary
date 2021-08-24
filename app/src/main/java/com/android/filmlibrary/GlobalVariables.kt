@@ -48,7 +48,8 @@ class GlobalVariables : Application() {
                 db = Room.databaseBuilder(
                     appInstance!!.applicationContext,
                     DataBase::class.java,
-                    DB_NAME)
+                    DB_NAME
+                )
                     .allowMainThreadQueries()
                     .build()
             }
@@ -57,11 +58,11 @@ class GlobalVariables : Application() {
     }
 }
 
-interface IContextProvider{
+interface IContextProvider {
     val context: Context
 }
 
-object ContextProvider: IContextProvider{
+object ContextProvider : IContextProvider {
     override val context: Context
         get() = GlobalVariables.context
 }

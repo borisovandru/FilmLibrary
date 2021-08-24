@@ -25,7 +25,7 @@ data class CastAPI(
     val popularity: Double,
 
     @SerializedName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
 
     @SerializedName("cast_id")
     val castId: Int,

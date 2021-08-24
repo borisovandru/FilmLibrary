@@ -50,4 +50,12 @@
     <string name="setAccessCall">Предоставить доступ</string>
     <string name="reasonCall">Объяснение</string>
     <string name="accsessToCall">Доступ к звонкам</string>
+    <string name="Credits">Полный актёрский и съёмочный состав:</string>
+    <string name="Acters">Актёры:</string>
+    <string name="ActerName">Имя</string>
+    <string name="ActerRole">Роль</string>
+    <string name="CrewPers">Съёмочный персонал:</string>
+    <string name="nameCrew">Имя</string>
+    <string name="crewRole">Должность</string>
+    <string name="person_image">person image</string>
 </resources>

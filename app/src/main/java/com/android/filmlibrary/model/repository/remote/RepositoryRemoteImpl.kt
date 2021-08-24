@@ -10,21 +10,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.android.filmlibrary.BuildConfig
 import com.android.filmlibrary.Constant.BASE_API_URL
 import com.android.filmlibrary.Constant.URL_CONF_1
+import com.android.filmlibrary.Constant.URL_CREDITS_1
+import com.android.filmlibrary.Constant.URL_CREDITS_2
 import com.android.filmlibrary.Constant.URL_GENRES_1
 import com.android.filmlibrary.Constant.URL_GENRES_2
 import com.android.filmlibrary.Constant.URL_GENRES_3
 import com.android.filmlibrary.Constant.URL_MOVIES_BY_GENRE_DIR_1
 import com.android.filmlibrary.Constant.URL_MOVIES_BY_GENRE_DIR_2
+import com.android.filmlibrary.Constant.URL_PERSON_1
 import com.android.filmlibrary.Constant.URL_SEARCH_1
 import com.android.filmlibrary.Constant.URL_SEARCH_2
 import com.android.filmlibrary.Constant.URL_TRENDS_1
 import com.android.filmlibrary.Constant.VERSION_API
 import com.android.filmlibrary.model.data.*
 import com.android.filmlibrary.model.repository.api.TheMovieDBAPI
-import com.android.filmlibrary.model.retrofit.ConfigurationAPI
-import com.android.filmlibrary.model.retrofit.GenresAPI
-import com.android.filmlibrary.model.retrofit.MovieAdvAPI
-import com.android.filmlibrary.model.retrofit.MoviesListAPI
+import com.android.filmlibrary.model.retrofit.*
 import java.io.IOException
 
 class RepositoryRemoteImpl : RepositoryRemote {
@@ -162,6 +162,37 @@ class RepositoryRemoteImpl : RepositoryRemote {
             lang,
             searchRequest,
             adult
+        )
+            .enqueue(callback)
+    }
+
+    override fun getCreditsByMovieFromRemoteServerRetroFit(
+        movieId: Int,
+        lang: String,
+        callback: Callback<CreditsAPI>,
+    ) {
+        retroFitBuilder.getCredits(
+            URL_CREDITS_1,
+            movieId,
+            URL_CREDITS_2,
+            VERSION_API,
+            BuildConfig.MOVIEDB_API_KEY,
+            lang
+        )
+            .enqueue(callback)
+    }
+
+    override fun getPersonFromRemoteServerRetroFit(
+        personId: Int,
+        lang: String,
+        callback: Callback<PersonAPI>,
+    ) {
+        retroFitBuilder.getPerson(
+            URL_PERSON_1,
+            personId,
+            VERSION_API,
+            BuildConfig.MOVIEDB_API_KEY,
+            lang
         )
             .enqueue(callback)
     }
