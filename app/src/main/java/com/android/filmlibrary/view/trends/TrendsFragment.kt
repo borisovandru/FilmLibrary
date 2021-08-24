@@ -17,7 +17,7 @@ import com.android.filmlibrary.databinding.TrendsFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.MoviesByTrend
 import com.android.filmlibrary.view.showSnackBar
-import com.android.filmlibrary.viewmodel.thrends.ThrendsFragmentViewModel
+import com.android.filmlibrary.viewmodel.thrends.ThreadsFragmentViewModel
 
 class TrendsFragment : Fragment() {
 
@@ -28,8 +28,8 @@ class TrendsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var moviesByTrend: List<MoviesByTrend> = ArrayList()
     private val adapter = TrendsFragmentAdapter()
-    private val viewModel: ThrendsFragmentViewModel by lazy {
-        ViewModelProvider(this).get(ThrendsFragmentViewModel::class.java)
+    private val viewModel: ThreadsFragmentViewModel by lazy {
+        ViewModelProvider(this).get(ThreadsFragmentViewModel::class.java)
     }
 
     private var _binding: TrendsFragmentBinding? = null

@@ -40,4 +40,14 @@
     <string name="ok">OK</string>
     <string name="favorite">Избранные</string>
     <string name="settingsAdult">Adult</string>
+    <string name="contacts">Контакты</string>
+    <string name="withPhone">С телефонами</string>
+    <string name="withPhoneShared">withPhone</string>
+    <string name="accessContact">Доступ к контактам</string>
+    <string name="reasonContact">Объяснение</string>
+    <string name="setAccessContact">Предоставить доступ</string>
+    <string name="noAccess">Не надо</string>
+    <string name="setAccessCall">Предоставить доступ</string>
+    <string name="reasonCall">Объяснение</string>
+    <string name="accsessToCall">Доступ к звонкам</string>
 </resources>

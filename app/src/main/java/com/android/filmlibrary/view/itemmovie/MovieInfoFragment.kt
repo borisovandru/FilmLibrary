@@ -17,7 +17,7 @@ import com.android.filmlibrary.Constant.FAV_ICON_BORDER
 import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.R
-import com.android.filmlibrary.databinding.FragmentMovieInfoBinding
+import com.android.filmlibrary.databinding.MovieInfoFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.view.showSnackBar
@@ -31,7 +31,7 @@ class MovieInfoFragment : Fragment() {
         ViewModelProvider(this).get(movieInfoViewModel::class.java)
     }
 
-    private var _binding: FragmentMovieInfoBinding? = null
+    private var _binding: MovieInfoFragmentBinding? = null
     private val binding
         get() = _binding!!
 
@@ -46,8 +46,8 @@ class MovieInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
-        _binding = FragmentMovieInfoBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        _binding = MovieInfoFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -68,11 +68,9 @@ class MovieInfoFragment : Fragment() {
                     if (binding.countryMovie.text.toString() == "") {
                         binding.countryMovie.text = country.name
                     } else {
-                        binding.countryMovie.text = getString(
-                            R.string.comma,
+                        binding.countryMovie.text = getString(R.string.comma,
                             binding.countryMovie.text.toString(),
-                            country.name
-                        )
+                            country.name)
                     }
                 }
 
@@ -87,11 +85,9 @@ class MovieInfoFragment : Fragment() {
                     if (binding.genreMovie.text == "") {
                         binding.genreMovie.text = genre.name
                     } else {
-                        binding.genreMovie.text = getString(
-                            R.string.comma,
+                        binding.genreMovie.text = getString(R.string.comma,
                             binding.genreMovie.text.toString(),
-                            genre.name
-                        )
+                            genre.name)
                     }
                 }
             }
@@ -175,7 +171,7 @@ class MovieInfoFragment : Fragment() {
             movie = it.getParcelable(BUNDLE_EXTRA)
             movieId = movie?.id ?: 0
 
-            movie?.let {
+            movie?.let{
                 if (it.posterUrl != "" && it.posterUrl != "-" && it.posterUrl != null) {
                     Glide.with(this)
                         .load(BASE_IMAGE_URL + IMAGE_POSTER_SIZE_1 + it.posterUrl)
@@ -230,6 +226,7 @@ class MovieInfoFragment : Fragment() {
             viewModel.favoriteGet(movieId)
         }
 
+
         val buttonDelete = binding.deleteButton
         buttonDelete.setOnClickListener {
             val observerDeleteNote = Observer<AppState> { appState ->
@@ -240,6 +237,7 @@ class MovieInfoFragment : Fragment() {
             viewModel.deleteNote(movieId)
         }
 
+
         buttonFavorite.setOnClickListener {
             val observerFavorite = Observer<AppState> { appState ->
                 renderDataFavorite(appState)
@@ -249,6 +247,7 @@ class MovieInfoFragment : Fragment() {
             movie?.let { it1 -> viewModel.favoriteSet(it1) }
         }
     }
+
 
     companion object {
         const val BUNDLE_EXTRA = NAME_PARCEBLE_MOVIE

@@ -7,8 +7,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant.CORRUPTED_DATA
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_TMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.Constant.LANG_VALUE
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
@@ -16,7 +16,7 @@ import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.data.MovieAdv
-import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
+import com.android.filmlibrary.model.repository.localdb.RepositoryLocalDBImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.MovieAdvAPI
 import java.time.LocalDate
@@ -35,7 +35,7 @@ class MovieInfoViewModel : ViewModel() {
     private var movieId: Int = 1
     private var noteText: String = ""
 
-    private val repositoryLocal = RepositoryLocalImpl(GlobalVariables.getDAO())
+    private val repositoryLocal = RepositoryLocalDBImpl(GlobalVariables.getDAO())
 
     fun setData(movieId: Int): LiveData<AppState> {
         this.movieId = movieId
@@ -157,12 +157,11 @@ class MovieInfoViewModel : ViewModel() {
                 if (serverResponse.dateRelease != "") {
                     val localDate = LocalDate.parse(
                         serverResponse.dateRelease,
-                        DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
+                        DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_TMDB)
                     )
-                    val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
+                    val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
                     formattedDate = localDate.format(formatter)
                 }
-
 
                 AppState.SuccessMovie(
                     MovieAdv(

@@ -115,8 +115,8 @@ class SearchFragment : Fragment() {
             moviesBySearch = (requireActivity().application as GlobalVariables).moviesBySearch
         }
 
-        if (((requireActivity().application as GlobalVariables).searchString) != "") {
-            binding.searchQuery.setText((requireActivity().application as GlobalVariables).searchString)
+        if (((requireActivity().application as GlobalVariables).seachString) != "") {
+            binding.searchQuery.setText((requireActivity().application as GlobalVariables).seachString)
         }
 
         adapter.setOnMovieClickListener { movie ->
@@ -156,7 +156,7 @@ class SearchFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (requireActivity().application as GlobalVariables).moviesBySearch = moviesBySearch
-        (requireActivity().application as GlobalVariables).searchString =
+        (requireActivity().application as GlobalVariables).seachString =
             binding.searchQuery.text.toString()
     }
 }
