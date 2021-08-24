@@ -12,8 +12,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_SEARCH
+import com.android.filmlibrary.Constant.NAME_PARCEL_MOVIE
+import com.android.filmlibrary.Constant.NAME_PARCEL_SEARCH
 import com.android.filmlibrary.Constant.THRESHOLD
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
@@ -26,7 +26,7 @@ import com.android.filmlibrary.viewmodel.search.SearchViewModel
 class SearchFragment : Fragment() {
 
     companion object {
-        const val BUNDLE_EXTRA = NAME_PARCEBLE_SEARCH
+        const val BUNDLE_EXTRA = NAME_PARCEL_SEARCH
         fun newInstance(bundle: Bundle): SearchFragment {
             val fragment = SearchFragment()
             fragment.arguments = bundle
@@ -121,7 +121,7 @@ class SearchFragment : Fragment() {
 
         adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
-            bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
+            bundle.putParcelable(NAME_PARCEL_MOVIE, movie)
             val navHostFragment: NavHostFragment =
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navHostFragment.navController.navigate(

@@ -14,10 +14,8 @@ class SharedPref(context: Context) {
     // Чтение настроек
     fun loadSettings(): Settings {
         return Settings(
-            sharedPreferences.getBoolean(
-                contextLoc.getString(R.string.settingsAdult),
-                false
-            )
+            sharedPreferences.getBoolean(contextLoc.getString(R.string.settingsAdult), false),
+            sharedPreferences.getBoolean(contextLoc.getString(R.string.withPhoneShared), false),
         )
     }
 
@@ -25,6 +23,7 @@ class SharedPref(context: Context) {
     fun saveSettings(settings: Settings) {
         val editor = sharedPreferences.edit()
         editor.putBoolean(contextLoc.getString(R.string.settingsAdult), settings.adult)
+        editor.putBoolean(contextLoc.getString(R.string.withPhoneShared), settings.withPhone)
         editor.apply()
     }
 }

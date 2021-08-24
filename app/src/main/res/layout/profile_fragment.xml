@@ -31,8 +31,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/contacts"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rv_contacts"
+        app:layout_constraintEnd_toStartOf="@+id/switchWithPhone"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchAdult" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchWithPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/withPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/contactsHeader"
         app:layout_constraintTop_toBottomOf="@+id/switchAdult" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -42,9 +52,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactsHeader"
+        app:layout_constraintTop_toBottomOf="@+id/switchWithPhone"
         tools:listitem="@layout/item_contact" />
-
 
     <FrameLayout
         android:id="@+id/loadingLayout"
@@ -65,6 +74,5 @@
             android:layout_gravity="center" />
 
     </FrameLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

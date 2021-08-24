@@ -41,4 +41,6 @@
     <string name="favorite">Избранные</string>
     <string name="settingsAdult">Adult</string>
     <string name="contacts">Контакты</string>
+    <string name="withPhone">С телефонами</string>
+    <string name="withPhoneShared">withPhone</string>
 </resources>

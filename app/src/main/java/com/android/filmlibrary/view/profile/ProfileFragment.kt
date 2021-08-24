@@ -1,11 +1,14 @@
 package com.android.filmlibrary.view.profile
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -15,14 +18,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_SETTINGS
+import com.android.filmlibrary.Constant.NAME_PARCEL_SETTINGS
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
 import com.android.filmlibrary.view.showSnackBar
-import com.android.filmlibrary.viewmodel.profile.ContactsAdapter
 import com.android.filmlibrary.viewmodel.profile.ProfileViewModel
 
 class ProfileFragment : Fragment() {
@@ -44,7 +46,6 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,6 +53,10 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         (requireActivity().application as GlobalVariables).settings.adult =
             binding.switchAdult.isChecked
+
+        (requireActivity().application as GlobalVariables).settings.withPhone =
+            binding.switchWithPhone.isChecked
+
         _binding = null
         super.onDestroyView()
     }
@@ -65,14 +70,28 @@ class ProfileFragment : Fragment() {
         binding.switchAdult.isChecked =
             (requireActivity().application as GlobalVariables).settings.adult
 
+        binding.switchWithPhone.isChecked =
+            (requireActivity().application as GlobalVariables).settings.withPhone
+
+        binding.switchWithPhone.setOnCheckedChangeListener { _, isChecked ->
+            getContacts(isChecked)
+        }
+
         recyclerView = binding.rvContacts
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
+
+        adapter.setOnContactClickListener { contact ->
+            if (contact.numbers.isNotEmpty()) {
+                checkPermissionCall(contact.numbers[0])
+            }
+        }
+
         viewModel.contacts.observe(viewLifecycleOwner) {
             renderDataContacts(it)
         }
-        checkPermission()
+        checkPermissionContact()
     }
 
     private fun renderData(data: AppState) {
@@ -95,7 +114,7 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        const val BUNDLE_EXTRA = NAME_PARCEBLE_SETTINGS
+        const val BUNDLE_EXTRA = NAME_PARCEL_SETTINGS
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()
             fragment.arguments = bundle
@@ -106,10 +125,8 @@ class ProfileFragment : Fragment() {
     private fun renderDataContacts(data: AppState) {
         when (data) {
             is AppState.SuccessGetContacts -> {
-                binding.loadingLayout.visibility = View.GONE
-                //binding.rvContacts.show()
-                //binding.loadingLayout.hide()
-                //adapter.contacts = data.contacts
+                binding.rvContacts.show()
+                binding.loadingLayout.hide()
                 adapter.fillContacts(data.contacts)
             }
             is AppState.Loading -> {
@@ -119,37 +136,79 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun checkPermission() {
+    private fun checkPermissionContact() {
         context?.let {
             when {
                 ContextCompat.checkSelfPermission(
                     it,
                     Manifest.permission.READ_CONTACTS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    getContacts()
+                    getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     AlertDialog.Builder(it)
                         .setTitle("Доступ к контактам")
                         .setMessage("Объяснение")
                         .setPositiveButton("Предоставить доступ") { _, _ ->
-                            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                            requestPermissionLauncherContact.launch(Manifest.permission.READ_CONTACTS)
                         }
                         .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()
                 }
-                else -> requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+
+                else -> requestPermissionLauncherContact.launch(Manifest.permission.READ_CONTACTS)
             }
         }
     }
 
-    private val requestPermissionLauncher =
+    private fun makePhoneCall(number: String) {
+        val intent = Intent(Intent.ACTION_CALL)
+        intent.data = Uri.parse("tel:$number")
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                e.message,
+                Toast.LENGTH_SHORT
+            ).show()
+            e.message
+            e.printStackTrace()
+        }
+    }
+
+    private fun checkPermissionCall(number: String) {
+        context?.let {
+            when {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.CALL_PHONE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    makePhoneCall(number)
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE) -> {
+                    AlertDialog.Builder(it)
+                        .setTitle("Доступ к звонкам")
+                        .setMessage("Объяснение")
+                        .setPositiveButton("Предоставить доступ") { _, _ ->
+                            requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
+                        }
+                        .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
+                        .create()
+                        .show()
+                }
+                else -> requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
+            }
+        }
+    }
+
+    private val requestPermissionLauncherContact =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                getContacts()
+                getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
             } else {
                 context?.let {
                     AlertDialog.Builder(it)
@@ -162,8 +221,25 @@ class ProfileFragment : Fragment() {
             }
         }
 
-    private fun getContacts() {
-        viewModel.getContacts()
+    private val requestPermissionLauncherCall =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+            } else {
+                context?.let {
+                    AlertDialog.Builder(it)
+                        .setTitle("Доступ к звонкам")
+                        .setMessage("Объяснение")
+                        .setNegativeButton("Закрыть") { dialog, _ -> dialog.dismiss() }
+                        .create()
+                        .show()
+                }
+            }
+        }
+
+    private fun getContacts(withPhone: Boolean) {
+        viewModel.getContacts(withPhone)
     }
 
     private fun View.show(): View {

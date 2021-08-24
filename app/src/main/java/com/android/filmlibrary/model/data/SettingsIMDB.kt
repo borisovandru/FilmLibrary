@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class SettingsTMDB(
+data class SettingsIMDB(
     var imageBaseURL: String = "",
-    var imageSecureBaseURL: String = ""
+    var imageSecureBaseURL: String = "",
 ) : Parcelable

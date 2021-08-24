@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.SettingsTMDB
+import com.android.filmlibrary.model.data.SettingsIMDB
 import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.ConfigurationAPI
@@ -57,7 +57,7 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
-                val settingsData = SettingsTMDB(
+                val settingsData = SettingsIMDB(
 
                     serverResponse.images.baseURL,
                     serverResponse.images.secureBaseURL
@@ -78,9 +78,9 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
         )
     }
 
-    fun getContacts() {
+    fun getContacts(withPhone: Boolean) {
         contacts.value = AppState.Loading
-        val answer = repositoryLocal.getListOfContact()
+        val answer = repositoryLocal.getListOfContact(withPhone)
         contacts.value = AppState.SuccessGetContacts(answer)
     }
 }

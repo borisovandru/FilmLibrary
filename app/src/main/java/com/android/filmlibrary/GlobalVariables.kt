@@ -1,5 +1,6 @@
 package com.android.filmlibrary
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
@@ -11,7 +12,6 @@ import com.android.filmlibrary.model.room.DataBase
 import java.lang.IllegalStateException
 
 class GlobalVariables : Application() {
-    lateinit var searchString: String
     var moviesByTrend: List<MoviesByTrend> = ArrayList()
     var favMovies: List<Movie> = ArrayList()
     var moviesBySearch = MoviesList(
@@ -24,10 +24,9 @@ class GlobalVariables : Application() {
     var moviesByGenres: List<MoviesByGenre> = ArrayList()
     var genres: List<Genre> = ArrayList()
 
-    var seachString: String = ""
+    var searchString: String = ""
 
-    var settings: Settings = Settings(false)
-
+    var settings: Settings = Settings(adult = false, withPhone = false)
 
     override fun onCreate() {
         super.onCreate()
@@ -36,7 +35,9 @@ class GlobalVariables : Application() {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
+        @SuppressLint("StaticFieldLeak")
         private var appInstance: GlobalVariables? = null
         private lateinit var db: DataBase
         private const val DB_NAME = NAME_DB
@@ -49,8 +50,7 @@ class GlobalVariables : Application() {
                 db = Room.databaseBuilder(
                     appInstance!!.applicationContext,
                     DataBase::class.java,
-                    DB_NAME
-                )
+                    DB_NAME)
                     .allowMainThreadQueries()
                     .build()
             }
@@ -59,11 +59,11 @@ class GlobalVariables : Application() {
     }
 }
 
-interface IContextProvider {
+interface IContextProvider{
     val context: Context
 }
 
-object ContextProvider : IContextProvider {
+object ContextProvider: IContextProvider{
     override val context: Context
         get() = GlobalVariables.context
 }

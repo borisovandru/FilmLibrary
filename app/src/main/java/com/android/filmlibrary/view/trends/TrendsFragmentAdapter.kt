@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.EMPTY_POSTER
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_IMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.model.data.Genre
@@ -103,9 +103,9 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                 if (movie.dateRelease != "") {
                     val localDate = LocalDate.parse(
                         movie.dateRelease,
-                        DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
+                        DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_IMDB)
                     )
-                    val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
+                    val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
                     val formattedDate = localDate.format(formatter)
                     yearMovie.text = formattedDate
                 } else {

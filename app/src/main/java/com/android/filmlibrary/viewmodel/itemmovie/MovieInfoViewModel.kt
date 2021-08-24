@@ -7,8 +7,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant.CORRUPTED_DATA
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_IMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.Constant.LANG_VALUE
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
@@ -157,9 +157,9 @@ class MovieInfoViewModel : ViewModel() {
                 if (serverResponse.dateRelease != "") {
                     val localDate = LocalDate.parse(
                         serverResponse.dateRelease,
-                        DateTimeFormatter.ofPattern(FORMATED_STRING_DATE_TMDB)
+                        DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_IMDB)
                     )
-                    val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
+                    val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
                     formattedDate = localDate.format(formatter)
                 }
 

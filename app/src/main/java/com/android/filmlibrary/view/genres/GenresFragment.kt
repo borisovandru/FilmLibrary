@@ -11,8 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_GENRE
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.Constant.NAME_PARCEL_GENRE
+import com.android.filmlibrary.Constant.NAME_PARCEL_MOVIE
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.GenresFragmentBinding
@@ -133,7 +133,7 @@ class GenresFragment : Fragment() {
                 navHostFragment.navController.navigate(
                     Constant.NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE, //Вынес в константы
                     Bundle().apply {
-                        putParcelable(NAME_PARCEBLE_GENRE, genre)
+                        putParcelable(NAME_PARCEL_GENRE, genre)
                     }
                 )
             }
@@ -145,7 +145,7 @@ class GenresFragment : Fragment() {
             navHostFragment.navController.navigate(
                 Constant.NAVIGATE_FROM_GENRES_TO_MOVIE_INFO,  //Вынес в константы
                 Bundle().apply {
-                    putParcelable(NAME_PARCEBLE_MOVIE, movie)
+                    putParcelable(NAME_PARCEL_MOVIE, movie)
                 }
             )
         }

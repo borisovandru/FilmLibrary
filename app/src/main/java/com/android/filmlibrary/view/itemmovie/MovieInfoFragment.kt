@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.itemmovie
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,7 @@ import com.android.filmlibrary.Constant.EMPTY_POSTER
 import com.android.filmlibrary.Constant.FAV_ICON
 import com.android.filmlibrary.Constant.FAV_ICON_BORDER
 import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.Constant.NAME_PARCEL_MOVIE
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MovieInfoFragmentBinding
 import com.android.filmlibrary.model.AppState
@@ -57,6 +58,7 @@ class MovieInfoFragment : Fragment() {
         super.onDestroyView()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun renderData(data: AppState) {
         when (data) {
             is AppState.SuccessMovie -> {
@@ -171,7 +173,7 @@ class MovieInfoFragment : Fragment() {
 
         buttonFavorite = binding.favoriteButton
 
-        arguments?.let {
+        arguments?.let { it ->
             movie = it.getParcelable(BUNDLE_EXTRA)
             movieId = movie?.id ?: 0
 
@@ -251,7 +253,7 @@ class MovieInfoFragment : Fragment() {
     }
 
     companion object {
-        const val BUNDLE_EXTRA = NAME_PARCEBLE_MOVIE
+        const val BUNDLE_EXTRA = NAME_PARCEL_MOVIE
 
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()

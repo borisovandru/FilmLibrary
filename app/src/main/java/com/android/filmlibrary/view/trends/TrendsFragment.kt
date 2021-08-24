@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.Constant.NAME_PARCEL_MOVIE
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
@@ -91,7 +91,7 @@ class TrendsFragment : Fragment() {
             navHostFragment.navController.navigate(
                 NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
                 Bundle().apply {
-                    putParcelable(NAME_PARCEBLE_MOVIE, movie)
+                    putParcelable(NAME_PARCEL_MOVIE, movie)
                 }
             )
         }
