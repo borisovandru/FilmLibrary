@@ -32,11 +32,11 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val contact = contacts[position]
-        holder.bind(contact)
+        val conatct = contacts[position]
+        holder.bind(conatct)
     }
 
-    override fun getItemCount(): Int = contacts.size
+    override fun getItemCount(): Int  = contacts.size
 
     inner class ContactViewHolder(private val binding: ItemContactBinding) :
         RecyclerView.ViewHolder(binding.root) {

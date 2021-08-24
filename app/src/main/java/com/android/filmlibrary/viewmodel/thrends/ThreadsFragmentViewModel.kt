@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_TREND
-import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_IMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_TMDB
 import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.Constant.URL_NOW_PLAYING
 import com.android.filmlibrary.Constant.URL_NOW_PLAYING_NAME
@@ -27,7 +27,7 @@ import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
+class ThreadsFragmentViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()
@@ -84,7 +84,7 @@ class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = 
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_IMDB)
+                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_TMDB)
                             )
                             val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)

@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEL_SETTINGS
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_SETTINGS
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
@@ -46,6 +46,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        // Inflate the layout for this fragment
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -61,6 +62,7 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val observer = Observer<AppState> { appState ->
             renderData(appState)
@@ -73,7 +75,7 @@ class ProfileFragment : Fragment() {
         binding.switchWithPhone.isChecked =
             (requireActivity().application as GlobalVariables).settings.withPhone
 
-        binding.switchWithPhone.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchWithPhone.setOnCheckedChangeListener { buttonView, isChecked ->
             getContacts(isChecked)
         }
 
@@ -84,7 +86,7 @@ class ProfileFragment : Fragment() {
 
         adapter.setOnContactClickListener { contact ->
             if (contact.numbers.isNotEmpty()) {
-                checkPermissionCall(contact.numbers[0])
+                checkPermissionCall(contact.numbers.first())
             }
         }
 
@@ -93,6 +95,7 @@ class ProfileFragment : Fragment() {
         }
         checkPermissionContact()
     }
+
 
     private fun renderData(data: AppState) {
         when (data) {
@@ -113,14 +116,16 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
     companion object {
-        const val BUNDLE_EXTRA = NAME_PARCEL_SETTINGS
+        const val BUNDLE_EXTRA = NAME_PARCEBLE_SETTINGS
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
+
 
     private fun renderDataContacts(data: AppState) {
         when (data) {
@@ -136,23 +141,22 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
     private fun checkPermissionContact() {
         context?.let {
             when {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.READ_CONTACTS
-                ) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(it,
+                    Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED -> {
                     getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     AlertDialog.Builder(it)
-                        .setTitle("Доступ к контактам")
-                        .setMessage("Объяснение")
-                        .setPositiveButton("Предоставить доступ") { _, _ ->
+                        .setTitle(getString(R.string.accessContact))
+                        .setMessage(getString(R.string.reasonContact))
+                        .setPositiveButton(getString(R.string.setAccessContact)) { _, _ ->
                             requestPermissionLauncherContact.launch(Manifest.permission.READ_CONTACTS)
                         }
-                        .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
+                        .setNegativeButton(getString(R.string.noAccess)) { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()
                 }
@@ -161,6 +165,7 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
 
     private fun makePhoneCall(number: String) {
         val intent = Intent(Intent.ACTION_CALL)
@@ -181,23 +186,22 @@ class ProfileFragment : Fragment() {
     private fun checkPermissionCall(number: String) {
         context?.let {
             when {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.CALL_PHONE
-                ) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(it,
+                    Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED -> {
                     makePhoneCall(number)
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE) -> {
                     AlertDialog.Builder(it)
-                        .setTitle("Доступ к звонкам")
-                        .setMessage("Объяснение")
-                        .setPositiveButton("Предоставить доступ") { _, _ ->
+                        .setTitle(getString(R.string.accsessToCall))
+                        .setMessage(getString(R.string.reasonCall))
+                        .setPositiveButton(getString(R.string.setAccessCall)) { _, _ ->
                             requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
                         }
-                        .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
+                        .setNegativeButton(getString(R.string.noAccess)) { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()
                 }
+
                 else -> requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
             }
         }
@@ -208,30 +212,45 @@ class ProfileFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
+                // Permission is granted. Continue the action or workflow in your
+                // app.
                 getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
             } else {
+                // Explain to the user that the feature is unavailable because the
+                // features requires a permission that the user has denied. At the
+                // same time, respect the user's decision. Don't link to system
+                // settings in an effort to convince the user to change their
+                // decision.
                 context?.let {
                     AlertDialog.Builder(it)
-                        .setTitle("Доступ к контактам")
-                        .setMessage("Объяснение")
-                        .setNegativeButton("Закрыть") { dialog, _ -> dialog.dismiss() }
+                        .setTitle(getString(R.string.accessContact))
+                        .setMessage(getString(R.string.reasonContact))
+                        .setNegativeButton(getString(R.string.noAccess)) { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()
                 }
             }
         }
 
+
     private val requestPermissionLauncherCall =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
+                // Permission is granted. Continue the action or workflow in your
+                // app.
             } else {
+                // Explain to the user that the feature is unavailable because the
+                // features requires a permission that the user has denied. At the
+                // same time, respect the user's decision. Don't link to system
+                // settings in an effort to convince the user to change their
+                // decision.
                 context?.let {
                     AlertDialog.Builder(it)
-                        .setTitle("Доступ к звонкам")
-                        .setMessage("Объяснение")
-                        .setNegativeButton("Закрыть") { dialog, _ -> dialog.dismiss() }
+                        .setTitle(getString(R.string.accsessToCall))
+                        .setMessage(getString(R.string.reasonCall))
+                        .setNegativeButton(getString(R.string.noAccess)) { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()
                 }
@@ -255,4 +274,5 @@ class ProfileFragment : Fragment() {
         }
         return this
     }
+
 }

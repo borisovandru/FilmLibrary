@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.EMPTY_POSTER
-import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_IMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_TMDB
 import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.databinding.ItemMovieBinding
 import com.android.filmlibrary.model.data.Movie
@@ -57,7 +57,7 @@ class SearchFragmentAdapter : RecyclerView.Adapter<SearchFragmentAdapter.MyViewH
         if (movie.dateRelease != "") {
             val localDate = LocalDate.parse(
                 movie.dateRelease,
-                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_IMDB)
+                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_TMDB)
             )
             val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
             val formattedDate = localDate.format(formatter)

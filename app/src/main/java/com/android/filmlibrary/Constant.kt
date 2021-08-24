@@ -37,18 +37,12 @@ object Constant {
 
     const val BASE_IMAGE_URL: String = "https://image.tmdb.org/t/p/"
     const val IMAGE_POSTER_SIZE_1: String = "w185"
-    const val NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE: Int =
-        R.id.action_navigation_genres_to_moviesByGenresFragment2
-    const val NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO: Int =
-        R.id.action_navigation_trends_to_movieInfoFragment
-    const val NAVIGATE_FROM_GENRES_TO_MOVIE_INFO: Int =
-        R.id.action_navigation_genres_to_movieInfoFragment2
-    const val NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO: Int =
-        R.id.action_moviesByGenresFragment_to_movieInfoFragment
-    const val NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO: Int =
-        R.id.action_navigation_search_to_movieInfoFragment
-    const val NAVIGATE_FROM_FAV_TO_MOVIE_INFO: Int =
-        R.id.action_favoriteFragment_to_movieInfoFragment
+    const val NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE: Int = R.id.action_navigation_genres_to_moviesByGenresFragment2
+    const val NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO: Int = R.id.action_navigation_trends_to_movieInfoFragment
+    const val NAVIGATE_FROM_GENRES_TO_MOVIE_INFO: Int = R.id.action_navigation_genres_to_movieInfoFragment2
+    const val NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO: Int = R.id.action_moviesByGenresFragment_to_movieInfoFragment
+    const val NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO: Int = R.id.action_navigation_search_to_movieInfoFragment
+    const val NAVIGATE_FROM_FAV_TO_MOVIE_INFO: Int = R.id.action_favoriteFragment_to_movieInfoFragment
 
     const val SERVER_ERROR = "Ошибка сервера"
     const val REQUEST_ERROR = "Ошибка запроса на сервер"
@@ -58,21 +52,21 @@ object Constant {
 
     const val THRESHOLD = 2
 
-    const val NAME_PARCEL_MOVIE = "Movie"
-    const val NAME_PARCEL_GENRE = "category"
-    const val NAME_PARCEL_SETTINGS = "Settings"
-    const val NAME_PARCEL_SEARCH = "search"
+    const val NAME_PARCEBLE_MOVIE = "Movie"
+    const val NAME_PARCEBLE_GENRE = "category"
+    const val NAME_PARCEBLE_SETTINGS = "Settings"
+    const val NAME_PARCEBLE_SEARCH = "search"
 
-    const val FORMATTED_STRING_DATE_IMDB = "yyyy-MM-dd"
+    const val FORMATTED_STRING_DATE_TMDB = "yyyy-MM-dd"
     const val FORMATTED_STRING_YEAR = "yyyy"
 
     const val URL_TREND_POSITION = 2
 
     const val NAME_DB = "Movie.db"
 
-    const val IMDB_NAMES_LANG = "language"
-    const val IMDB_NAMES_API_VERSION = "api_version"
-    const val IMDB_NAMES_API_KEY = "api_key"
+    const val TMDB_NAMES_LANG = "language"
+    const val TMDB_NAMES_API_VERSION = "api_version"
+    const val TMDB_NAMES_API_KEY = "api_key"
 
     const val FAV_ICON_BORDER = R.drawable.ic_favorite_border_24
     const val FAV_ICON = R.drawable.ic_favorite_24

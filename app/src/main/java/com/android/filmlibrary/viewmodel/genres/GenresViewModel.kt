@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.CORRUPTED_DATA
-import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_IMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_TMDB
 import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
@@ -83,7 +83,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_IMDB)
+                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_TMDB)
                             )
                             val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)

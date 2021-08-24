@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_CATEGORY
-import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_IMDB
+import com.android.filmlibrary.Constant.FORMATTED_STRING_DATE_TMDB
 import com.android.filmlibrary.Constant.FORMATTED_STRING_YEAR
 import com.android.filmlibrary.GlobalVariables.Companion.getDAO
 import com.android.filmlibrary.model.AppState
@@ -88,7 +88,7 @@ class SearchViewModel : ViewModel() {
                         if (serverResponse.results[i].dateRelease != "") {
                             val localDate = LocalDate.parse(
                                 serverResponse.results[i].dateRelease,
-                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_IMDB)
+                                DateTimeFormatter.ofPattern(FORMATTED_STRING_DATE_TMDB)
                             )
                             val formatter = DateTimeFormatter.ofPattern(FORMATTED_STRING_YEAR)
                             formattedDate = localDate.format(formatter)

@@ -8,7 +8,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.SettingsIMDB
+import com.android.filmlibrary.model.data.SettingsTMDB
 import com.android.filmlibrary.model.repository.local.RepositoryLocalImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.ConfigurationAPI
@@ -19,6 +19,7 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
     private val repositoryRemoteDB = RepositoryRemoteImpl()
     private val repositoryLocal = RepositoryLocalImpl()
     val contacts: MutableLiveData<AppState> = MutableLiveData()
+
 
     fun getData(): LiveData<AppState> {
         return liveDataToObserver
@@ -42,14 +43,8 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
         }
 
         override fun onFailure(call: Call<ConfigurationAPI>, t: Throwable) {
-            liveDataToObserver.postValue(
-                AppState.Error(
-                    Throwable(
-                        t.message
-                            ?: Constant.REQUEST_ERROR
-                    )
-                )
-            )
+            liveDataToObserver.postValue(AppState.Error(Throwable(t.message
+                ?: Constant.REQUEST_ERROR)))
         }
 
         private fun checkResponse(serverResponse: ConfigurationAPI): AppState {
@@ -57,7 +52,7 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
-                val settingsData = SettingsIMDB(
+                val settingsData = SettingsTMDB(
 
                     serverResponse.images.baseURL,
                     serverResponse.images.secureBaseURL

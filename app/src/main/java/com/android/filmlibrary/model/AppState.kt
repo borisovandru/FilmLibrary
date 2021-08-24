@@ -14,7 +14,7 @@ sealed class AppState {
     data class SuccessMoviesByTrends(val moviesByTrends: List<MoviesByTrend>) :
         AppState()
 
-    data class SuccessSettings(val settingsTMDB: SettingsIMDB) : AppState()
+    data class SuccessSettings(val settingsTMDB: SettingsTMDB) : AppState()
 
     class Error(val error: Throwable) : AppState()
     object Loading : AppState()

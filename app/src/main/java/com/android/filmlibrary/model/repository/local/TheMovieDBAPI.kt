@@ -1,4 +1,4 @@
-package com.android.filmlibrary.model.repository.api
+package com.android.filmlibrary.model.repository.local
 
 import retrofit2.Call
 import retrofit2.http.GET
