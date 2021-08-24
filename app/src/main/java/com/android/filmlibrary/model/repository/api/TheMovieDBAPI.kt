@@ -69,4 +69,14 @@ interface TheMovieDBAPI {
         @Path(TMDB_NAMES_API_VERSION) apiVersion: String,
         @Query(TMDB_NAMES_API_KEY) key: String,
     ): Call<ConfigurationAPI>
+
+    @GET("{api_version}/{path_1}/{movie_id}/{path_2}")
+    fun getCredits(
+        @Path("path_1") queryType1: String,
+        @Path("movie_id") movieId: String,
+        @Path("path_2") queryType2: String,
+        @Path(TMDB_NAMES_API_VERSION) apiVersion: String,
+        @Query(TMDB_NAMES_API_KEY) key: String,
+        @Query(TMDB_NAMES_LANG) language: String,
+    ): Call<ConfigurationAPI>
 }
