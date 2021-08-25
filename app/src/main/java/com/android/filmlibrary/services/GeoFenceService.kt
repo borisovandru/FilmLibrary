@@ -30,15 +30,16 @@ class GeoFenceService : IntentService("GeoFenceService") {
         val transitionType: Int = geofencingEvent.getGeofenceTransition() // определяем тип события
         val triggeredGeofences: List<Geofence> =
             geofencingEvent.getTriggeringGeofences() // если надо, получаем, какие геозоны нам подходят
-        val idFence: String = triggeredGeofences[0].getRequestId()
+        val idFence: String = triggeredGeofences.first().getRequestId()
         makeNote(idFence, transitionType) // отправляем уведомление
     }
 
     // вывод уведомления в строке состояния
     private fun makeNote(idFence: String, transitionType: Int) {
+        Log.v("GeoFence", "makeNote")
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, "2")
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("Near $idFence")
+            .setContentTitle(getString(R.string.Near) + idFence)
             .setContentText(getTransitionTypeString(transitionType))
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -47,11 +48,12 @@ class GeoFenceService : IntentService("GeoFenceService") {
 
     // возвращает строку с типом события
     private fun getTransitionTypeString(transitionType: Int): String {
+        Log.v("GeoFence", "getTransitionTypeString")
         return when (transitionType) {
-            Geofence.GEOFENCE_TRANSITION_ENTER -> "enter"
-            Geofence.GEOFENCE_TRANSITION_EXIT -> "exit"
-            Geofence.GEOFENCE_TRANSITION_DWELL -> "dwell"
-            else -> "unknown"
+            Geofence.GEOFENCE_TRANSITION_ENTER -> getString(R.string.EnterGoeFence)
+            Geofence.GEOFENCE_TRANSITION_EXIT -> getString(R.string.ExitGoeFence)
+            Geofence.GEOFENCE_TRANSITION_DWELL -> getString(R.string.DwellGoeFence)
+            else -> getString(R.string.UnknowGoeFence)
         }
     }
 }

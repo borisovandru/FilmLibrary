@@ -13,9 +13,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -25,8 +23,19 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.DEFAULT_LAT
+import com.android.filmlibrary.Constant.DEFAULT_LONG
+import com.android.filmlibrary.Constant.DEFAULT_U
+import com.android.filmlibrary.Constant.DEFAULT_V
+import com.android.filmlibrary.Constant.GEOFENCE_DEFAULT_WIDTH
+import com.android.filmlibrary.Constant.GEOFENCE_MIN_DIST
+import com.android.filmlibrary.Constant.GEOFENCE_MIN_TIME
+import com.android.filmlibrary.Constant.GEOFENCE_MOVE_CAM
+import com.android.filmlibrary.Constant.GEOFENCE_RADIUS
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO
+import com.android.filmlibrary.Constant.NOTIFY_CH
+import com.android.filmlibrary.Constant.NOTIFY_NAME
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.TrendsFragmentBinding
@@ -136,6 +145,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             viewModel.getTrendsFromRemoteSource()
         }
 
+
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.mapTrends) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -150,14 +160,14 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
 
         currentMarker = googleMap.addMarker(
             MarkerOptions()
-                .position(LatLng(0.0, 0.0))
-                .anchor(0.5f, 0.5f)
+                .position(LatLng(DEFAULT_LAT, DEFAULT_LONG))
+                .anchor(DEFAULT_U, DEFAULT_V)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_current))
                 .title(getString(R.string.CurrentPosition))
         )
 
-        mMap?.let {
-            it.setOnMapLongClickListener { latLng ->
+        mMap?.let { googleMap1 ->
+            googleMap1.setOnMapLongClickListener { latLng ->
                 Log.v(
                     "GeoFence",
                     "setOnMapLongClickListener latitude=" + latLng.latitude + ", longitude=" + latLng.longitude
@@ -172,7 +182,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
     }
 
     // Добавление меток на карту
-    fun addMarker(location: LatLng): Marker? {
+    private fun addMarker(location: LatLng): Marker? {
         val title =
             location.latitude.toString() + "," + location.longitude.toString()
         var marker: Marker? = null
@@ -185,7 +195,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             it.addCircle(
                 CircleOptions()
                     .center(location)
-                    .radius(150.0)
+                    .radius(GEOFENCE_RADIUS)
                     .strokeColor(Color.BLUE)
             )
         }
@@ -200,14 +210,14 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         val geoFenceRequest =
             builder.build() // это запрос на добавление геозоны (параметры только что задавали, теперь строим)
         // создадим интент, при сигнале от Google Play будет вызываться этот интент, а интент настроен на запуск службы, обслуживающей всё это
-        val geoService = Intent(requireContext(), GeoFenceService::class.java)
+        val geoService = Intent(requireActivity(), GeoFenceService::class.java)
         // интент будет работать через этот класс
         val pendingIntent = PendingIntent
             .getService(requireContext(), 0, geoService, PendingIntent.FLAG_UPDATE_CURRENT)
         // это клиент геозоны, собственно он и занимается вызовом нашей службы
-        val geoClient = LocationServices.getGeofencingClient(requireContext())
+        val geoClient = LocationServices.getGeofencingClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
-                requireContext(),
+                requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -265,8 +275,8 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             requireActivity().getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
         // Будем получать геоположение через каждые 10 секунд или каждые 10 метров
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-            10000,
-            10f,
+            GEOFENCE_MIN_TIME,
+            GEOFENCE_MIN_DIST,
             object : LocationListener {
                 override fun onLocationChanged(location: Location) {
                     val lat = location.latitude // Широта
@@ -276,12 +286,12 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
 
                     currentMarker?.let {
                         val prevPosition = it.position
-                        if (!(prevPosition.longitude == 0.0 && prevPosition.latitude == 0.0)) {
+                        if (!(prevPosition.longitude == DEFAULT_LAT && prevPosition.latitude == DEFAULT_LONG)) {
                             mMap?.addPolyline(
                                 PolylineOptions()
                                     .add(prevPosition, currentPosition)
                                     .color(Color.RED)
-                                    .width(5f)
+                                    .width(GEOFENCE_DEFAULT_WIDTH)
                             )
                         }
                         it.position = currentPosition
@@ -289,7 +299,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
                     mMap?.moveCamera(
                         CameraUpdateFactory.newLatLngZoom(
                             currentPosition,
-                            15.toFloat()
+                            GEOFENCE_MOVE_CAM
                         )
                     )
                 }
@@ -341,8 +351,8 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constant.PERMISSION_REQUEST_CODE) {   // Это та самая пермиссия, что мы запрашивали?
-            if (grantResults.size == 1 &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED
+            if (grantResults.isNotEmpty() &&
+                grantResults.first() == PackageManager.PERMISSION_GRANTED
             ) {
                 // Все препоны пройдены и пермиссия дана
                 // Запросим координаты
@@ -358,7 +368,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             val notificationManager =
                 requireActivity().getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
             val importance = NotificationManager.IMPORTANCE_LOW
-            val mChannel = NotificationChannel("2", "name", importance)
+            val mChannel = NotificationChannel(NOTIFY_CH, NOTIFY_NAME, importance)
             notificationManager.createNotificationChannel(mChannel)
         }
     }

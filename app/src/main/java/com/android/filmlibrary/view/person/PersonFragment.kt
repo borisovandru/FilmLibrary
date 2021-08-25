@@ -47,12 +47,12 @@ class PersonFragment : Fragment() {
                 val person = data.person
 
                 binding.birthdayPerson.visibility = View.VISIBLE
-                person.birthday?.let{
+                person.birthday?.let {
                     binding.birthdayPerson.text = it
                 }
 
                 binding.placeBirthPerson.visibility = View.VISIBLE
-                person.placeOfBirth?.let{ address ->
+                person.placeOfBirth?.let { address ->
                     binding.placeBirthPerson.text = address
                     binding.placeBirthPerson.setOnClickListener {
 
@@ -68,7 +68,7 @@ class PersonFragment : Fragment() {
                 }
 
                 binding.biographyPerson.visibility = View.VISIBLE
-                person.biography?.let{
+                person.biography?.let {
                     binding.biographyPerson.text = it
                 }
 
@@ -101,10 +101,10 @@ class PersonFragment : Fragment() {
         arguments?.let {
             personMini = it.getParcelable(BUNDLE_EXTRA)
 
-            personMini?.let{ personMini1 ->
+            personMini?.let { personMini1 ->
 
-                personMini1.profilePath?.let{ profilePage ->
-                    if (profilePage != "" && profilePage != "-" && profilePage != null) {
+                personMini1.profilePath?.let { profilePage ->
+                    if (profilePage != "" && profilePage != "-") {
                         Glide.with(this)
                             .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + profilePage)
                             .into(binding.imagePerson)

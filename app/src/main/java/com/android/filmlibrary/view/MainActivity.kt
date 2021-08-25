@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(this, navController)
 
         (this.application as GlobalVariables).settings = SharedPref(this).loadSettings()
-
     }
 
     override fun onDestroy() {

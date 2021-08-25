@@ -68,7 +68,6 @@
                 tools:ignore="LabelFor"
                 tools:text="Любопытное кинцо" />
 
-
             <ImageButton
                 android:id="@+id/delete_button"
                 android:layout_width="wrap_content"
@@ -81,7 +80,6 @@
                 app:layout_constraintStart_toStartOf="@+id/movieNoteHeader"
                 app:layout_constraintTop_toTopOf="@+id/movieNoteHeader"
                 app:layout_constraintVertical_bias="0.0" />
-
 
             <Button
                 android:id="@+id/button_ok"
@@ -119,7 +117,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageMovie"
                 tools:text="巨乳お姉さんの濡れパイ誘惑に逆らえない 君島みお" />
 
-
             <TextView
                 android:id="@+id/yearMovie"
                 android:layout_width="wrap_content"
@@ -129,7 +126,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleMovie"
                 tools:text="1995" />
-
 
             <TextView
                 android:id="@+id/runtimeMovie"
@@ -277,7 +273,6 @@
                 </TableRow>
 
             </TableLayout>
-
 
             <TextView
                 android:id="@+id/crew"

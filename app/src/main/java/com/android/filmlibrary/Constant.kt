@@ -92,4 +92,20 @@ object Constant {
     const val PERMISSION_REQUEST_CODE = 10
 
     const val MAX_RESULT_GEOCODER = 1
+
+    const val GEOFENCE_RADIUS = 150.0
+
+    const val DEFAULT_LAT = 0.0
+    const val DEFAULT_LONG = 0.0
+
+    const val DEFAULT_U = 0.5f
+    const val DEFAULT_V = 0.5f
+
+    const val GEOFENCE_DEFAULT_WIDTH = 5f
+    const val GEOFENCE_MIN_DIST = 10f
+    const val GEOFENCE_MIN_TIME = 10000L
+    const val GEOFENCE_MOVE_CAM = 15f
+
+    const val NOTIFY_CH = "2"
+    const val NOTIFY_NAME = "2"
 }

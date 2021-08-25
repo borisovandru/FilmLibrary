@@ -43,8 +43,14 @@ class ProfileViewModel(private val liveDataToObserver: MutableLiveData<AppState>
         }
 
         override fun onFailure(call: Call<ConfigurationAPI>, t: Throwable) {
-            liveDataToObserver.postValue(AppState.Error(Throwable(t.message
-                ?: Constant.REQUEST_ERROR)))
+            liveDataToObserver.postValue(
+                AppState.Error(
+                    Throwable(
+                        t.message
+                            ?: Constant.REQUEST_ERROR
+                    )
+                )
+            )
         }
 
         private fun checkResponse(serverResponse: ConfigurationAPI): AppState {

@@ -63,4 +63,9 @@
     <string name="Person">Персона</string>
     <string name="Maps">Карта</string>
     <string name="CurrentPosition">Моё местоположение</string>
+    <string name="Near">\"Вы рядом с \"</string>
+    <string name="EnterGoeFence">Вход в ГеоЗону</string>
+    <string name="ExitGoeFence">Выход из ГеоЗоны</string>
+    <string name="DwellGoeFence">Внутри ГеоЗоны</string>
+    <string name="UnknowGoeFence">Неизвестно</string>
 </resources>

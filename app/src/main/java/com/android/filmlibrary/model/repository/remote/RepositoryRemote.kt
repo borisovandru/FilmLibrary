@@ -10,9 +10,19 @@ interface RepositoryRemote {
     fun getMoviesFromLocalStorage(): List<MovieAdv>
     fun getMovieFromLocalStorage(id: Int): MovieAdv
 
-    fun getMovieFromRemoteServerRetroFit(movieId: Int, lang: String, callback: Callback<MovieAdvAPI>)
+    fun getMovieFromRemoteServerRetroFit(
+        movieId: Int,
+        lang: String,
+        callback: Callback<MovieAdvAPI>
+    )
+
     fun getGenresFromRemoteServerRetroFit(lang: String, callback: Callback<GenresAPI>)
-    fun getMoviesByCategoryFromRemoteServerRetroFit(genre: Genre, lang: String, callback: Callback<MoviesListAPI>)
+    fun getMoviesByCategoryFromRemoteServerRetroFit(
+        genre: Genre,
+        lang: String,
+        callback: Callback<MoviesListAPI>
+    )
+
     fun getMoviesBySearchFromRemoteServerRetroFit(
         searchRequest: String,
         setCountsOfMovies: Int,
@@ -20,21 +30,25 @@ interface RepositoryRemote {
         adult: Boolean,
         callback: Callback<MoviesListAPI>
     )
+
     fun getMoviesByTrendFromRemoteServerRetroFit(
         trend: Trend,
         cntMovies: Int,
         lang: String,
         callback: Callback<MoviesListAPI>,
     )
+
     fun getSettingsFromRemoteServerRetroFit(
         lang: String,
         callback: Callback<ConfigurationAPI>,
     )
+
     fun getCreditsByMovieFromRemoteServerRetroFit(
         movieId: Int,
         lang: String,
         callback: Callback<CreditsAPI>,
     )
+
     fun getPersonFromRemoteServerRetroFit(
         personId: Int,
         lang: String,

@@ -10,17 +10,16 @@ import com.android.filmlibrary.model.data.Contact
 
 class RepositoryLocalImpl(contextProvider: IContextProvider = ContextProvider) : RepositoryLocal {
 
-
     private val contentResolver: ContentResolver = contextProvider.context.contentResolver
 
     override fun getListOfContact(withPhone: Boolean): List<Contact> {
 
-        val selection =
-            if (withPhone) {
-                ContactsContract.Data.HAS_PHONE_NUMBER + " = '" + 1 + "'"
-            } else {
-                null
-            }
+        val selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL " +
+                if (withPhone) {
+                    "AND " + ContactsContract.Data.HAS_PHONE_NUMBER + " = '" + 1 + "'"
+                } else {
+                    ""
+                }
 
         val cursorWithContacts: Cursor? = contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
