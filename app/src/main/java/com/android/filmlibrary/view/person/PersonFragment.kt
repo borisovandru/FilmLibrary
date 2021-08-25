@@ -58,9 +58,9 @@ class PersonFragment : Fragment() {
 
                         val bundle = Bundle()
                         bundle.putString(Constant.NAME_PARCEBLE_MAP, address)
-                        val navHostFragment: NavHostFragment =
-                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                        navHostFragment.navController.navigate(
+                        val navHostFragment: NavHostFragment? =
+                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                        navHostFragment?.navController?.navigate(
                             Constant.NAVIGATE_FROM_PERSON_TO_MAP,
                             bundle
                         )
@@ -104,7 +104,7 @@ class PersonFragment : Fragment() {
             personMini?.let { personMini1 ->
 
                 personMini1.profilePath?.let { profilePage ->
-                    if (profilePage != "" && profilePage != "-") {
+                    if (profilePage != "" && profilePage != "-" && profilePage != null) {
                         Glide.with(this)
                             .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + profilePage)
                             .into(binding.imagePerson)
@@ -123,11 +123,9 @@ class PersonFragment : Fragment() {
                     viewModel.getPersonStart()
                         .observe(viewLifecycleOwner, observer)
                     viewModel.getPersonFromRemoteSource(personId)
-
                 }
             }
         }
-
     }
 
     companion object {

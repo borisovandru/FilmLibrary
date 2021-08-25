@@ -105,6 +105,8 @@ object Constant {
     const val GEOFENCE_MIN_DIST = 10f
     const val GEOFENCE_MIN_TIME = 10000L
     const val GEOFENCE_MOVE_CAM = 15f
+    const val GEOFENCE_PAR_1 = 150f
+    const val GEOFENCE_TIMEOUT = 1000
 
     const val NOTIFY_CH = "2"
     const val NOTIFY_NAME = "2"

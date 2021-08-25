@@ -1,10 +1,10 @@
 package com.android.filmlibrary.view.favorite
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -92,9 +92,9 @@ class FavoriteFragment : Fragment() {
         adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
-            val navHostFragment: NavHostFragment =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navHostFragment.navController.navigate(
+            val navHostFragment: NavHostFragment? =
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+            navHostFragment?.navController?.navigate(
                 Constant.NAVIGATE_FROM_FAV_TO_MOVIE_INFO,
                 bundle
             )

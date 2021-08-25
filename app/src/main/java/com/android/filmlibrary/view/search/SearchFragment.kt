@@ -122,9 +122,9 @@ class SearchFragment : Fragment() {
         adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
-            val navHostFragment: NavHostFragment =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navHostFragment.navController.navigate(
+            val navHostFragment: NavHostFragment? =
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+            navHostFragment?.navController?.navigate(
                 Constant.NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO,
                 bundle
             )

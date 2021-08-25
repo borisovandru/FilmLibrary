@@ -31,7 +31,9 @@ import com.android.filmlibrary.Constant.GEOFENCE_DEFAULT_WIDTH
 import com.android.filmlibrary.Constant.GEOFENCE_MIN_DIST
 import com.android.filmlibrary.Constant.GEOFENCE_MIN_TIME
 import com.android.filmlibrary.Constant.GEOFENCE_MOVE_CAM
+import com.android.filmlibrary.Constant.GEOFENCE_PAR_1
 import com.android.filmlibrary.Constant.GEOFENCE_RADIUS
+import com.android.filmlibrary.Constant.GEOFENCE_TIMEOUT
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO
 import com.android.filmlibrary.Constant.NOTIFY_CH
@@ -125,14 +127,16 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             moviesByTrend = (requireActivity().application as GlobalVariables).moviesByTrend
 
         adapter.setOnMovieClickListener { movie ->
-            val navHostFragment: NavHostFragment =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navHostFragment.navController.navigate(
-                NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
-                Bundle().apply {
-                    putParcelable(NAME_PARCEBLE_MOVIE, movie)
-                }
-            )
+            val navHostFragment: NavHostFragment? =
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+            navHostFragment?.let {
+                it.navController.navigate(
+                    NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
+                    Bundle().apply {
+                        putParcelable(NAME_PARCEBLE_MOVIE, movie)
+                    }
+                )
+            }
         }
 
         if (moviesByTrend.isNotEmpty()) {
@@ -184,7 +188,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         val longitude = resources.getStringArray(R.array.longitude)
 
         if (latitude.size == longitude.size) {
-            for (i in 0..latitude.size - 1) {
+            for (i in latitude.indices) {
                 cinemaAddress.add(LatLng(latitude[i].toDouble(), longitude[i].toDouble()))
             }
         }
@@ -266,10 +270,10 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             .setCircularRegion(
                 marker.position.latitude,
                 marker.position.longitude,
-                150f
+                GEOFENCE_PAR_1
             ) // Координаты геозоны
             .setExpirationDuration(Geofence.NEVER_EXPIRE) // Геозона будет постоянной, пока не удалим геозону или приложение
-            .setLoiteringDelay(1000) // Установим временную задержку в мс между событиями входа в зону и перемещения в зоне
+            .setLoiteringDelay(GEOFENCE_TIMEOUT) // Установим временную задержку в мс между событиями входа в зону и перемещения в зоне
             .build()
     }
 

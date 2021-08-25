@@ -68,4 +68,5 @@
     <string name="ExitGoeFence">Выход из ГеоЗоны</string>
     <string name="DwellGoeFence">Внутри ГеоЗоны</string>
     <string name="UnknowGoeFence">Неизвестно</string>
+    <string name="google_maps_key">AIzaSyAhiXY949mDCRhJFlLHEy0DCgPcsh0OmAg</string>
 </resources>

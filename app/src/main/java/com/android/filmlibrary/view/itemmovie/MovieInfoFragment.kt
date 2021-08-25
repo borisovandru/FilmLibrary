@@ -53,7 +53,7 @@ class MovieInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
+
         _binding = MovieInfoFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -68,7 +68,6 @@ class MovieInfoFragment : Fragment() {
         when (data) {
             is AppState.SuccessMovie -> {
                 val movieData = data.movieAdvData
-
                 binding.countryMovie.visibility = View.VISIBLE
                 binding.progressBarCountry.visibility = View.GONE
                 movieData.countries.forEach { country ->
@@ -144,9 +143,9 @@ class MovieInfoFragment : Fragment() {
 
                         val bundle = Bundle()
                         bundle.putParcelable(NAME_PARCEBLE_PERSON, personMini)
-                        val navHostFragment: NavHostFragment =
-                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                        navHostFragment.navController.navigate(
+                        val navHostFragment: NavHostFragment? =
+                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                        navHostFragment?.navController?.navigate(
                             Constant.NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO,
                             bundle
                         )
@@ -174,9 +173,9 @@ class MovieInfoFragment : Fragment() {
 
                         val bundle = Bundle()
                         bundle.putParcelable(NAME_PARCEBLE_PERSON, personMini)
-                        val navHostFragment: NavHostFragment =
-                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                        navHostFragment.navController.navigate(
+                        val navHostFragment: NavHostFragment? =
+                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                        navHostFragment?.navController?.navigate(
                             Constant.NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO,
                             bundle
                         )

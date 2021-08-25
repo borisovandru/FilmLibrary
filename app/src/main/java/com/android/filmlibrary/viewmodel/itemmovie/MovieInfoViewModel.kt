@@ -173,12 +173,11 @@ class MovieInfoViewModel : ViewModel() {
                     val formatter = DateTimeFormatter.ofPattern(FORMATED_STRING_YEAR)
                     formattedDate = localDate.format(formatter)
                 }
-
                 AppState.SuccessMovie(
                     MovieAdv(
                         serverResponse.id,
                         serverResponse.title,
-                        formattedDate.toInt(),
+                        formattedDate,
                         serverResponse.genres,
                         serverResponse.countries,
                         serverResponse.dateRelease,
