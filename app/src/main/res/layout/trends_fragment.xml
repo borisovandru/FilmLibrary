@@ -6,27 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".view.trends.TrendsFragment">
 
+    <TextView
+        android:id="@+id/headerCinema"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Cinema"
+        app:layout_constraintBottom_toTopOf="@+id/mapTrends"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Ближайшие кинотеатры:" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mapTrends"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/headerTrends"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerCinema" />
+
+    <TextView
+        android:id="@+id/headerTrends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/InTrends"
+        app:layout_constraintBottom_toTopOf="@+id/rv_trend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapTrends"
+        tools:text="В трендах:" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_trend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerTrends"
+        tools:itemCount="4"
         tools:listitem="@layout/item_trend" />
 
     <FrameLayout
         android:id="@+id/loadingLayout_trend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/loadingBackground"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapTrends"
         tools:visibility="visible">
 
         <ProgressBar

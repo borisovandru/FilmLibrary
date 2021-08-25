@@ -39,6 +39,7 @@
             app:destination="@id/movieInfoFragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/moviesByGenresFragment"
         android:name="com.android.filmlibrary.view.moviesbygenre.MoviesByGenreFragment"
@@ -81,7 +82,7 @@
     <fragment
         android:id="@+id/personFragment"
         android:name="com.android.filmlibrary.view.person.PersonFragment"
-        android:label="person_fragment"
+        android:label="@string/Person"
         tools:layout="@layout/person_fragment">
         <action
             android:id="@+id/action_personFragment_to_mapsFragment"
@@ -90,6 +91,6 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.android.filmlibrary.view.maps.MapsFragment"
-        android:label="fragment_maps"
+        android:label="@string/Maps"
         tools:layout="@layout/maps_fragment" />
 </navigation>

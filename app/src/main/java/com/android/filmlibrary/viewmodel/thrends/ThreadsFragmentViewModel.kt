@@ -27,7 +27,7 @@ import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ThreadsFragmentViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
+class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()

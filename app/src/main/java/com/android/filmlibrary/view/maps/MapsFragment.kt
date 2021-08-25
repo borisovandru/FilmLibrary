@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.MAX_RESULT_GEOCODER
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MapsFragmentBinding
 import java.io.IOException
@@ -41,7 +42,6 @@ class MapsFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
@@ -56,16 +56,14 @@ class MapsFragment : Fragment() {
             address?.let {
                 initSearchByAddress(it)
             }
-
         }
-
     }
 
     private fun initSearchByAddress(searchText: String) {
         val geoCoder = Geocoder(requireContext())
         Thread {
             try {
-                val addresses = geoCoder.getFromLocationName(searchText, 1)
+                val addresses = geoCoder.getFromLocationName(searchText, MAX_RESULT_GEOCODER)
                 if (addresses.size > 0) {
                     goToAddress(addresses, binding.mapCont, searchText)
                 }
@@ -85,7 +83,7 @@ class MapsFragment : Fragment() {
             addresses.first().longitude
         )
         view.post {
-            setMarker(location, searchText, R.drawable.ic_map_marker)
+            setMarker(location, searchText)
             map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     location,
@@ -97,14 +95,13 @@ class MapsFragment : Fragment() {
 
     private fun setMarker(
         location: LatLng,
-        searchText: String,
-        resourceId: Int
-    ): Marker {
+        searchText: String
+    ): Marker? {
         return map.addMarker(
             MarkerOptions()
                 .position(location)
                 .title(searchText)
-                .icon(BitmapDescriptorFactory.fromResource(resourceId))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
         )
     }
 
