@@ -144,8 +144,6 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
             viewModel.getData().observe(viewLifecycleOwner, observer)
             viewModel.getTrendsFromRemoteSource()
         }
-
-
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.mapTrends) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
@@ -153,6 +151,20 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         requestPermissions()
         createGoogleApiClient()
         initNotificationChannel()
+    }
+
+    private fun setCinemaAddress(addresses: MutableList<LatLng>) {
+        addresses.forEach { adr ->
+            val itemLocation = LatLng(
+                adr.latitude,
+                adr.longitude
+            )
+            val marker: Marker? = addMarker(itemLocation)
+            marker?.let {
+                val geofence: Geofence = createGeofence(it)
+                createGeofencingRequest(geofence)
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -165,6 +177,18 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_current))
                 .title(getString(R.string.CurrentPosition))
         )
+
+        val cinemaAddress = mutableListOf<LatLng>()
+
+        val latitude = resources.getStringArray(R.array.latitude)
+        val longitude = resources.getStringArray(R.array.longitude)
+
+        if (latitude.size == longitude.size) {
+            for (i in 0..latitude.size - 1) {
+                cinemaAddress.add(LatLng(latitude[i].toDouble(), longitude[i].toDouble()))
+            }
+        }
+        setCinemaAddress(cinemaAddress)
 
         mMap?.let { googleMap1 ->
             googleMap1.setOnMapLongClickListener { latLng ->
@@ -231,8 +255,12 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
 
     private fun createGeofence(marker: Marker): Geofence {
         // создаем геозону через построитель.
+        var titleGeoFence = ""
+        marker.title?.let {
+            titleGeoFence = it
+        }
         return Geofence.Builder()
-            .setRequestId(marker.title.toString()) // Здесь указывается имя геозоны (вернее это идентификатор, но он строковый)
+            .setRequestId(titleGeoFence) // Здесь указывается имя геозоны (вернее это идентификатор, но он строковый)
             // типа геозоны, вход, перемещение внутри, выход
             .setTransitionTypes(GeofencingRequest.INITIAL_TRIGGER_ENTER or GeofencingRequest.INITIAL_TRIGGER_EXIT or GeofencingRequest.INITIAL_TRIGGER_DWELL)
             .setCircularRegion(

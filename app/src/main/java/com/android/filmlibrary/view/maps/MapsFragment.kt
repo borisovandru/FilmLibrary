@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.android.filmlibrary.Constant
+import com.android.filmlibrary.Constant.MAPS_ZOOM
 import com.android.filmlibrary.Constant.MAX_RESULT_GEOCODER
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MapsFragmentBinding
@@ -64,7 +65,7 @@ class MapsFragment : Fragment() {
         Thread {
             try {
                 val addresses = geoCoder.getFromLocationName(searchText, MAX_RESULT_GEOCODER)
-                if (addresses.size > 0) {
+                if (addresses.isNotEmpty()) {
                     goToAddress(addresses, binding.mapCont, searchText)
                 }
             } catch (e: IOException) {
@@ -87,7 +88,7 @@ class MapsFragment : Fragment() {
             map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     location,
-                    15f
+                    MAPS_ZOOM
                 )
             )
         }

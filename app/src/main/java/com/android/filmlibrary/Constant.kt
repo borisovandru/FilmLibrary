@@ -108,4 +108,6 @@ object Constant {
 
     const val NOTIFY_CH = "2"
     const val NOTIFY_NAME = "2"
+
+    const val MAPS_ZOOM = 15f
 }
