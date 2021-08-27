@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="latitude">
-        <item>54.347518</item>
-        <item>54.380386</item>
-        <item>54.327879</item>
-        <item>54.347518</item>
+        <item>54.373223</item>
+        <item>54.306439</item>
+        <item>54.278587</item>
+        <item>54.305149</item>
     </string-array>
     <string-array name="longitude">
-        <item>48.345986</item>
-        <item>48.567803</item>
-        <item>48.192763</item>
-        <item>48.364404</item>
+        <item>48.577576</item>
+        <item>48.358657</item>
+        <item>48.285113</item>
+        <item>48.317373</item>
+    </string-array>
+    <string-array name="cinemaNames">
+        <item>Крылья</item>
+        <item>Синема Парк Аква Молл</item>
+        <item>Луна</item>
+        <item>Матрица</item>
     </string-array>
 </resources>

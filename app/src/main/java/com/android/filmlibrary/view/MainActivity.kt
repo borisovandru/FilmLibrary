@@ -7,15 +7,17 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.android.filmlibrary.GlobalVariables
+import com.android.filmlibrary.GlobalVariables.Companion.settings
 import com.android.filmlibrary.R
 import com.android.filmlibrary.sharedpref.SharedPref
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        settings = SharedPref(this).loadSettings()
 
         setContentView(R.layout.main_activity)
 
@@ -31,12 +33,10 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         setupActionBarWithNavController(this, navController)
-
-        (this.application as GlobalVariables).settings = SharedPref(this).loadSettings()
     }
 
     override fun onDestroy() {
-        SharedPref(this).saveSettings((this.application as GlobalVariables).settings)
+        SharedPref(this).saveSettings(settings)
         super.onDestroy()
     }
 }

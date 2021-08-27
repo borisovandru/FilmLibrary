@@ -1,16 +1,16 @@
 package com.android.filmlibrary.viewmodel.person
 
+import PersonAPI
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Person
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
-import com.android.filmlibrary.model.retrofit.PersonAPI
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PersonViewModel : ViewModel() {
 
@@ -36,13 +36,7 @@ class PersonViewModel : ViewModel() {
         }
 
         override fun onFailure(call: Call<PersonAPI>, t: Throwable) {
-            liveDataToObserver.postValue(
-                AppState.Error(
-                    Throwable(
-                        t.message ?: Constant.REQUEST_ERROR
-                    )
-                )
-            )
+            liveDataToObserver.postValue(AppState.Error(Throwable(t.message ?: Constant.REQUEST_ERROR)))
         }
 
         private fun checkResponse(serverResponse: PersonAPI): AppState {
@@ -50,22 +44,21 @@ class PersonViewModel : ViewModel() {
                 AppState.Error(Throwable(Constant.CORRUPTED_DATA))
             } else {
 
-                val personAPI = serverResponse
                 val person = Person(
-                    personAPI.adult,
-                    personAPI.alsoKnownAs,
-                    personAPI.biography,
-                    personAPI.birthday,
-                    personAPI.deathday,
-                    personAPI.gender,
-                    personAPI.homepage,
-                    personAPI.id,
-                    personAPI.imdbId,
-                    personAPI.knownForDepartment,
-                    personAPI.name,
-                    personAPI.placeOfBirth,
-                    personAPI.popularity,
-                    personAPI.profilePath
+                    serverResponse.adult,
+                    serverResponse.alsoKnownAs,
+                    serverResponse.biography,
+                    serverResponse.birthday,
+                    serverResponse.deathday,
+                    serverResponse.gender,
+                    serverResponse.homepage,
+                    serverResponse.id,
+                    serverResponse.imdbId,
+                    serverResponse.knownForDepartment,
+                    serverResponse.name,
+                    serverResponse.placeOfBirth,
+                    serverResponse.popularity,
+                    serverResponse.profilePath
                 )
                 AppState.SuccessGetPerson(
                     person
@@ -76,9 +69,7 @@ class PersonViewModel : ViewModel() {
 
     fun getPersonFromRemoteSource(personId: Int) {
         liveDataToObserver.value = AppState.Loading
-        repository.getPersonFromRemoteServerRetroFit(
-            personId,
-            Constant.LANG_VALUE, callBackPerson
-        )
+        repository.getPersonFromRemoteServerRetroFit(personId,
+            Constant.LANG_VALUE, callBackPerson)
     }
 }

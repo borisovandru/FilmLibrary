@@ -68,6 +68,7 @@ class MovieInfoFragment : Fragment() {
         when (data) {
             is AppState.SuccessMovie -> {
                 val movieData = data.movieAdvData
+
                 binding.countryMovie.visibility = View.VISIBLE
                 binding.progressBarCountry.visibility = View.GONE
                 movieData.countries.forEach { country ->

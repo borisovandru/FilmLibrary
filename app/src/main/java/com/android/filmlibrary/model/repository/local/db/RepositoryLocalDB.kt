@@ -1,4 +1,4 @@
-package com.android.filmlibrary.model.repository.localdb
+package com.android.filmlibrary.model.repository.local.db
 
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.room.EntityFavMovies

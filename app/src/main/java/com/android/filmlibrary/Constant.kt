@@ -68,8 +68,6 @@ object Constant {
 
     const val NAME_PARCEBLE_MOVIE = "Movie"
     const val NAME_PARCEBLE_GENRE = "category"
-    const val NAME_PARCEBLE_SETTINGS = "Settings"
-    const val NAME_PARCEBLE_SEARCH = "search"
     const val NAME_PARCEBLE_PERSON = "person"
     const val NAME_PARCEBLE_MAP = "map"
 

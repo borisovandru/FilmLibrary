@@ -16,6 +16,7 @@ class SharedPref(context: Context) {
         return Settings(
             sharedPreferences.getBoolean(contextLoc.getString(R.string.settingsAdult), false),
             sharedPreferences.getBoolean(contextLoc.getString(R.string.withPhoneShared), false),
+            sharedPreferences.getBoolean(contextLoc.getString(R.string.geoFenceShared), false),
         )
     }
 
@@ -24,6 +25,7 @@ class SharedPref(context: Context) {
         val editor = sharedPreferences.edit()
         editor.putBoolean(contextLoc.getString(R.string.settingsAdult), settings.adult)
         editor.putBoolean(contextLoc.getString(R.string.withPhoneShared), settings.withPhone)
+        editor.putBoolean(contextLoc.getString(R.string.geoFenceShared), settings.geoFence)
         editor.apply()
     }
 }

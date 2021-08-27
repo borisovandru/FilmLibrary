@@ -1,10 +1,10 @@
 package com.android.filmlibrary.view.favorite
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
-import com.android.filmlibrary.GlobalVariables
+import com.android.filmlibrary.GlobalVariables.Companion.favMoviesCache
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.FavoriteFragmentBinding
 import com.android.filmlibrary.model.AppState
@@ -78,8 +78,8 @@ class FavoriteFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
-        if ((requireActivity().application as GlobalVariables).favMovies.isNotEmpty()) {
-            favMovies = (requireActivity().application as GlobalVariables).favMovies
+        if (favMoviesCache.isNotEmpty()) {
+            favMovies = favMoviesCache
         }
 
         val observer = Observer<AppState> { appState ->
@@ -108,6 +108,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        (requireActivity().application as GlobalVariables).favMovies = favMovies
+        favMoviesCache = favMovies
     }
 }

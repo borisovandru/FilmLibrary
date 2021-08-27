@@ -104,13 +104,15 @@ class PersonFragment : Fragment() {
             personMini?.let { personMini1 ->
 
                 personMini1.profilePath?.let { profilePage ->
-                    if (profilePage != "" && profilePage != "-" && profilePage != null) {
+                    if (profilePage != "" && profilePage != "-") {
                         Glide.with(this)
                             .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + profilePage)
                             .into(binding.imagePerson)
                     } else {
                         binding.imagePerson.setImageResource(Constant.EMPTY_POSTER)
                     }
+                } ?: run {
+                    binding.imagePerson.setImageResource(Constant.EMPTY_POSTER)
                 }
                 binding.namePerson.text = personMini1.name
 
@@ -123,6 +125,7 @@ class PersonFragment : Fragment() {
                     viewModel.getPersonStart()
                         .observe(viewLifecycleOwner, observer)
                     viewModel.getPersonFromRemoteSource(personId)
+
                 }
             }
         }
