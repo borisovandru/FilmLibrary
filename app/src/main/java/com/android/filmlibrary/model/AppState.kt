@@ -1,6 +1,7 @@
 package com.android.filmlibrary.model
 
 import com.android.filmlibrary.model.data.*
+import com.android.filmlibrary.model.data.credits.Credits
 
 sealed class AppState {
     data class SuccessMoviesByGenre(val moviesByGenre: MoviesByGenre) : AppState()
@@ -35,4 +36,6 @@ sealed class AppState {
     data class SuccessGetFavoriteMovies(val favMovies: List<Movie>) : AppState()
 
     data class SuccessGetContacts(val contacts: List<Contact>) : AppState()
+    data class SuccessGetCredits(val credits: Credits) : AppState()
+    data class SuccessGetPerson(val person: Person) : AppState()
 }

@@ -50,4 +50,25 @@
     <string name="setAccessCall">Предоставить доступ</string>
     <string name="reasonCall">Объяснение</string>
     <string name="accsessToCall">Доступ к звонкам</string>
+    <string name="Credits">Полный актёрский и съёмочный состав:</string>
+    <string name="Acters">Актёры:</string>
+    <string name="ActerName">Имя</string>
+    <string name="ActerRole">Роль</string>
+    <string name="CrewPers">Съёмочный персонал:</string>
+    <string name="nameCrew">Имя</string>
+    <string name="crewRole">Должность</string>
+    <string name="person_image">person image</string>
+    <string name="InTrends">В трендах:</string>
+    <string name="Cinema">Кинотеатры Ульяновска:</string>
+    <string name="Person">Персона</string>
+    <string name="Maps">Карта</string>
+    <string name="CurrentPosition">Моё местоположение</string>
+    <string name="Near">\"Вы рядом с \"</string>
+    <string name="EnterGoeFence">Вход в ГеоЗону</string>
+    <string name="ExitGoeFence">Выход из ГеоЗоны</string>
+    <string name="DwellGoeFence">Внутри ГеоЗоны</string>
+    <string name="UnknowGoeFence">Неизвестно</string>
+    <string name="geoFenceShared">GeoFence</string>
+    <string name="GeoFence">ГеоЗоны</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

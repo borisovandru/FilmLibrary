@@ -50,7 +50,7 @@ class MoviesByGenreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
+        // Inflate the layout for this fragment
         _binding = MoviesByGenreFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -95,9 +95,9 @@ class MoviesByGenreFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
 
-            val navHostFragment: NavHostFragment =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navHostFragment.navController.navigate(
+            val navHostFragment: NavHostFragment? =
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+            navHostFragment?.navController?.navigate(
                 NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO,
                 bundle
             )

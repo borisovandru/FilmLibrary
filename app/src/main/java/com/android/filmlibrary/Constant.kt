@@ -23,6 +23,11 @@ object Constant {
 
     const val URL_TRENDS_1: String = "movie"
 
+    const val URL_PERSON_1: String = "person"
+
+    const val URL_CREDITS_1: String = "movie"
+    const val URL_CREDITS_2: String = "credits"
+
     const val URL_NOW_PLAYING: String = "now_playing"
     const val URL_POPULAR: String = "popular"
     const val URL_TOP_RATED: String = "top_rated"
@@ -37,12 +42,21 @@ object Constant {
 
     const val BASE_IMAGE_URL: String = "https://image.tmdb.org/t/p/"
     const val IMAGE_POSTER_SIZE_1: String = "w185"
-    const val NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE: Int = R.id.action_navigation_genres_to_moviesByGenresFragment2
-    const val NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO: Int = R.id.action_navigation_trends_to_movieInfoFragment
-    const val NAVIGATE_FROM_GENRES_TO_MOVIE_INFO: Int = R.id.action_navigation_genres_to_movieInfoFragment2
-    const val NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO: Int = R.id.action_moviesByGenresFragment_to_movieInfoFragment
-    const val NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO: Int = R.id.action_navigation_search_to_movieInfoFragment
-    const val NAVIGATE_FROM_FAV_TO_MOVIE_INFO: Int = R.id.action_favoriteFragment_to_movieInfoFragment
+    const val NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE: Int =
+        R.id.action_navigation_genres_to_moviesByGenresFragment2
+    const val NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO: Int =
+        R.id.action_navigation_trends_to_movieInfoFragment
+    const val NAVIGATE_FROM_GENRES_TO_MOVIE_INFO: Int =
+        R.id.action_navigation_genres_to_movieInfoFragment2
+    const val NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO: Int =
+        R.id.action_moviesByGenresFragment_to_movieInfoFragment
+    const val NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO: Int =
+        R.id.action_navigation_search_to_movieInfoFragment
+    const val NAVIGATE_FROM_FAV_TO_MOVIE_INFO: Int =
+        R.id.action_favoriteFragment_to_movieInfoFragment
+    const val NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO: Int =
+        R.id.action_movieInfoFragment_to_personFragment
+    const val NAVIGATE_FROM_PERSON_TO_MAP: Int = R.id.action_personFragment_to_mapsFragment
 
     const val SERVER_ERROR = "Ошибка сервера"
     const val REQUEST_ERROR = "Ошибка запроса на сервер"
@@ -56,9 +70,11 @@ object Constant {
     const val NAME_PARCEBLE_GENRE = "category"
     const val NAME_PARCEBLE_SETTINGS = "Settings"
     const val NAME_PARCEBLE_SEARCH = "search"
+    const val NAME_PARCEBLE_PERSON = "person"
+    const val NAME_PARCEBLE_MAP = "map"
 
-    const val FORMATTED_STRING_DATE_TMDB = "yyyy-MM-dd"
-    const val FORMATTED_STRING_YEAR = "yyyy"
+    const val FORMATED_STRING_DATE_TMDB = "yyyy-MM-dd"
+    const val FORMATED_STRING_YEAR = "yyyy"
 
     const val URL_TREND_POSITION = 2
 
@@ -72,4 +88,28 @@ object Constant {
     const val FAV_ICON = R.drawable.ic_favorite_24
 
     const val EMPTY_POSTER = R.drawable.empty_poster
+
+    const val PERMISSION_REQUEST_CODE = 10
+
+    const val MAX_RESULT_GEOCODER = 1
+
+    const val GEOFENCE_RADIUS = 150.0
+
+    const val DEFAULT_LAT = 0.0
+    const val DEFAULT_LONG = 0.0
+
+    const val DEFAULT_U = 0.5f
+    const val DEFAULT_V = 0.5f
+
+    const val GEOFENCE_DEFAULT_WIDTH = 5f
+    const val GEOFENCE_MIN_DIST = 10f
+    const val GEOFENCE_MIN_TIME = 10000L
+    const val GEOFENCE_MOVE_CAM = 15f
+    const val GEOFENCE_PAR_1 = 150f
+    const val GEOFENCE_TIMEOUT = 1000
+
+    const val NOTIFY_CH = "2"
+    const val NOTIFY_NAME = "2"
+
+    const val MAPS_ZOOM = 15f
 }

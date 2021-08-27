@@ -4,9 +4,7 @@ import retrofit2.Callback
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MovieAdv
 import com.android.filmlibrary.model.data.Trend
-import com.android.filmlibrary.model.retrofit.ConfigurationAPI
-import com.android.filmlibrary.model.retrofit.GenresAPI
-import com.android.filmlibrary.model.retrofit.MoviesListAPI
+import com.android.filmlibrary.model.retrofit.*
 
 interface RepositoryRemote {
     fun getMoviesFromLocalStorage(): List<MovieAdv>
@@ -15,7 +13,7 @@ interface RepositoryRemote {
     fun getMovieFromRemoteServerRetroFit(
         movieId: Int,
         lang: String,
-        callback: Callback<com.android.filmlibrary.model.retrofit.MovieAdvAPI>
+        callback: Callback<MovieAdvAPI>
     )
 
     fun getGenresFromRemoteServerRetroFit(lang: String, callback: Callback<GenresAPI>)
@@ -43,5 +41,17 @@ interface RepositoryRemote {
     fun getSettingsFromRemoteServerRetroFit(
         lang: String,
         callback: Callback<ConfigurationAPI>,
+    )
+
+    fun getCreditsByMovieFromRemoteServerRetroFit(
+        movieId: Int,
+        lang: String,
+        callback: Callback<CreditsAPI>,
+    )
+
+    fun getPersonFromRemoteServerRetroFit(
+        personId: Int,
+        lang: String,
+        callback: Callback<PersonAPI>,
     )
 }

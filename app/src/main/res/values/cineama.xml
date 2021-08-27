@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="latitude">
+        <item>54.347518</item>
+        <item>54.380386</item>
+        <item>54.327879</item>
+        <item>54.347518</item>
+    </string-array>
+    <string-array name="longitude">
+        <item>48.345986</item>
+        <item>48.567803</item>
+        <item>48.192763</item>
+        <item>48.364404</item>
+    </string-array>
+</resources>

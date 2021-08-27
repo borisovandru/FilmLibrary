@@ -16,5 +16,4 @@ interface RepositoryLocalDB {
 
     fun getSearchHistory(): List<String>
     fun addSearchQuery(query: String)
-
 }

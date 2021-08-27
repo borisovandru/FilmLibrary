@@ -62,7 +62,6 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val observer = Observer<AppState> { appState ->
             renderData(appState)
@@ -83,7 +82,6 @@ class ProfileFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
-
         adapter.setOnContactClickListener { contact ->
             if (contact.numbers.isNotEmpty()) {
                 checkPermissionCall(contact.numbers.first())
@@ -95,7 +93,6 @@ class ProfileFragment : Fragment() {
         }
         checkPermissionContact()
     }
-
 
     private fun renderData(data: AppState) {
         when (data) {
@@ -116,7 +113,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     companion object {
         const val BUNDLE_EXTRA = NAME_PARCEBLE_SETTINGS
         fun newInstance(bundle: Bundle): MovieInfoFragment {
@@ -125,7 +121,6 @@ class ProfileFragment : Fragment() {
             return fragment
         }
     }
-
 
     private fun renderDataContacts(data: AppState) {
         when (data) {
@@ -141,12 +136,13 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     private fun checkPermissionContact() {
         context?.let {
             when {
-                ContextCompat.checkSelfPermission(it,
-                    Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.READ_CONTACTS
+                ) == PackageManager.PERMISSION_GRANTED -> {
                     getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
@@ -165,7 +161,6 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
 
     private fun makePhoneCall(number: String) {
         val intent = Intent(Intent.ACTION_CALL)
@@ -186,8 +181,10 @@ class ProfileFragment : Fragment() {
     private fun checkPermissionCall(number: String) {
         context?.let {
             when {
-                ContextCompat.checkSelfPermission(it,
-                    Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.CALL_PHONE
+                ) == PackageManager.PERMISSION_GRANTED -> {
                     makePhoneCall(number)
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE) -> {
@@ -232,7 +229,6 @@ class ProfileFragment : Fragment() {
             }
         }
 
-
     private val requestPermissionLauncherCall =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -274,5 +270,4 @@ class ProfileFragment : Fragment() {
         }
         return this
     }
-
 }

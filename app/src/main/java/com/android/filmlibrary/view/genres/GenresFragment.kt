@@ -40,7 +40,6 @@ class GenresFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -120,6 +119,7 @@ class GenresFragment : Fragment() {
         if ((requireActivity().application as GlobalVariables).moviesByGenres.isNotEmpty())
             moviesByGenres = (requireActivity().application as GlobalVariables).moviesByGenres
 
+
         adapter.setOnGenresClickListener { categoryId ->
             activity?.supportFragmentManager?.let {
                 var genre = genres.first()
@@ -128,26 +128,30 @@ class GenresFragment : Fragment() {
                         genre = genreItem
                     }
                 }
-                val navHostFragment: NavHostFragment =
-                    activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                navHostFragment.navController.navigate(
-                    Constant.NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE, //Вынес в константы
-                    Bundle().apply {
-                        putParcelable(NAME_PARCEBLE_GENRE, genre)
-                    }
-                )
+                val navHostFragment: NavHostFragment? =
+                    activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                navHostFragment?.let {
+                    it.navController.navigate(
+                        Constant.NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE, //Вынес в константы
+                        Bundle().apply {
+                            putParcelable(NAME_PARCEBLE_GENRE, genre)
+                        }
+                    )
+                }
             }
         }
 
         adapter.setOnMovieClickListener { movie ->
-            val navHostFragment: NavHostFragment =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navHostFragment.navController.navigate(
-                Constant.NAVIGATE_FROM_GENRES_TO_MOVIE_INFO,  //Вынес в константы
-                Bundle().apply {
-                    putParcelable(NAME_PARCEBLE_MOVIE, movie)
-                }
-            )
+            val navHostFragment: NavHostFragment? =
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+            navHostFragment?.let {
+                it.navController.navigate(
+                    Constant.NAVIGATE_FROM_GENRES_TO_MOVIE_INFO,  //Вынес в константы
+                    Bundle().apply {
+                        putParcelable(NAME_PARCEBLE_MOVIE, movie)
+                    }
+                )
+            }
         }
 
         if (moviesByGenres.isNotEmpty()) {
@@ -159,6 +163,7 @@ class GenresFragment : Fragment() {
             viewModel.getData().observe(viewLifecycleOwner, observer)
             viewModel.getGenresFromRemoteSource()
         }
+
     }
 
     override fun onStop() {
