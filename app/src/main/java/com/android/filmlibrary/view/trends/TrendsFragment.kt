@@ -13,7 +13,9 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -108,7 +110,6 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
     private fun renderTrends(data: AppState) {
         when (data) {
             is AppState.SuccessMoviesByTrends -> {
-                //moviesByTrend = data.moviesByTrends
                 binding.loadingLayoutTrend.visibility = View.GONE
                 adapter.fillMoviesByTrend(data.moviesByTrends)
             }
@@ -137,7 +138,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
                 activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
             navHostFragment?.let {
                 it.navController.navigate(
-                    NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,  //Вынес в константы
+                    NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,
                     Bundle().apply {
                         putParcelable(NAME_PARCEBLE_MOVIE, movie)
                     }
@@ -167,7 +168,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setCinemaAddress(/*cinemas: MutableList<Cinema>*/) {
+    private fun setCinemaAddress() {
         cinemas.forEach { item ->
             val itemLocation = LatLng(
                 item.coordinates.latitude,

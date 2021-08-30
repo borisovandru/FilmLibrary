@@ -8,7 +8,8 @@ import androidx.room.RoomDatabase
         (EntityFavMovies::class),
         (EntityMovies::class),
         (EntitySearchHistory::class),
-        (EntityMovieNote::class)
+        (EntityMovieNote::class),
+        (EntityMessage::class)
     ],
     version = 1,
     exportSchema = false

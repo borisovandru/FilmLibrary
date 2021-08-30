@@ -1,10 +1,7 @@
 package com.android.filmlibrary.model.repository.local.db
 
 import com.android.filmlibrary.model.data.Movie
-import com.android.filmlibrary.model.room.DAO
-import com.android.filmlibrary.model.room.EntityFavMovies
-import com.android.filmlibrary.model.room.EntityMovieNote
-import com.android.filmlibrary.model.room.EntitySearchHistory
+import com.android.filmlibrary.model.room.*
 
 class RepositoryLocalDBImpl(private val localDataSource: DAO) : RepositoryLocalDB {
 
@@ -61,5 +58,14 @@ class RepositoryLocalDBImpl(private val localDataSource: DAO) : RepositoryLocalD
 
     override fun addSearchQuery(query: String) {
         localDataSource.insertSearchQuery(EntitySearchHistory(0, query))
+    }
+
+    //Message
+    override fun getMessages(): List<EntityMessage> {
+        return localDataSource.getMessages()
+    }
+
+    override fun addMessage(header: String, body: String): Long {
+        return localDataSource.addMessage(EntityMessage(0, header, body))
     }
 }

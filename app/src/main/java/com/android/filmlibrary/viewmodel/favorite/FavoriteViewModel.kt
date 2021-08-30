@@ -21,7 +21,13 @@ class FavoriteViewModel(private val liveDataToObserver: MutableLiveData<AppState
         liveDataToObserver.value = AppState.Loading
         Thread {
             liveDataToObserver.postValue(
-                (AppState.SuccessGetFavoriteMovies(entityFavMoviesToMovies(repositoryLocal.getFavoriteMovies())))
+                (
+                        AppState.SuccessGetFavoriteMovies(
+                            entityFavMoviesToMovies(
+                                repositoryLocal.getFavoriteMovies()
+                            )
+                        )
+                        )
             )
         }.start()
     }

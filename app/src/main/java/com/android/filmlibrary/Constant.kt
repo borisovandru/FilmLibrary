@@ -57,6 +57,7 @@ object Constant {
     const val NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO: Int =
         R.id.action_movieInfoFragment_to_personFragment
     const val NAVIGATE_FROM_PERSON_TO_MAP: Int = R.id.action_personFragment_to_mapsFragment
+    const val NAVIGATE_TO_MESSAGE: Int = R.id.messagesFragment
 
     const val SERVER_ERROR = "Ошибка сервера"
     const val REQUEST_ERROR = "Ошибка запроса на сервер"
@@ -70,6 +71,8 @@ object Constant {
     const val NAME_PARCEBLE_GENRE = "category"
     const val NAME_PARCEBLE_PERSON = "person"
     const val NAME_PARCEBLE_MAP = "map"
+
+    const val NEW_MESSAGE = "NewMessage"
 
     const val FORMATED_STRING_DATE_TMDB = "yyyy-MM-dd"
     const val FORMATED_STRING_YEAR = "yyyy"
@@ -110,4 +113,10 @@ object Constant {
     const val NOTIFY_NAME = "2"
 
     const val MAPS_ZOOM = 15f
+
+    const val COLOR_RED = R.color.red
+    const val COLOR_PURPLE = R.color.purple_500
+
+    const val NEW_MAIL = R.drawable.ic_new_email_24
+    const val MAIL = R.drawable.ic_baseline_mail_outline_24
 }

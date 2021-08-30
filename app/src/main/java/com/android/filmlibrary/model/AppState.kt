@@ -37,4 +37,5 @@ sealed class AppState {
     data class SuccessGetContacts(val contacts: List<Contact>) : AppState()
     data class SuccessGetCredits(val credits: Credits) : AppState()
     data class SuccessGetPerson(val person: Person) : AppState()
+    data class SuccessGetMessages(val messages: List<MessageNot>) : AppState()
 }
