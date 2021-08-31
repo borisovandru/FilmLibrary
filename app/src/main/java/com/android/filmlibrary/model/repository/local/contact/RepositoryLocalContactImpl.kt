@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.util.Log
 import com.android.filmlibrary.ContextProvider
 import com.android.filmlibrary.IContextProvider
 import com.android.filmlibrary.model.data.CallbackMy
@@ -17,9 +16,7 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
     private val executor = Executors.newCachedThreadPool()
 
     override fun getListOfContact(withPhone: Boolean, callbackMy: CallbackMy<List<Contact>>) {
-        Log.v("Debug1", "RepositoryLocalImpl getListOfContact")
         executor.execute {
-            Log.v("Debug1", "RepositoryLocalImpl getListOfContact post")
             val selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL " +
                     if (withPhone) {
                         "AND " + ContactsContract.Data.HAS_PHONE_NUMBER + " = '" + 1 + "'"
@@ -83,7 +80,6 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
                 }
                 cursorWithContacts.close()
             }
-            Log.v("Debug1", "RepositoryLocalImpl getListOfContact post end")
             callbackMy.onSuccess(answer)
         }
     }

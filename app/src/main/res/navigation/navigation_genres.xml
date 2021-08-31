@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_genres"
+    app:startDestination="@id/genres_scr">
+
+    <fragment
+        android:id="@+id/genres_scr"
+        android:name="com.android.filmlibrary.view.genres.GenresFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/genres_fragment" >
+        <action
+            android:id="@+id/action_genresFragment_to_moviesByGenreFragment"
+            app:destination="@id/moviesByGenreFragment" />
+        <action
+            android:id="@+id/action_genresFragment_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moviesByGenreFragment"
+        android:name="com.android.filmlibrary.view.moviesbygenre.MoviesByGenreFragment"
+        android:label="@string/ng_name_movies_cat"
+        tools:layout="@layout/movies_by_genre_fragment" >
+        <action
+            android:id="@+id/action_moviesByGenreFragment_to_movieInfoFragment"
+            app:destination="@id/movieInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieInfoFragment"
+        android:name="com.android.filmlibrary.view.itemmovie.MovieInfoFragment"
+        android:label="@string/ng_name_item_movie"
+        tools:layout="@layout/movie_info_fragment" >
+        <action
+            android:id="@+id/action_movieInfoFragment_to_personFragment"
+            app:destination="@id/personFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personFragment"
+        android:name="com.android.filmlibrary.view.person.PersonFragment"
+        android:label="@string/Person"
+        tools:layout="@layout/person_fragment" >
+        <action
+            android:id="@+id/action_personFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment4"
+        android:name="com.android.filmlibrary.view.maps.MapsFragment"
+        android:label="@string/Maps"
+        tools:layout="@layout/maps_fragment" />
+</navigation>

@@ -59,7 +59,7 @@ class PersonFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putString(Constant.NAME_PARCEBLE_MAP, address)
                         val navHostFragment: NavHostFragment? =
-                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
                         navHostFragment?.navController?.navigate(
                             Constant.NAVIGATE_FROM_PERSON_TO_MAP,
                             bundle

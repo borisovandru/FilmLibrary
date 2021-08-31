@@ -37,6 +37,7 @@ class MoviesByGenreFragment : Fragment() {
     }
 
     private val adapter = MoviesByGenreAdapter()
+
     private var _binding: MoviesByGenreFragmentBinding? = null
     private val binding
         get() = _binding!!
@@ -96,7 +97,7 @@ class MoviesByGenreFragment : Fragment() {
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
 
             val navHostFragment: NavHostFragment? =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
             navHostFragment?.navController?.navigate(
                 NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO,
                 bundle

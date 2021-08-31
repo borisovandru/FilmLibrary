@@ -22,7 +22,7 @@
         android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/Search"
+        android:contentDescription="@string/find"
         android:src="@drawable/ic_search_24"
         app:layout_constraintBottom_toBottomOf="@+id/search_query"
         app:layout_constraintEnd_toEndOf="@+id/search_query"

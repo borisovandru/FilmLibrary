@@ -108,7 +108,7 @@ class SearchFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
             val navHostFragment: NavHostFragment? =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
             navHostFragment?.navController?.navigate(
                 Constant.NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO,
                 bundle
@@ -117,16 +117,22 @@ class SearchFragment : Fragment() {
 
         if (searchStringCache != "") {
             binding.searchQuery.setText(searchStringCache)
-            val observer = Observer<AppState> { appState ->
+            val observerSearchResult = Observer<AppState> { appState ->
                 renderData(appState)
             }
             viewModel.setData(
                 binding.searchQuery.text.toString(),
                 settings.adult
             )
-                .observe(viewLifecycleOwner, observer)
+                .observe(viewLifecycleOwner, observerSearchResult)
             viewModel.getSearchDataFromRemoteSource()
         }
+
+        val observerSearchHistory = Observer<AppState> { appState ->
+            renderDataSearchHistory(appState)
+        }
+        viewModel.getSearchHistory().observe(viewLifecycleOwner, observerSearchHistory)
+        viewModel.getSearchHistory2()
 
         binding.searchButton.setOnClickListener {
             val observerOnClick = Observer<AppState> { appState ->
@@ -139,10 +145,7 @@ class SearchFragment : Fragment() {
                 .observe(viewLifecycleOwner, observerOnClick)
             viewModel.getSearchDataFromRemoteSource()
 
-            val observer2 = Observer<AppState> { appState ->
-                renderDataSearchHistory(appState)
-            }
-            viewModel.getSearchHistory().observe(viewLifecycleOwner, observer2)
+            viewModel.getSearchHistory().observe(viewLifecycleOwner, observerSearchHistory)
             viewModel.getSearchHistory2()
         }
     }

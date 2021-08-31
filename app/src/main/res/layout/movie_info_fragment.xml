@@ -72,7 +72,7 @@
                 android:id="@+id/delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/Search"
+                android:contentDescription="@string/find"
                 android:src="@drawable/ic_delete_note_24"
                 app:layout_constraintBottom_toBottomOf="@+id/movieNoteHeader"
                 app:layout_constraintEnd_toEndOf="@+id/movieNoteHeader"

@@ -135,7 +135,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
 
         adapter.setOnMovieClickListener { movie ->
             val navHostFragment: NavHostFragment? =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
             navHostFragment?.let {
                 it.navController.navigate(
                     NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO,
@@ -285,22 +285,25 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         val geoClient = LocationServices.getGeofencingClient(activity)
 
         cinemas.forEach { item ->
-            geoClient.removeGeofences(item.pendingIntent)?.run {
-                addOnSuccessListener {
-                    Log.v("Debug1", "removeGeoFence Success")
-                    Toast.makeText(
-                        activity,
-                        "Удалена ГеоЗона " + item.name,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                addOnFailureListener {
-                    Log.v("Debug1", "removeGeoFence Failure")
-                    Toast.makeText(
-                        activity,
-                        "Не смог удалить ГеоЗону " + item.name,
-                        Toast.LENGTH_SHORT
-                    ).show()
+
+            item.pendingIntent?.let {
+                geoClient.removeGeofences(it).run {
+                    addOnSuccessListener {
+                        Log.v("Debug1", "removeGeoFence Success")
+                        Toast.makeText(
+                            activity,
+                            "Удалена ГеоЗона " + item.name,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    addOnFailureListener {
+                        Log.v("Debug1", "removeGeoFence Failure")
+                        Toast.makeText(
+                            activity,
+                            "Не смог удалить ГеоЗону " + item.name,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

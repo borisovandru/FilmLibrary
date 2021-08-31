@@ -9,9 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,11 +23,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.GlobalVariables.Companion.settings
 import com.android.filmlibrary.R
-import com.android.filmlibrary.databinding.ProfileFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Contact
 import com.android.filmlibrary.view.hide
-import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
 import com.android.filmlibrary.view.show
 import com.android.filmlibrary.view.trends.TrendsFragment
 import com.android.filmlibrary.viewmodel.profile.ProfileViewModel
@@ -34,9 +34,11 @@ class ProfileFragment : Fragment() {
 
     private var contacts: List<Contact> = ArrayList()
     private lateinit var recyclerView: RecyclerView
-    private var _binding: ProfileFragmentBinding? = null
-    private val binding
-        get() = _binding!!
+    private lateinit var switchAdult: SwitchCompat
+    private lateinit var switchGeoFence: SwitchCompat
+    private lateinit var switchWithPhone: SwitchCompat
+    private lateinit var rvContacts: RecyclerView
+    private lateinit var prContact: ProgressBar
 
     private val adapter: ContactsAdapter by lazy {
         ContactsAdapter()
@@ -47,50 +49,59 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        _binding = ProfileFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+        val view = inflater.inflate(R.layout.profile_fragment, container, false)
+        switchAdult = view.findViewById(R.id.switchAdult)
+        switchGeoFence = view.findViewById(R.id.switchGeoFence)
+        switchWithPhone = view.findViewById(R.id.switchWithPhone)
+
+        rvContacts = view.findViewById(R.id.rv_contacts)
+
+        prContact = view.findViewById(R.id.prContact)
+
+        return view
     }
 
     override fun onDestroyView() {
-        _binding = null
+
         super.onDestroyView()
+        Log.v("Debug1", "ProfileFragment onDestroyView")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.v("Debug1", "ProfileFragment onViewCreated")
+        Log.v("Debug1", "ProfileFragment onViewCreated savedInstanceState=" + savedInstanceState)
 
-        binding.switchAdult.isChecked =
+        switchAdult.isChecked =
             settings.adult
-        binding.switchAdult.setOnCheckedChangeListener { _, isChecked ->
+        switchAdult.setOnCheckedChangeListener { _, isChecked ->
             settings.adult = isChecked
         }
 
-        binding.switchGeoFence.isChecked =
+        switchGeoFence.isChecked =
             settings.geoFence
-        binding.switchGeoFence.setOnClickListener {
-            settings.geoFence = binding.switchGeoFence.isChecked
+        switchGeoFence.setOnClickListener {
+            settings.geoFence = switchGeoFence.isChecked
 
-            if (!binding.switchGeoFence.isChecked) {
+            if (!switchGeoFence.isChecked) {
                 val trendsFragment = TrendsFragment.newInstance()
                 trendsFragment.removeGeoFence(requireActivity())
             }
         }
 
-        binding.switchWithPhone.isChecked =
+        switchWithPhone.isChecked =
             settings.withPhone
-        binding.switchWithPhone.setOnCheckedChangeListener { _, isChecked ->
+        switchWithPhone.setOnCheckedChangeListener { _, isChecked ->
             settings.withPhone = isChecked
             getContacts(isChecked)
         }
 
-        recyclerView = binding.rvContacts
+        recyclerView = rvContacts
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN)
         recyclerView.adapter = adapter
-
 
         adapter.setOnContactClickListener { contact ->
             if (contact.numbers.isNotEmpty()) {
@@ -104,35 +115,23 @@ class ProfileFragment : Fragment() {
         checkPermissionContact()
     }
 
-    companion object {
-        fun newInstance(bundle: Bundle): MovieInfoFragment {
-            val fragment = MovieInfoFragment()
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
-
     private fun renderDataContacts(data: AppState) {
-        Log.v("Debug1", "ProfileFragment renderDataContacts")
         when (data) {
             is AppState.SuccessGetContacts -> {
-                Log.v("Debug1", "ProfileFragment renderDataContacts SuccessGetContacts")
-                binding.rvContacts.show()
-                binding.prContact.hide()
+                rvContacts.show()
+                prContact.hide()
                 contacts = data.contacts
                 adapter.fillContacts(data.contacts)
             }
             is AppState.Loading -> {
-                Log.v("Debug1", "ProfileFragment renderDataContacts Loading")
-                binding.rvContacts.hide()
-                binding.prContact.show()
+                rvContacts.hide()
+                prContact.show()
             }
             else -> Log.v("Debug1", "ProfileFragment renderDataContacts else")
         }
     }
 
     private fun checkPermissionContact() {
-        Log.v("Debug1", "ProfileFragment checkPermissionContact")
         context?.let {
             when {
                 ContextCompat.checkSelfPermission(
@@ -193,7 +192,6 @@ class ProfileFragment : Fragment() {
                         .create()
                         .show()
                 }
-
                 else -> requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
             }
         }
@@ -204,15 +202,8 @@ class ProfileFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                // Permission is granted. Continue the action or workflow in your
-                // app.
                 getContacts(settings.withPhone)
             } else {
-                // Explain to the user that the feature is unavailable because the
-                // features requires a permission that the user has denied. At the
-                // same time, respect the user's decision. Don't link to system
-                // settings in an effort to convince the user to change their
-                // decision.
                 context?.let {
                     AlertDialog.Builder(it)
                         .setTitle(getString(R.string.accessContact))
@@ -229,14 +220,7 @@ class ProfileFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                // Permission is granted. Continue the action or workflow in your
-                // app.
             } else {
-                // Explain to the user that the feature is unavailable because the
-                // features requires a permission that the user has denied. At the
-                // same time, respect the user's decision. Don't link to system
-                // settings in an effort to convince the user to change their
-                // decision.
                 context?.let {
                     AlertDialog.Builder(it)
                         .setTitle(getString(R.string.accsessToCall))
@@ -249,7 +233,17 @@ class ProfileFragment : Fragment() {
         }
 
     private fun getContacts(withPhone: Boolean) {
-        Log.v("Debug1", "ProfileFragment getContacts")
         viewModel.getContacts(withPhone)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.v("Debug1", "ProfileFragment onCreate")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.v("Debug1", "ProfileFragment onSaveInstanceState")
+        super.onSaveInstanceState(outState)
+        Log.v("Debug1", "ProfileFragment onSaveInstanceState2")
     }
 }

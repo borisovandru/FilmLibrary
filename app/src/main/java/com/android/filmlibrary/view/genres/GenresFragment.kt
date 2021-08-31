@@ -122,7 +122,7 @@ class GenresFragment : Fragment() {
                     }
                 }
                 val navHostFragment: NavHostFragment? =
-                    activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                    activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
                 navHostFragment?.let {
                     it.navController.navigate(
                         Constant.NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE, //Вынес в константы
@@ -136,7 +136,7 @@ class GenresFragment : Fragment() {
 
         adapter.setOnMovieClickListener { movie ->
             val navHostFragment: NavHostFragment? =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
             navHostFragment?.let {
                 it.navController.navigate(
                     Constant.NAVIGATE_FROM_GENRES_TO_MOVIE_INFO,  //Вынес в константы
