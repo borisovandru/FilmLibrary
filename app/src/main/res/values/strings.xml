@@ -70,5 +70,6 @@
     <string name="UnknowGoeFence">Неизвестно</string>
     <string name="geoFenceShared">GeoFence</string>
     <string name="GeoFence">ГеоЗоны</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="MessagesFAB">Сообщения</string>
+    <string name="Messages">Сообщения</string>
 </resources>

@@ -19,7 +19,7 @@ import com.android.filmlibrary.model.data.MovieAdv
 import com.android.filmlibrary.model.data.credits.Cast
 import com.android.filmlibrary.model.data.credits.Credits
 import com.android.filmlibrary.model.data.credits.Crew
-import com.android.filmlibrary.model.repository.localdb.RepositoryLocalDBImpl
+import com.android.filmlibrary.model.repository.local.db.RepositoryLocalDBImpl
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.CastAPI
 import com.android.filmlibrary.model.retrofit.CreditsAPI
@@ -60,22 +60,12 @@ class MovieInfoViewModel : ViewModel() {
     fun addNote(noteText: String) {
         this.noteText = noteText
         Thread {
-            val noteCur: String?
-            noteCur = repositoryLocal.getMovieNote(movieId.toLong())
             liveDataToObserverAddNote.postValue(
-                if (noteCur != null) {
-                    AppState.SuccessSetNote(
-                        repositoryLocal.updateMovieNote(
-                            movieId.toLong(), noteText
-                        ).toLong()
-                    )
-                } else {
-                    AppState.SuccessSetNote(
-                        repositoryLocal.insertMovieNote(
-                            movieId.toLong(), noteText
-                        )
-                    )
-                }
+                AppState.SuccessSetNote(
+                    repositoryLocal.updateMovieNote(
+                        movieId.toLong(), noteText
+                    ).toLong()
+                )
             )
         }.start()
     }
@@ -263,7 +253,6 @@ class MovieInfoViewModel : ViewModel() {
                         )
                     )
                 }
-
                 AppState.SuccessGetCredits(
                     Credits(
                         serverResponse.id,

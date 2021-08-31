@@ -34,6 +34,7 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         this.moviesByGenre = moviesByGenre
         this.genre = moviesByGenre.genre
         notifyDataSetChanged()
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -61,7 +62,6 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         } else {
             holder.movieYear.text = ""
         }
-
         movie.posterUrl?.let { holder.setData(it) }
         holder.movieId = movie.id
         holder.movie = movie
@@ -82,6 +82,7 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         var movie: Movie? = null
 
         fun setData(posterURL: String) {
+
             if (posterURL != "" && posterURL != "-") {
                 Glide.with(parentLoc.context)
                     .load(Constant.BASE_IMAGE_URL + Constant.IMAGE_POSTER_SIZE_1 + posterURL)
@@ -89,7 +90,6 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
             } else {
                 moviePoster.setImageResource(EMPTY_POSTER)
             }
-
         }
 
         init {

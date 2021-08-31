@@ -22,8 +22,18 @@
         android:layout_height="wrap_content"
         android:text="@string/adult"
         app:layout_constraintBottom_toTopOf="@+id/contactsHeader"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switchGeoFence"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchGeoFence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/GeoFence"
+        app:layout_constraintBottom_toTopOf="@+id/contactsHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/switchAdult"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
@@ -41,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/withPhone"
+        app:layout_constraintBottom_toTopOf="@+id/rv_contacts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/contactsHeader"
         app:layout_constraintTop_toBottomOf="@+id/switchAdult" />
@@ -49,11 +60,23 @@
         android:id="@+id/rv_contacts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchWithPhone"
+        tools:itemCount="5"
         tools:listitem="@layout/item_contact" />
+
+    <ProgressBar
+        android:id="@+id/prContact"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/rv_contacts"
+        app:layout_constraintStart_toStartOf="@+id/rv_contacts"
+        app:layout_constraintTop_toTopOf="@+id/rv_contacts" />
 
     <FrameLayout
         android:id="@+id/loadingLayout"

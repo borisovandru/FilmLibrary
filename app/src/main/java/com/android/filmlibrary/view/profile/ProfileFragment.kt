@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,17 +19,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_SETTINGS
-import com.android.filmlibrary.GlobalVariables
+import com.android.filmlibrary.GlobalVariables.Companion.settings
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
 import com.android.filmlibrary.model.AppState
+import com.android.filmlibrary.model.data.Contact
+import com.android.filmlibrary.view.hide
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
-import com.android.filmlibrary.view.showSnackBar
+import com.android.filmlibrary.view.show
+import com.android.filmlibrary.view.trends.TrendsFragment
 import com.android.filmlibrary.viewmodel.profile.ProfileViewModel
 
 class ProfileFragment : Fragment() {
 
+    private var contacts: List<Contact> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     private var _binding: ProfileFragmentBinding? = null
     private val binding
@@ -46,75 +50,61 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
+
         _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onDestroyView() {
-        (requireActivity().application as GlobalVariables).settings.adult =
-            binding.switchAdult.isChecked
-
-        (requireActivity().application as GlobalVariables).settings.withPhone =
-            binding.switchWithPhone.isChecked
-
         _binding = null
         super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val observer = Observer<AppState> { appState ->
-            renderData(appState)
-        }
-        viewModel.getData().observe(viewLifecycleOwner, observer)
-        viewModel.getDataFromRemoteSource()
+        Log.v("Debug1", "ProfileFragment onViewCreated")
+
         binding.switchAdult.isChecked =
-            (requireActivity().application as GlobalVariables).settings.adult
+            settings.adult
+        binding.switchAdult.setOnCheckedChangeListener { _, isChecked ->
+            settings.adult = isChecked
+        }
+
+        binding.switchGeoFence.isChecked =
+            settings.geoFence
+        binding.switchGeoFence.setOnClickListener {
+            settings.geoFence = binding.switchGeoFence.isChecked
+
+            if (!binding.switchGeoFence.isChecked) {
+                val trendsFragment = TrendsFragment.newInstance()
+                trendsFragment.removeGeoFence(requireActivity())
+            }
+        }
 
         binding.switchWithPhone.isChecked =
-            (requireActivity().application as GlobalVariables).settings.withPhone
-
-        binding.switchWithPhone.setOnCheckedChangeListener { buttonView, isChecked ->
+            settings.withPhone
+        binding.switchWithPhone.setOnCheckedChangeListener { _, isChecked ->
+            settings.withPhone = isChecked
             getContacts(isChecked)
         }
 
         recyclerView = binding.rvContacts
-        recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
+        recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN)
         recyclerView.adapter = adapter
+
 
         adapter.setOnContactClickListener { contact ->
             if (contact.numbers.isNotEmpty()) {
                 checkPermissionCall(contact.numbers.first())
             }
         }
-
-        viewModel.contacts.observe(viewLifecycleOwner) {
-            renderDataContacts(it)
+        val observerContact = Observer<AppState> { appState ->
+            renderDataContacts(appState)
         }
+        viewModel.getContactsStart().observe(viewLifecycleOwner, observerContact)
         checkPermissionContact()
     }
 
-    private fun renderData(data: AppState) {
-        when (data) {
-            is AppState.SuccessSettings -> {
-                binding.loadingLayout.visibility = View.GONE
-            }
-            is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                data.error.message?.let {
-                    binding.loadingLayout.showSnackBar(it, R.string.ReloadMsg) {
-                        viewModel.getDataFromRemoteSource()
-                    }
-                }
-            }
-        }
-    }
-
     companion object {
-        const val BUNDLE_EXTRA = NAME_PARCEBLE_SETTINGS
         fun newInstance(bundle: Bundle): MovieInfoFragment {
             val fragment = MovieInfoFragment()
             fragment.arguments = bundle
@@ -123,27 +113,33 @@ class ProfileFragment : Fragment() {
     }
 
     private fun renderDataContacts(data: AppState) {
+        Log.v("Debug1", "ProfileFragment renderDataContacts")
         when (data) {
             is AppState.SuccessGetContacts -> {
+                Log.v("Debug1", "ProfileFragment renderDataContacts SuccessGetContacts")
                 binding.rvContacts.show()
-                binding.loadingLayout.hide()
+                binding.prContact.hide()
+                contacts = data.contacts
                 adapter.fillContacts(data.contacts)
             }
             is AppState.Loading -> {
+                Log.v("Debug1", "ProfileFragment renderDataContacts Loading")
                 binding.rvContacts.hide()
-                binding.loadingLayout.show()
+                binding.prContact.show()
             }
+            else -> Log.v("Debug1", "ProfileFragment renderDataContacts else")
         }
     }
 
     private fun checkPermissionContact() {
+        Log.v("Debug1", "ProfileFragment checkPermissionContact")
         context?.let {
             when {
                 ContextCompat.checkSelfPermission(
                     it,
                     Manifest.permission.READ_CONTACTS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
+                    getContacts(settings.withPhone)
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     AlertDialog.Builder(it)
@@ -156,7 +152,6 @@ class ProfileFragment : Fragment() {
                         .create()
                         .show()
                 }
-
                 else -> requestPermissionLauncherContact.launch(Manifest.permission.READ_CONTACTS)
             }
         }
@@ -211,7 +206,7 @@ class ProfileFragment : Fragment() {
             if (isGranted) {
                 // Permission is granted. Continue the action or workflow in your
                 // app.
-                getContacts((requireActivity().application as GlobalVariables).settings.withPhone)
+                getContacts(settings.withPhone)
             } else {
                 // Explain to the user that the feature is unavailable because the
                 // features requires a permission that the user has denied. At the
@@ -254,20 +249,7 @@ class ProfileFragment : Fragment() {
         }
 
     private fun getContacts(withPhone: Boolean) {
+        Log.v("Debug1", "ProfileFragment getContacts")
         viewModel.getContacts(withPhone)
-    }
-
-    private fun View.show(): View {
-        if (visibility != View.VISIBLE) {
-            visibility = View.VISIBLE
-        }
-        return this
-    }
-
-    private fun View.hide(): View {
-        if (visibility != View.GONE) {
-            visibility = View.GONE
-        }
-        return this
     }
 }

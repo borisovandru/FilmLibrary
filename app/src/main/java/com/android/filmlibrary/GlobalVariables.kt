@@ -1,5 +1,6 @@
 package com.android.filmlibrary
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
@@ -11,22 +12,6 @@ import com.android.filmlibrary.model.room.DataBase
 import java.lang.IllegalStateException
 
 class GlobalVariables : Application() {
-    var moviesByTrend: List<MoviesByTrend> = ArrayList()
-    var favMovies: List<Movie> = ArrayList()
-    var moviesBySearch = MoviesList(
-        listOf(),
-        0,
-        0
-    )
-    var moviesByGenre: MoviesByGenre = MoviesByGenre(Genre(), MoviesList(mutableListOf(), 0, 0))
-    var moviesList: MoviesList = MoviesList(listOf(), 0, 0)
-    var moviesByGenres: List<MoviesByGenre> = ArrayList()
-    var genres: List<Genre> = ArrayList()
-
-    var seachString: String = ""
-
-    var settings: Settings = Settings(false, false)
-
 
     override fun onCreate() {
         super.onCreate()
@@ -35,8 +20,23 @@ class GlobalVariables : Application() {
     }
 
     companion object {
+        var settings: Settings = Settings(adult = false, withPhone = false, geoFence = false)
+        var searchStringCache: String = ""
+        var contactsCache: List<Contact> = ArrayList()
+        var genresCache = mutableListOf<Genre>()
+        var moviesByGenresCache = mutableListOf<MoviesByGenre>()
+        var moviesListCache: MoviesList = MoviesList(listOf(), 0, 0)
+        var moviesByGenreCache: MoviesByGenre =
+            MoviesByGenre(Genre(), MoviesList(mutableListOf(), 0, 0))
+        var moviesBySearchCache = MoviesList(listOf(), 0, 0)
+        var favMoviesCache: List<Movie> = ArrayList()
+        var moviesByTrendsCache: List<MoviesByTrend> = ArrayList()
+
         lateinit var context: Context
+        lateinit var activity: Activity
+
         private var appInstance: GlobalVariables? = null
+
         private lateinit var db: DataBase
         private const val DB_NAME = NAME_DB
 
@@ -60,9 +60,13 @@ class GlobalVariables : Application() {
 
 interface IContextProvider {
     val context: Context
+    val activity: Activity
 }
 
 object ContextProvider : IContextProvider {
     override val context: Context
         get() = GlobalVariables.context
+
+    override val activity: Activity
+        get() = GlobalVariables.activity
 }

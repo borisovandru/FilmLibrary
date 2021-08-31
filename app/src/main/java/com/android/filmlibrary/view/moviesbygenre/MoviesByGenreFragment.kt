@@ -15,7 +15,8 @@ import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_GENRE
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
 import com.android.filmlibrary.Constant.NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO
-import com.android.filmlibrary.GlobalVariables
+import com.android.filmlibrary.GlobalVariables.Companion.moviesByGenreCache
+import com.android.filmlibrary.GlobalVariables.Companion.moviesListCache
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MoviesByGenreFragmentBinding
 import com.android.filmlibrary.model.AppState
@@ -36,7 +37,6 @@ class MoviesByGenreFragment : Fragment() {
     }
 
     private val adapter = MoviesByGenreAdapter()
-
     private var _binding: MoviesByGenreFragmentBinding? = null
     private val binding
         get() = _binding!!
@@ -50,7 +50,7 @@ class MoviesByGenreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
+
         _binding = MoviesByGenreFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -88,8 +88,8 @@ class MoviesByGenreFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
-        if ((requireActivity().application as GlobalVariables).moviesList.results.isNotEmpty())
-            moviesByGenre = (requireActivity().application as GlobalVariables).moviesByGenre
+        if (moviesListCache.results.isNotEmpty())
+            moviesByGenre = moviesByGenreCache
 
         adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
@@ -119,7 +119,7 @@ class MoviesByGenreFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        (requireActivity().application as GlobalVariables).moviesByGenre = moviesByGenre
+        moviesByGenreCache = moviesByGenre
     }
 
     companion object {

@@ -13,20 +13,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_SEARCH
 import com.android.filmlibrary.Constant.THRESHOLD
-import com.android.filmlibrary.GlobalVariables
+import com.android.filmlibrary.GlobalVariables.Companion.searchStringCache
+import com.android.filmlibrary.GlobalVariables.Companion.settings
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.SearchFragmentBinding
 import com.android.filmlibrary.model.AppState
-import com.android.filmlibrary.model.data.MoviesList
 import com.android.filmlibrary.view.showSnackBar
 import com.android.filmlibrary.viewmodel.search.SearchViewModel
 
 class SearchFragment : Fragment() {
 
     companion object {
-        const val BUNDLE_EXTRA = NAME_PARCEBLE_SEARCH
         fun newInstance(bundle: Bundle): SearchFragment {
             val fragment = SearchFragment()
             fragment.arguments = bundle
@@ -42,11 +40,6 @@ class SearchFragment : Fragment() {
     private var _binding: SearchFragmentBinding? = null
     private val binding
         get() = _binding!!
-    private var moviesBySearch = MoviesList(
-        listOf(),
-        0,
-        0
-    )
 
     private var searchHistory: List<String> = mutableListOf()
 
@@ -69,9 +62,9 @@ class SearchFragment : Fragment() {
     private fun renderData(data: AppState) {
         when (data) {
             is AppState.SuccessSearch -> {
-                moviesBySearch = data.moviesBySearches
                 binding.loadingLayoutSearch.visibility = View.GONE
-                adapter.fillMoviesBySearch(moviesBySearch)
+                binding.searchQuery.setText(data.moviesBySearches.searchString)
+                adapter.fillMoviesBySearch(data.moviesBySearches.searchResult)
             }
             is AppState.Loading -> {
                 binding.loadingLayoutSearch.visibility = View.VISIBLE
@@ -111,14 +104,6 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
         recyclerView.adapter = adapter
 
-        if ((requireActivity().application as GlobalVariables).moviesBySearch.results.isNotEmpty()) {
-            moviesBySearch = (requireActivity().application as GlobalVariables).moviesBySearch
-        }
-
-        if (((requireActivity().application as GlobalVariables).seachString) != "") {
-            binding.searchQuery.setText((requireActivity().application as GlobalVariables).seachString)
-        }
-
         adapter.setOnMovieClickListener { movie ->
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
@@ -130,19 +115,28 @@ class SearchFragment : Fragment() {
             )
         }
 
-        if (moviesBySearch.results.isNotEmpty()) {
-            adapter.fillMoviesBySearch(moviesBySearch)
-        }
-
-        binding.searchButton.setOnClickListener {
+        if (searchStringCache != "") {
+            binding.searchQuery.setText(searchStringCache)
             val observer = Observer<AppState> { appState ->
                 renderData(appState)
             }
             viewModel.setData(
                 binding.searchQuery.text.toString(),
-                (requireActivity().application as GlobalVariables).settings.adult
+                settings.adult
             )
                 .observe(viewLifecycleOwner, observer)
+            viewModel.getSearchDataFromRemoteSource()
+        }
+
+        binding.searchButton.setOnClickListener {
+            val observerOnClick = Observer<AppState> { appState ->
+                renderData(appState)
+            }
+            viewModel.setData(
+                binding.searchQuery.text.toString(),
+                settings.adult
+            )
+                .observe(viewLifecycleOwner, observerOnClick)
             viewModel.getSearchDataFromRemoteSource()
 
             val observer2 = Observer<AppState> { appState ->
@@ -151,12 +145,5 @@ class SearchFragment : Fragment() {
             viewModel.getSearchHistory().observe(viewLifecycleOwner, observer2)
             viewModel.getSearchHistory2()
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        (requireActivity().application as GlobalVariables).moviesBySearch = moviesBySearch
-        (requireActivity().application as GlobalVariables).seachString =
-            binding.searchQuery.text.toString()
     }
 }

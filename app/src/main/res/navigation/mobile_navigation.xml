@@ -93,4 +93,9 @@
         android:name="com.android.filmlibrary.view.maps.MapsFragment"
         android:label="@string/Maps"
         tools:layout="@layout/maps_fragment" />
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.android.filmlibrary.view.message.MessagesFragment"
+        android:label="@string/Messages"
+        tools:layout="@layout/messages_fragment" />
 </navigation>

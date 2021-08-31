@@ -19,6 +19,7 @@ import com.android.filmlibrary.Constant.URL_TOP_RATED_NAME
 import com.android.filmlibrary.Constant.URL_TREND_POSITION
 import com.android.filmlibrary.Constant.URL_UPCOMING
 import com.android.filmlibrary.Constant.URL_UPCOMING_NAME
+import com.android.filmlibrary.GlobalVariables.Companion.moviesByTrendsCache
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.*
 import com.android.filmlibrary.model.repository.remote.RepositoryRemote
@@ -27,12 +28,14 @@ import com.android.filmlibrary.model.retrofit.MoviesListAPI
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
+class TrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = RepositoryRemoteImpl()) :
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()
 
     private var countSuccess: Int = 0
+
+    private var moviesByTrends = mutableListOf<MoviesByTrend>()
 
     private val trends: List<Trend> = listOf(
         Trend(URL_POPULAR_NAME, URL_POPULAR),
@@ -123,9 +126,6 @@ class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = 
         }
     }
 
-    private var moviesByTrends = mutableListOf<MoviesByTrend>()
-
-
     fun successItemTrend(appState: AppState) {
         countSuccess++
         when (appState) {
@@ -140,6 +140,7 @@ class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = 
             }
         }
         if (countSuccess == trends.size) {
+            moviesByTrendsCache = moviesByTrends
             liveDataToObserver.postValue((AppState.SuccessMoviesByTrends(moviesByTrends)))
         }
     }
@@ -147,13 +148,22 @@ class ThrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = 
     fun getTrendsFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
 
-        trends.forEach { trend ->
-            repositoryRemote.getMoviesByTrendFromRemoteServerRetroFit(
-                trend,
-                COUNT_MOVIES_BY_TREND,
-                Constant.LANG_VALUE,
-                callBackMoviesList
+        if (moviesByTrendsCache.isNotEmpty()) {
+            liveDataToObserver.postValue(
+                AppState.SuccessMoviesByTrends(
+                    moviesByTrendsCache
+                )
             )
+        } else {
+
+            trends.forEach { trend ->
+                repositoryRemote.getMoviesByTrendFromRemoteServerRetroFit(
+                    trend,
+                    COUNT_MOVIES_BY_TREND,
+                    Constant.LANG_VALUE,
+                    callBackMoviesList
+                )
+            }
         }
     }
 }

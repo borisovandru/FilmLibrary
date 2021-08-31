@@ -32,6 +32,12 @@ class MapsFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
+        arguments?.let { bundle ->
+            val address = bundle.getString(BUNDLE_EXTRA)
+            address?.let {
+                initSearchByAddress(it)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -52,32 +58,24 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-        arguments?.let { bundle ->
-            val address = bundle.getString(BUNDLE_EXTRA)
-            address?.let {
-                initSearchByAddress(it)
-            }
-        }
     }
 
     private fun initSearchByAddress(searchText: String) {
         val geoCoder = Geocoder(requireContext())
-        Thread {
-            try {
-                val addresses = geoCoder.getFromLocationName(searchText, MAX_RESULT_GEOCODER)
-                if (addresses.isNotEmpty()) {
-                    goToAddress(addresses, binding.mapCont, searchText)
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
+        try {
+            val addresses = geoCoder.getFromLocationName(searchText, MAX_RESULT_GEOCODER)
+            if (addresses.isNotEmpty()) {
+                goToAddress(addresses, binding.mapCont, searchText)
             }
-        }.start()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 
     private fun goToAddress(
         addresses: MutableList<Address>,
         view: View,
-        searchText: String
+        searchText: String,
     ) {
         val location = LatLng(
             addresses.first().latitude,
@@ -96,7 +94,7 @@ class MapsFragment : Fragment() {
 
     private fun setMarker(
         location: LatLng,
-        searchText: String
+        searchText: String,
     ): Marker? {
         return map.addMarker(
             MarkerOptions()

@@ -1,7 +1,8 @@
-package com.android.filmlibrary.model.repository.localdb
+package com.android.filmlibrary.model.repository.local.db
 
 import com.android.filmlibrary.model.data.Movie
 import com.android.filmlibrary.model.room.EntityFavMovies
+import com.android.filmlibrary.model.room.EntityMessage
 
 interface RepositoryLocalDB {
     fun getFavoriteMovies(): List<EntityFavMovies>
@@ -16,4 +17,7 @@ interface RepositoryLocalDB {
 
     fun getSearchHistory(): List<String>
     fun addSearchQuery(query: String)
+
+    fun getMessages(): List<EntityMessage>
+    fun addMessage(header: String, body: String): Long
 }
