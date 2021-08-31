@@ -37,7 +37,6 @@ class MoviesByGenreFragment : Fragment() {
     }
 
     private val adapter = MoviesByGenreAdapter()
-
     private var _binding: MoviesByGenreFragmentBinding? = null
     private val binding
         get() = _binding!!

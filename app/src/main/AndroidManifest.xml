@@ -22,8 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.filmlibrary">
         <service
-            android:name=".services.MyFirebaseInstanceIDService"
-            android:exported="false">
+            android:name=".services.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

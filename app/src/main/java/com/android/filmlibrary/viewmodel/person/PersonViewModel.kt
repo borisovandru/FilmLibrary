@@ -36,7 +36,13 @@ class PersonViewModel : ViewModel() {
         }
 
         override fun onFailure(call: Call<PersonAPI>, t: Throwable) {
-            liveDataToObserver.postValue(AppState.Error(Throwable(t.message ?: Constant.REQUEST_ERROR)))
+            liveDataToObserver.postValue(
+                AppState.Error(
+                    Throwable(
+                        t.message ?: Constant.REQUEST_ERROR
+                    )
+                )
+            )
         }
 
         private fun checkResponse(serverResponse: PersonAPI): AppState {
@@ -69,7 +75,9 @@ class PersonViewModel : ViewModel() {
 
     fun getPersonFromRemoteSource(personId: Int) {
         liveDataToObserver.value = AppState.Loading
-        repository.getPersonFromRemoteServerRetroFit(personId,
-            Constant.LANG_VALUE, callBackPerson)
+        repository.getPersonFromRemoteServerRetroFit(
+            personId,
+            Constant.LANG_VALUE, callBackPerson
+        )
     }
 }

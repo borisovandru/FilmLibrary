@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            if (intent.getIntExtra(NEW_MESSAGE, 0) == 1){
+            if (intent.getIntExtra(NEW_MESSAGE, 0) == 1) {
                 context?.let {
                     floatingActionButton.supportBackgroundTintList =
                         ColorStateList.valueOf(ContextCompat.getColor(it, COLOR_RED))
@@ -84,7 +84,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            mMessageReceiver,
             IntentFilter(NEW_MESSAGE)
         )
     }

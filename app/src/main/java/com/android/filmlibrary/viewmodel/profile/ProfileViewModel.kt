@@ -16,7 +16,7 @@ class ProfileViewModel : ViewModel() {
 
     private val repositoryLocal = RepositoryLocalContactImpl()
 
-    private var contacts: List<Contact>  = ArrayList()
+    private var contacts: List<Contact> = ArrayList()
 
     fun getContactsStart(): LiveData<AppState> {
         Log.v("Debug1", "ProfileViewModel getContactsStart")

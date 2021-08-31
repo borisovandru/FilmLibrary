@@ -94,6 +94,7 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
                             .into(posterMovie)
                     } else {
                         posterMovie.setImageResource(EMPTY_POSTER)
+
                     }
                 }
 

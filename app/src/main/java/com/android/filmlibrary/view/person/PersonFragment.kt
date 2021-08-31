@@ -129,6 +129,7 @@ class PersonFragment : Fragment() {
                 }
             }
         }
+
     }
 
     companion object {

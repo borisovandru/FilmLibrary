@@ -97,7 +97,6 @@ class SearchViewModel : ViewModel() {
                             formattedDate = localDate.format(formatter)
                         }
                     }
-
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,

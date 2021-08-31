@@ -60,7 +60,6 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.v("Debug1", "ProfileFragment onViewCreated")
 
@@ -91,6 +90,7 @@ class ProfileFragment : Fragment() {
         recyclerView = binding.rvContacts
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN)
         recyclerView.adapter = adapter
+
 
         adapter.setOnContactClickListener { contact ->
             if (contact.numbers.isNotEmpty()) {
@@ -193,6 +193,7 @@ class ProfileFragment : Fragment() {
                         .create()
                         .show()
                 }
+
                 else -> requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
             }
         }

@@ -45,6 +45,5 @@ class MessageFragmentAdapter : RecyclerView.Adapter<MessageFragmentAdapter.MyVie
         RecyclerView.ViewHolder(binding.root) {
         val header: TextView = binding.header
         val body: TextView = binding.body
-
     }
 }
