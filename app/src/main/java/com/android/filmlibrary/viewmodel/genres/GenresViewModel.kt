@@ -10,6 +10,8 @@ import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.Constant.REQUEST_ERROR
 import com.android.filmlibrary.Constant.SERVER_ERROR
 import com.android.filmlibrary.Constant.URL_GENRES_PATH
+import com.android.filmlibrary.GlobalVariables.Companion.genresCache
+import com.android.filmlibrary.GlobalVariables.Companion.moviesByGenresCache
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.Movie
@@ -48,7 +50,6 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
         Callback<MoviesListAPI> {
 
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
-
 
             val genreId: String = (response.raw().networkResponse()
                 ?.request()
@@ -138,7 +139,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
             }
         }
         if (countSuccess == genres.size) {
-
+            moviesByGenresCache = moviesByGenres
             liveDataToObserverMoviesByGenres.postValue(AppState.SuccessMoviesByGenres(moviesByGenres))
         }
     }
@@ -146,12 +147,18 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
     fun getMoviesByGenresFromRemoteSource(genres: List<Genre>) {
         liveDataToObserverMoviesByGenres.value = AppState.Loading
 
-        genres.forEach { genre ->
-            repositoryRemote.getMoviesByCategoryFromRemoteServerRetroFit(
-                genre,
-                Constant.LANG_VALUE,
-                callBackMoviesList
-            )
+        if (moviesByGenresCache.isNotEmpty()) {
+            moviesByGenres = moviesByGenresCache
+            liveDataToObserverMoviesByGenres.postValue(AppState.SuccessMoviesByGenres(moviesByGenres))
+        } else {
+
+            genres.forEach { genre ->
+                repositoryRemote.getMoviesByCategoryFromRemoteServerRetroFit(
+                    genre,
+                    Constant.LANG_VALUE,
+                    callBackMoviesList
+                )
+            }
         }
     }
 
@@ -185,6 +192,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
 
+
                 serverResponse.results.indices.forEach { i ->
                     genres.add(
                         Genre(
@@ -193,6 +201,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
                         )
                     )
                 }
+                genresCache = genres
                 AppState.SuccessGenres(genres)
             }
         }
@@ -201,9 +210,14 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
     fun getGenresFromRemoteSource() {
         liveDataToObserverGenres.value = AppState.Loading
 
-        repositoryRemote.getGenresFromRemoteServerRetroFit(
-            Constant.LANG_VALUE,
-            callBackGenres
-        )
+        if (genresCache.isNotEmpty()) {
+            genres = genresCache
+            liveDataToObserverGenres.postValue(AppState.SuccessGenres(genres))
+        } else {
+            repositoryRemote.getGenresFromRemoteServerRetroFit(
+                Constant.LANG_VALUE,
+                callBackGenres
+            )
+        }
     }
 }

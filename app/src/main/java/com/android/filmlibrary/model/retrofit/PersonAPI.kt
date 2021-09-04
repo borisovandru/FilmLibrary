@@ -1,3 +1,5 @@
+package com.android.filmlibrary.model.retrofit
+
 import com.google.gson.annotations.SerializedName
 
 data class PersonAPI(
@@ -42,5 +44,4 @@ data class PersonAPI(
 
     @SerializedName("profile_path")
     val profilePath: String?,
-
-    )
+)

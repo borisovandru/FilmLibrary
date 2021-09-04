@@ -1,6 +1,6 @@
 package com.android.filmlibrary.viewmodel.person
 
-import PersonAPI
+import com.android.filmlibrary.model.retrofit.PersonAPI
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

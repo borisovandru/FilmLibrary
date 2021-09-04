@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.util.Log
 import com.android.filmlibrary.ContextProvider
 import com.android.filmlibrary.IContextProvider
 import com.android.filmlibrary.model.data.CallbackMy
@@ -16,7 +17,9 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
     private val executor = Executors.newCachedThreadPool()
 
     override fun getListOfContact(withPhone: Boolean, callbackMy: CallbackMy<List<Contact>>) {
+        Log.v("Debug1", "RepositoryLocalImpl getListOfContact")
         executor.execute {
+            Log.v("Debug1", "RepositoryLocalImpl getListOfContact post")
             val selection = ContactsContract.Contacts.DISPLAY_NAME + " IS NOT NULL " +
                     if (withPhone) {
                         "AND " + ContactsContract.Data.HAS_PHONE_NUMBER + " = '" + 1 + "'"
@@ -49,6 +52,8 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
 
                     val idArray: Array<String> = arrayOf()
 
+                    var firstPhone = ""
+
                     if (hasPhone.toBoolean()) {
 
                         val cursorPhones: Cursor? = contentResolver.query(
@@ -61,7 +66,7 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
 
                         cursorPhones?.let { cursorPhoneLoc ->
                             cursorPhoneLoc.moveToFirst()
-                            while (!cursorPhoneLoc.isAfterLast) {
+                            while (!cursorPhoneLoc.isAfterLast && phoneNumbers.isEmpty()) {
                                 val numb =
                                     cursorPhoneLoc.getString(cursorPhoneLoc.getColumnIndex(Phone.NUMBER))
                                 phoneNumbers.add(numb)
@@ -69,17 +74,27 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
                             }
                             cursorPhones.close()
                         }
+
+                        firstPhone = (
+                                if (phoneNumbers.isNotEmpty()) {
+                                    phoneNumbers.first()
+                                } else {
+                                    ""
+                                }
+                                )
                     }
                     answer.add(
                         Contact(
                             name,
-                            phoneNumbers
+                            firstPhone
                         )
                     )
                     cursor.moveToNext()
+
                 }
                 cursorWithContacts.close()
             }
+            Log.v("Debug1", "RepositoryLocalImpl getListOfContact post end")
             callbackMy.onSuccess(answer)
         }
     }

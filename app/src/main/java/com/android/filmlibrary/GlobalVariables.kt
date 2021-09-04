@@ -1,5 +1,6 @@
 package com.android.filmlibrary
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -32,9 +33,13 @@ class GlobalVariables : Application() {
         var favMoviesCache: List<Movie> = ArrayList()
         var moviesByTrendsCache: List<MoviesByTrend> = ArrayList()
 
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
+
+        @SuppressLint("StaticFieldLeak")
         lateinit var activity: Activity
 
+        @SuppressLint("StaticFieldLeak")
         private var appInstance: GlobalVariables? = null
 
         private lateinit var db: DataBase
