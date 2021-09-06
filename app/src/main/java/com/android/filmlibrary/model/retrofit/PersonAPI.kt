@@ -44,4 +44,5 @@ data class PersonAPI(
 
     @SerializedName("profile_path")
     val profilePath: String?,
-)
+
+    )

@@ -218,7 +218,6 @@ class MovieInfoFragment : Fragment() {
                 } ?: run {
                     binding.deleteButton.visibility = View.GONE
                 }
-
             }
         }
     }

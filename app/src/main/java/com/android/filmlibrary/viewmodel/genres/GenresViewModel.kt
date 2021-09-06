@@ -3,6 +3,9 @@ package com.android.filmlibrary.viewmodel.genres
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.CORRUPTED_DATA
 import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
@@ -21,9 +24,6 @@ import com.android.filmlibrary.model.repository.remote.RepositoryRemote
 import com.android.filmlibrary.model.repository.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.model.retrofit.GenresAPI
 import com.android.filmlibrary.model.retrofit.MoviesListAPI
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -55,7 +55,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
                 ?.request()
                 ?.url()?.queryParameter(URL_GENRES_PATH) ?: "")
 
-            response.raw()
+            response.raw().networkResponse()
 
             val genre = genres.first { it.id == genreId.toInt() }
 

@@ -125,11 +125,9 @@ class PersonFragment : Fragment() {
                     viewModel.getPersonStart()
                         .observe(viewLifecycleOwner, observer)
                     viewModel.getPersonFromRemoteSource(personId)
-
                 }
             }
         }
-
     }
 
     companion object {

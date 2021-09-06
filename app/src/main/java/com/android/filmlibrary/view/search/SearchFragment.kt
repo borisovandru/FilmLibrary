@@ -41,6 +41,7 @@ class SearchFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+
     private var searchHistory: List<String> = mutableListOf()
 
     private lateinit var adapterAC: ArrayAdapter<String>
@@ -63,7 +64,9 @@ class SearchFragment : Fragment() {
         when (data) {
             is AppState.SuccessSearch -> {
                 binding.loadingLayoutSearch.visibility = View.GONE
-                binding.searchQuery.setText(data.moviesBySearches.searchString)
+                if (binding.searchQuery.text.toString() == "") {
+                    binding.searchQuery.setText(data.moviesBySearches.searchString)
+                }
                 adapter.fillMoviesBySearch(data.moviesBySearches.searchResult)
             }
             is AppState.Loading -> {
@@ -99,6 +102,19 @@ class SearchFragment : Fragment() {
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchHistory)
         adapterAC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.searchQuery.setAdapter(adapterAC)
+        binding.searchQuery.setOnItemClickListener { parent, _, position, _ ->
+
+            val observerOnClick = Observer<AppState> { appState ->
+                renderData(appState)
+            }
+
+            viewModel.setData(
+                parent.getItemAtPosition(position).toString(),
+                settings.adult
+            )
+                .observe(viewLifecycleOwner, observerOnClick)
+            viewModel.getSearchDataFromRemoteSource()
+        }
 
         recyclerView = binding.rvSearch
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
@@ -144,9 +160,6 @@ class SearchFragment : Fragment() {
             )
                 .observe(viewLifecycleOwner, observerOnClick)
             viewModel.getSearchDataFromRemoteSource()
-
-            viewModel.getSearchHistory().observe(viewLifecycleOwner, observerSearchHistory)
-            viewModel.getSearchHistory2()
         }
     }
 }

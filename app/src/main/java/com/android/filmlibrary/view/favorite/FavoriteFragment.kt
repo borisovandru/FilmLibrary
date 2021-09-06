@@ -103,6 +103,7 @@ class FavoriteFragment : Fragment() {
         if (favMovies.isNotEmpty()) {
             adapter.fillMoviesBySearch(favMovies)
         }
+
     }
 
     override fun onStop() {

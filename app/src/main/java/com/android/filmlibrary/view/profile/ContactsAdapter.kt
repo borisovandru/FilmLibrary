@@ -45,8 +45,8 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
 
         fun bind(contact: Contact) {
             binding.contactName.text = contact.name
-            if (contact.number.isNotEmpty()) {
-                binding.contactPhone.text = contact.number
+            if (contact.numbers.isNotEmpty()) {
+                binding.contactPhone.text = contact.numbers[0]
                 binding.contactPhone.setOnClickListener {
                     onContactClickListener(contact)
                 }

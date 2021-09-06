@@ -52,8 +52,6 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
 
                     val idArray: Array<String> = arrayOf()
 
-                    var firstPhone = ""
-
                     if (hasPhone.toBoolean()) {
 
                         val cursorPhones: Cursor? = contentResolver.query(
@@ -66,7 +64,7 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
 
                         cursorPhones?.let { cursorPhoneLoc ->
                             cursorPhoneLoc.moveToFirst()
-                            while (!cursorPhoneLoc.isAfterLast && phoneNumbers.isEmpty()) {
+                            while (!cursorPhoneLoc.isAfterLast) {
                                 val numb =
                                     cursorPhoneLoc.getString(cursorPhoneLoc.getColumnIndex(Phone.NUMBER))
                                 phoneNumbers.add(numb)
@@ -74,19 +72,11 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
                             }
                             cursorPhones.close()
                         }
-
-                        firstPhone = (
-                                if (phoneNumbers.isNotEmpty()) {
-                                    phoneNumbers.first()
-                                } else {
-                                    ""
-                                }
-                                )
                     }
                     answer.add(
                         Contact(
                             name,
-                            firstPhone
+                            phoneNumbers
                         )
                     )
                     cursor.moveToNext()

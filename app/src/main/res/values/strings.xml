@@ -8,7 +8,7 @@
     <string name="raiting">Мои оценки</string>
     <string name="about">О программе</string>
     <string name="help">Справка</string>
-    <string name="find">Найти</string>
+    <string name="Search">Найти</string>
     <string name="logo">Logo</string>
     <string name="menu_string">Фильмы</string>
     <string name="settings">Настройки</string>
@@ -26,7 +26,7 @@
     <string name="ng_name_search">Поиск</string>
     <string name="ng_name_fav">Избранные</string>
     <string name="ng_name_settings">Настройки</string>
-    <string name="ng_name_movies_cat">Фильмы по жанру</string>
+    <string name="ng_name_movies_cat">Фильмы по категории</string>
     <string name="ng_name_item_movie">Инфо о фильме</string>
     <string name="ErrorMsg">Error!</string>
     <string name="ReloadMsg">Reload?</string>
@@ -61,7 +61,7 @@
     <string name="InTrends">В трендах:</string>
     <string name="Cinema">Кинотеатры Ульяновска:</string>
     <string name="Person">Персона</string>
-    <string name="Maps">Место рождения актёра</string>
+    <string name="Maps">Карта</string>
     <string name="CurrentPosition">Моё местоположение</string>
     <string name="Near">\"Вы рядом с \"</string>
     <string name="EnterGoeFence">Вход в ГеоЗону</string>

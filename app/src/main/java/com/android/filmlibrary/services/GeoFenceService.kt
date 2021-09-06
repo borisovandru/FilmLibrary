@@ -10,7 +10,7 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.android.filmlibrary.R
 
-class GeoFenceService: IntentService("GeoFenceService") {
+class GeoFenceService : IntentService("GeoFenceService") {
     private var messageId = 0
 
     init {
@@ -27,10 +27,10 @@ class GeoFenceService: IntentService("GeoFenceService") {
         Log.v("GeoFence", "on handle")
         val geofencingEvent: GeofencingEvent =
             GeofencingEvent.fromIntent(intent) // получаем событие
-        val transitionType: Int = geofencingEvent.geofenceTransition // определяем тип события
+        val transitionType: Int = geofencingEvent.getGeofenceTransition() // определяем тип события
         val triggeredGeofences: List<Geofence> =
-            geofencingEvent.triggeringGeofences // если надо, получаем, какие геозоны нам подходят
-        val idFence: String = triggeredGeofences.first().requestId
+            geofencingEvent.getTriggeringGeofences() // если надо, получаем, какие геозоны нам подходят
+        val idFence: String = triggeredGeofences.first().getRequestId()
         makeNote(idFence, transitionType) // отправляем уведомление
     }
 

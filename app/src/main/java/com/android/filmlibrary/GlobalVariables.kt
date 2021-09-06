@@ -10,7 +10,6 @@ import com.android.filmlibrary.model.Settings
 import com.android.filmlibrary.model.data.*
 import com.android.filmlibrary.model.room.DAO
 import com.android.filmlibrary.model.room.DataBase
-import java.lang.IllegalStateException
 
 class GlobalVariables : Application() {
 
@@ -35,7 +34,6 @@ class GlobalVariables : Application() {
 
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
-
         @SuppressLint("StaticFieldLeak")
         lateinit var activity: Activity
 
