@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_settings"
+    app:startDestination="@id/profilefragment">
+
+    <fragment
+        android:id="@+id/profilefragment"
+        android:name="com.android.filmlibrary.view.profile.ProfileFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/profile_fragment" />
+</navigation>

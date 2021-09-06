@@ -26,5 +26,5 @@ data class MovieAPI(
     val posterUrl: String,
 
     @SerializedName("vote_average")
-    val voteAverage: Double
+    val voteAverage: Double,
 )

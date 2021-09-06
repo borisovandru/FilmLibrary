@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/navigation_trends">
+
+    <include app:graph="@navigation/navigation_trends" />
+    <include app:graph="@navigation/navigation_search" />
+    <include app:graph="@navigation/navigation_genres" />
+    <include app:graph="@navigation/navigation_favorite" />
+    <include app:graph="@navigation/navigation_settings" />
+
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.android.filmlibrary.view.message.MessagesFragment"
+        android:label="messages_fragment"
+        tools:layout="@layout/messages_fragment" />
+
+</navigation>

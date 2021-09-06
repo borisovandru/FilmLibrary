@@ -97,6 +97,7 @@ class SearchViewModel : ViewModel() {
                             formattedDate = localDate.format(formatter)
                         }
                     }
+
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
@@ -133,7 +134,7 @@ class SearchViewModel : ViewModel() {
     fun getSearchDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
 
-        if (moviesBySearchCache.results.isNotEmpty()) {
+        if (moviesBySearchCache.results.isNotEmpty() && searchStringCache == searchRequest) {
             liveDataToObserver.postValue(
                 AppState.SuccessSearch(
                     SearchResult(moviesBySearchCache, searchRequest)

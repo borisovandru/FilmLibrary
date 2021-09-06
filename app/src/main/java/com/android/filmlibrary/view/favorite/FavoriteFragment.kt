@@ -93,7 +93,7 @@ class FavoriteFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
             val navHostFragment: NavHostFragment? =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
             navHostFragment?.navController?.navigate(
                 Constant.NAVIGATE_FROM_FAV_TO_MOVIE_INFO,
                 bundle

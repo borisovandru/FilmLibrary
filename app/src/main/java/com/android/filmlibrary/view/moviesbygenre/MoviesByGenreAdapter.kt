@@ -62,6 +62,7 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         } else {
             holder.movieYear.text = ""
         }
+
         movie.posterUrl?.let { holder.setData(it) }
         holder.movieId = movie.id
         holder.movie = movie
@@ -90,6 +91,7 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
             } else {
                 moviePoster.setImageResource(EMPTY_POSTER)
             }
+
         }
 
         init {

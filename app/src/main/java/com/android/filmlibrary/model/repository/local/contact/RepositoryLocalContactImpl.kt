@@ -80,6 +80,7 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
                         )
                     )
                     cursor.moveToNext()
+
                 }
                 cursorWithContacts.close()
             }

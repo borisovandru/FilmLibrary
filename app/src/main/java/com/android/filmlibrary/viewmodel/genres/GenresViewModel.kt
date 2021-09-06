@@ -92,6 +92,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
                             formattedDate = localDate.format(formatter)
                         }
                     }
+
                     movies.add(
                         Movie(
                             serverResponse.results[i].id,
@@ -190,6 +191,8 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
             return if (serverResponse.results.isEmpty()) {
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
+
+
                 serverResponse.results.indices.forEach { i ->
                     genres.add(
                         Genre(

@@ -24,8 +24,8 @@ import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
 import com.android.filmlibrary.model.AppState
 import com.android.filmlibrary.model.data.Contact
-import com.android.filmlibrary.view.hide
 import com.android.filmlibrary.view.itemmovie.MovieInfoFragment
+import com.android.filmlibrary.view.hide
 import com.android.filmlibrary.view.show
 import com.android.filmlibrary.view.trends.TrendsFragment
 import com.android.filmlibrary.viewmodel.profile.ProfileViewModel
@@ -90,7 +90,6 @@ class ProfileFragment : Fragment() {
         recyclerView = binding.rvContacts
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN)
         recyclerView.adapter = adapter
-
 
         adapter.setOnContactClickListener { contact ->
             if (contact.numbers.isNotEmpty()) {
@@ -193,7 +192,6 @@ class ProfileFragment : Fragment() {
                         .create()
                         .show()
                 }
-
                 else -> requestPermissionLauncherCall.launch(Manifest.permission.CALL_PHONE)
             }
         }
@@ -204,15 +202,8 @@ class ProfileFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                // Permission is granted. Continue the action or workflow in your
-                // app.
                 getContacts(settings.withPhone)
             } else {
-                // Explain to the user that the feature is unavailable because the
-                // features requires a permission that the user has denied. At the
-                // same time, respect the user's decision. Don't link to system
-                // settings in an effort to convince the user to change their
-                // decision.
                 context?.let {
                     AlertDialog.Builder(it)
                         .setTitle(getString(R.string.accessContact))
@@ -229,14 +220,7 @@ class ProfileFragment : Fragment() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                // Permission is granted. Continue the action or workflow in your
-                // app.
             } else {
-                // Explain to the user that the feature is unavailable because the
-                // features requires a permission that the user has denied. At the
-                // same time, respect the user's decision. Don't link to system
-                // settings in an effort to convince the user to change their
-                // decision.
                 context?.let {
                     AlertDialog.Builder(it)
                         .setTitle(getString(R.string.accsessToCall))

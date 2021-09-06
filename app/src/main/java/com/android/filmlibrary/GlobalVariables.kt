@@ -1,5 +1,6 @@
 package com.android.filmlibrary
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -9,7 +10,6 @@ import com.android.filmlibrary.model.Settings
 import com.android.filmlibrary.model.data.*
 import com.android.filmlibrary.model.room.DAO
 import com.android.filmlibrary.model.room.DataBase
-import java.lang.IllegalStateException
 
 class GlobalVariables : Application() {
 
@@ -32,9 +32,12 @@ class GlobalVariables : Application() {
         var favMoviesCache: List<Movie> = ArrayList()
         var moviesByTrendsCache: List<MoviesByTrend> = ArrayList()
 
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
+        @SuppressLint("StaticFieldLeak")
         lateinit var activity: Activity
 
+        @SuppressLint("StaticFieldLeak")
         private var appInstance: GlobalVariables? = null
 
         private lateinit var db: DataBase

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/trends_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/trends_fragment"
     tools:context=".view.trends.TrendsFragment">
 
     <TextView
-        android:id="@+id/headerCinema"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Cinema"
+        android:id="@+id/headerCinema"
         app:layout_constraintBottom_toTopOf="@+id/mapTrends"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Ближайшие кинотеатры:" />
+        android:text="@string/Cinema"
+        tools:text="Ближайшие кинотеатры:"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapTrends"
@@ -26,29 +27,29 @@
         app:layout_constraintBottom_toTopOf="@+id/headerTrends"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerCinema" />
+        app:layout_constraintTop_toBottomOf="@+id/headerCinema"/>
 
     <TextView
-        android:id="@+id/headerTrends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/InTrends"
+        android:id="@+id/headerTrends"
         app:layout_constraintBottom_toTopOf="@+id/rv_trend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapTrends"
-        tools:text="В трендах:" />
+        android:text="@string/InTrends"
+        tools:text="В трендах:"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_trend"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        tools:itemCount="4"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerTrends"
-        tools:itemCount="4"
         tools:listitem="@layout/item_trend" />
 
     <FrameLayout

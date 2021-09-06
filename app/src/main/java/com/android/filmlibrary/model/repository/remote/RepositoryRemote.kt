@@ -1,6 +1,6 @@
 package com.android.filmlibrary.model.repository.remote
 
-import PersonAPI
+import com.android.filmlibrary.model.retrofit.PersonAPI
 import retrofit2.Callback
 import com.android.filmlibrary.model.data.Genre
 import com.android.filmlibrary.model.data.MovieAdv

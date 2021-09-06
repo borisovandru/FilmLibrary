@@ -145,7 +145,7 @@ class MovieInfoFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putParcelable(NAME_PARCEBLE_PERSON, personMini)
                         val navHostFragment: NavHostFragment? =
-                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
                         navHostFragment?.navController?.navigate(
                             Constant.NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO,
                             bundle
@@ -175,7 +175,7 @@ class MovieInfoFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putParcelable(NAME_PARCEBLE_PERSON, personMini)
                         val navHostFragment: NavHostFragment? =
-                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                            activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
                         navHostFragment?.navController?.navigate(
                             Constant.NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO,
                             bundle
@@ -218,7 +218,6 @@ class MovieInfoFragment : Fragment() {
                 } ?: run {
                     binding.deleteButton.visibility = View.GONE
                 }
-
             }
         }
     }

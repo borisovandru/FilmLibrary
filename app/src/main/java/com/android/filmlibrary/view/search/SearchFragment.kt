@@ -41,6 +41,7 @@ class SearchFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+
     private var searchHistory: List<String> = mutableListOf()
 
     private lateinit var adapterAC: ArrayAdapter<String>
@@ -63,7 +64,9 @@ class SearchFragment : Fragment() {
         when (data) {
             is AppState.SuccessSearch -> {
                 binding.loadingLayoutSearch.visibility = View.GONE
-                binding.searchQuery.setText(data.moviesBySearches.searchString)
+                if (binding.searchQuery.text.toString() == "") {
+                    binding.searchQuery.setText(data.moviesBySearches.searchString)
+                }
                 adapter.fillMoviesBySearch(data.moviesBySearches.searchResult)
             }
             is AppState.Loading -> {
@@ -99,6 +102,19 @@ class SearchFragment : Fragment() {
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchHistory)
         adapterAC.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.searchQuery.setAdapter(adapterAC)
+        binding.searchQuery.setOnItemClickListener { parent, _, position, _ ->
+
+            val observerOnClick = Observer<AppState> { appState ->
+                renderData(appState)
+            }
+
+            viewModel.setData(
+                parent.getItemAtPosition(position).toString(),
+                settings.adult
+            )
+                .observe(viewLifecycleOwner, observerOnClick)
+            viewModel.getSearchDataFromRemoteSource()
+        }
 
         recyclerView = binding.rvSearch
         recyclerView.layoutManager = GridLayoutManager(context, Constant.MOVIES_ADAPTER_COUNT_SPAN2)
@@ -108,7 +124,7 @@ class SearchFragment : Fragment() {
             val bundle = Bundle()
             bundle.putParcelable(NAME_PARCEBLE_MOVIE, movie)
             val navHostFragment: NavHostFragment? =
-                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_container) as? NavHostFragment
             navHostFragment?.navController?.navigate(
                 Constant.NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO,
                 bundle
@@ -117,16 +133,22 @@ class SearchFragment : Fragment() {
 
         if (searchStringCache != "") {
             binding.searchQuery.setText(searchStringCache)
-            val observer = Observer<AppState> { appState ->
+            val observerSearchResult = Observer<AppState> { appState ->
                 renderData(appState)
             }
             viewModel.setData(
                 binding.searchQuery.text.toString(),
                 settings.adult
             )
-                .observe(viewLifecycleOwner, observer)
+                .observe(viewLifecycleOwner, observerSearchResult)
             viewModel.getSearchDataFromRemoteSource()
         }
+
+        val observerSearchHistory = Observer<AppState> { appState ->
+            renderDataSearchHistory(appState)
+        }
+        viewModel.getSearchHistory().observe(viewLifecycleOwner, observerSearchHistory)
+        viewModel.getSearchHistory2()
 
         binding.searchButton.setOnClickListener {
             val observerOnClick = Observer<AppState> { appState ->
@@ -138,12 +160,6 @@ class SearchFragment : Fragment() {
             )
                 .observe(viewLifecycleOwner, observerOnClick)
             viewModel.getSearchDataFromRemoteSource()
-
-            val observer2 = Observer<AppState> { appState ->
-                renderDataSearchHistory(appState)
-            }
-            viewModel.getSearchHistory().observe(viewLifecycleOwner, observer2)
-            viewModel.getSearchHistory2()
         }
     }
 }

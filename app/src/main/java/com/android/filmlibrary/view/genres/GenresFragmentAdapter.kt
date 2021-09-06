@@ -39,7 +39,6 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
     private var moviesByCategory: List<MoviesByGenre> = ArrayList()
     private var genres: List<Genre> = ArrayList()
 
-
     fun fillMoviesByGenres(moviesByCategory: List<MoviesByGenre>, genres: List<Genre>) {
         Log.v(
             "Debug1",
@@ -48,7 +47,6 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
         this.moviesByCategory = moviesByCategory
         this.genres = genres
         notifyDataSetChanged()
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -138,6 +136,7 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
                         yearMovie.text = ""
                     }
                 }
+
                 linearLayoutIntoScrollView.addView(viewItemMovie)
             }
         }

@@ -1,6 +1,6 @@
 package com.android.filmlibrary.model.repository.api
 
-import PersonAPI
+import com.android.filmlibrary.model.retrofit.PersonAPI
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -43,15 +43,15 @@ object Constant {
     const val BASE_IMAGE_URL: String = "https://image.tmdb.org/t/p/"
     const val IMAGE_POSTER_SIZE_1: String = "w185"
     const val NAVIGATE_FROM_GENRES_TO_MOVIES_BY_GENRE: Int =
-        R.id.action_navigation_genres_to_moviesByGenresFragment2
+        R.id.action_genresFragment_to_moviesByGenreFragment
     const val NAVIGATE_FROM_TRENDS_TO_MOVIE_INFO: Int =
-        R.id.action_navigation_trends_to_movieInfoFragment
+        R.id.action_trendsFragment_to_movieInfoFragment
     const val NAVIGATE_FROM_GENRES_TO_MOVIE_INFO: Int =
-        R.id.action_navigation_genres_to_movieInfoFragment2
+        R.id.action_moviesByGenreFragment_to_movieInfoFragment
     const val NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO: Int =
-        R.id.action_moviesByGenresFragment_to_movieInfoFragment
+        R.id.action_moviesByGenreFragment_to_movieInfoFragment
     const val NAVIGATE_FROM_SEARCH_TO_MOVIE_INFO: Int =
-        R.id.action_navigation_search_to_movieInfoFragment
+        R.id.action_searchFragment_to_movieInfoFragment
     const val NAVIGATE_FROM_FAV_TO_MOVIE_INFO: Int =
         R.id.action_favoriteFragment_to_movieInfoFragment
     const val NAVIGATE_FROM_MOVIE_INFO_TO_PERSON_INFO: Int =
