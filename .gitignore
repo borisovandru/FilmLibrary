@@ -34,4 +34,4 @@ local.properties
 project.properties
 app.properties
 *.p12
-.gitignore
+.idea
