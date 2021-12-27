@@ -1,4 +1,4 @@
 local.properties
-**/.gradle/
-**/.idea/
-**/.gitignore/
+/.gradle/
+/.idea/
+/.gitignore/
