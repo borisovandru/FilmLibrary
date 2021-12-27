@@ -25,3 +25,4 @@ cache.properties.lock
 *.iws
 .gradle/
 **/.gradle/
+**/.idea/
