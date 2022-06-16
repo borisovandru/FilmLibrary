@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.filmlibrary.Constant
 import com.android.filmlibrary.Constant.NAME_PARCEBLE_GENRE
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
-import com.android.filmlibrary.Constant.NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO
 import com.android.filmlibrary.GlobalVariables.Companion.moviesByGenreCache
 import com.android.filmlibrary.GlobalVariables.Companion.moviesListCache
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MoviesByGenreFragmentBinding
 import com.android.filmlibrary.AppState
+import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.Constant.NAVIGATE_FROM_MOVIES_BY_GENRES_TO_MOVIE_INFO
 import com.android.filmlibrary.data.model.Genre
 import com.android.filmlibrary.data.model.MoviesByGenre
 import com.android.filmlibrary.data.model.MoviesList
