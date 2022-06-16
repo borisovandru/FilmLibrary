@@ -10,7 +10,6 @@ class SharedPref(context: Context) {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(NAME_SHARED_PREFERENCE, Context.MODE_PRIVATE)
     private val contextLoc = context
-
     // Чтение настроек
     fun loadSettings(): Settings {
         return Settings(
@@ -19,7 +18,6 @@ class SharedPref(context: Context) {
             sharedPreferences.getBoolean(contextLoc.getString(R.string.geoFenceShared), false),
         )
     }
-
     // Сохранение настроек
     fun saveSettings(settings: Settings) {
         val editor = sharedPreferences.edit()

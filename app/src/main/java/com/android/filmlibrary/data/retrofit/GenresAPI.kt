@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class GenresAPI(
     @SerializedName("genres")
-    val results: List<GenreAPI>,
+    val results: List<GenreAPI>
 )
