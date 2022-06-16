@@ -31,7 +31,7 @@ class GenresFragment : Fragment() {
 
     private val adapter = GenresFragmentAdapter()
     private val viewModel: GenresViewModel by lazy {
-        ViewModelProvider(this).get(GenresViewModel::class.java)
+        ViewModelProvider(this)[GenresViewModel::class.java]
     }
 
     private var _binding: GenresFragmentBinding? = null

@@ -1,5 +1,6 @@
 package com.android.filmlibrary.domain.local.contact
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.ContactsContract
@@ -16,6 +17,7 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
     private val contentResolver: ContentResolver = contextProvider.context.contentResolver
     private val executor = Executors.newCachedThreadPool()
 
+    @SuppressLint("Range")
     override fun getListOfContact(withPhone: Boolean, callbackMy: CallbackMy<List<Contact>>) {
         Log.v("Debug1", "RepositoryLocalImpl getListOfContact")
         executor.execute {
@@ -80,7 +82,6 @@ class RepositoryLocalContactImpl(contextProvider: IContextProvider = ContextProv
                         )
                     )
                     cursor.moveToNext()
-
                 }
                 cursorWithContacts.close()
             }

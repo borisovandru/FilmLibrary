@@ -111,7 +111,7 @@ class MoviesByGenreViewModel(private val liveDataToObserver: MutableLiveData<App
 
     fun getDataFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
-        repository.getMoviesByCategoryFromRemoteServerRetroFit(
+        repository.getMoviesByCategoryFromRemoteServerRetrofit(
             genre,
             Constant.LANG_VALUE,
             callBack

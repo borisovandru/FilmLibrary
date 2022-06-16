@@ -57,7 +57,7 @@ class RepositoryRemoteImpl : RepositoryRemote {
         }
     }
 
-    private val retroFitBuilder = Retrofit.Builder()
+    private val retrofitBuilder = Retrofit.Builder()
         .baseUrl(BASE_API_URL)
         .addConverterFactory(
             GsonConverterFactory.create(
@@ -77,12 +77,12 @@ class RepositoryRemoteImpl : RepositoryRemote {
         .client(createOkHttpClient(MovieApiInterceptor()))
         .build().create(TheMovieDBAPI::class.java)
 
-    override fun getMoviesByCategoryFromRemoteServerRetroFit(
+    override fun getMoviesByCategoryFromRemoteServerRetrofit(
         genre: Genre,
         lang: String,
         callback: Callback<MoviesListAPI>,
     ) {
-        retroFitBuilder.getMoviesByGenre(
+        retrofitBuilder.getMoviesByGenre(
             URL_MOVIES_BY_GENRE_DIR_1,
             URL_MOVIES_BY_GENRE_DIR_2,
             VERSION_API,
@@ -93,12 +93,12 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getMovieFromRemoteServerRetroFit(
+    override fun getMovieFromRemoteServerRetrofit(
         movieId: Int,
         lang: String,
         callback: Callback<MovieAdvAPI>,
     ) {
-        retroFitBuilder.getMovie(
+        retrofitBuilder.getMovie(
             VERSION_API,
             movieId,
             BuildConfig.MOVIEDB_API_KEY,
@@ -107,7 +107,7 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getGenresFromRemoteServerRetroFit(
+    override fun getGenresFromRemoteServerRetrofit(
         lang: String,
         callback: Callback<GenresAPI>,
     ) {
@@ -122,7 +122,7 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getSettingsFromRemoteServerRetroFit(
+    override fun getSettingsFromRemoteServerRetrofit(
         lang: String,
         callback: Callback<ConfigurationAPI>,
     ) {
@@ -134,7 +134,7 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getMoviesByTrendFromRemoteServerRetroFit(
+    override fun getMoviesByTrendFromRemoteServerRetrofit(
         trend: Trend,
         cntMovies: Int,
         lang: String,
@@ -150,7 +150,7 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getMoviesBySearchFromRemoteServerRetroFit(
+    override fun getMoviesBySearchFromRemoteServerRetrofit(
         searchRequest: String,
         setCountsOfMovies: Int,
         lang: String,
@@ -169,12 +169,12 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getCreditsByMovieFromRemoteServerRetroFit(
+    override fun getCreditsByMovieFromRemoteServerRetrofit(
         movieId: Int,
         lang: String,
         callback: Callback<CreditsAPI>,
     ) {
-        retroFitBuilder.getCredits(
+        retrofitBuilder.getCredits(
             URL_CREDITS_1,
             movieId,
             URL_CREDITS_2,
@@ -185,12 +185,12 @@ class RepositoryRemoteImpl : RepositoryRemote {
             .enqueue(callback)
     }
 
-    override fun getPersonFromRemoteServerRetroFit(
+    override fun getPersonFromRemoteServerRetrofit(
         personId: Int,
         lang: String,
         callback: Callback<PersonAPI>,
     ) {
-        retroFitBuilder.getPerson(
+        retrofitBuilder.getPerson(
             URL_PERSON_1,
             personId,
             VERSION_API,

@@ -141,7 +141,7 @@ class SearchViewModel : ViewModel() {
                 )
             )
         } else {
-            repository.getMoviesBySearchFromRemoteServerRetroFit(
+            repository.getMoviesBySearchFromRemoteServerRetrofit(
                 searchRequest,
                 COUNT_MOVIES_BY_CATEGORY,
                 Constant.LANG_VALUE,

@@ -75,7 +75,7 @@ class PersonViewModel : ViewModel() {
 
     fun getPersonFromRemoteSource(personId: Int) {
         liveDataToObserver.value = AppState.Loading
-        repository.getPersonFromRemoteServerRetroFit(
+        repository.getPersonFromRemoteServerRetrofit(
             personId,
             Constant.LANG_VALUE, callBackPerson
         )

@@ -268,11 +268,11 @@ class MovieInfoViewModel : ViewModel() {
 
     fun getMovieFromRemoteSource() {
         liveDataToObserver.value = AppState.Loading
-        repository.getMovieFromRemoteServerRetroFit(movieId, LANG_VALUE, callBackMovieAdv)
+        repository.getMovieFromRemoteServerRetrofit(movieId, LANG_VALUE, callBackMovieAdv)
     }
 
     fun getCreditsByMovieFromRemoteSource(movieId: Int) {
         liveDataToObserverCredits.value = AppState.Loading
-        repository.getCreditsByMovieFromRemoteServerRetroFit(movieId, LANG_VALUE, callBackCredits)
+        repository.getCreditsByMovieFromRemoteServerRetrofit(movieId, LANG_VALUE, callBackCredits)
     }
 }

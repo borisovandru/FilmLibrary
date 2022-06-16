@@ -160,7 +160,7 @@ class TrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = R
         } else {
 
             trends.forEach { trend ->
-                repositoryRemote.getMoviesByTrendFromRemoteServerRetroFit(
+                repositoryRemote.getMoviesByTrendFromRemoteServerRetrofit(
                     trend,
                     COUNT_MOVIES_BY_TREND,
                     Constant.LANG_VALUE,

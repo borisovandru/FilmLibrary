@@ -153,7 +153,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
         } else {
 
             genres.forEach { genre ->
-                repositoryRemote.getMoviesByCategoryFromRemoteServerRetroFit(
+                repositoryRemote.getMoviesByCategoryFromRemoteServerRetrofit(
                     genre,
                     Constant.LANG_VALUE,
                     callBackMoviesList
@@ -214,7 +214,7 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
             genres = genresCache
             liveDataToObserverGenres.postValue(AppState.SuccessGenres(genres))
         } else {
-            repositoryRemote.getGenresFromRemoteServerRetroFit(
+            repositoryRemote.getGenresFromRemoteServerRetrofit(
                 Constant.LANG_VALUE,
                 callBackGenres
             )
