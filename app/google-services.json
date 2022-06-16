@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "806902410822",
-    "project_id": "filmlibrary-324017",
-    "storage_bucket": "filmlibrary-324017.appspot.com"
+    "project_number": "457122842603",
+    "project_id": "filmlibrary-d0bcd",
+    "storage_bucket": "filmlibrary-d0bcd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:806902410822:android:c42dd396561a47fa086447",
+        "mobilesdk_app_id": "1:457122842603:android:7121002f96114b55297bae",
         "android_client_info": {
           "package_name": "com.android.filmlibrary"
         }
       },
       "oauth_client": [
         {
-          "client_id": "806902410822-gkto34ke947ek8fsr6g7dr8jp53aomfv.apps.googleusercontent.com",
+          "client_id": "457122842603-9moguhkimb4mjll44p5kbu5jvmfif59o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUcGuPuU1tj5V2gl-36vHVz15VLNSuzBA"
+          "current_key": "AIzaSyA1oXZjNHfr8tGhCFzy56a-yz1Vri0oPGU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "806902410822-gkto34ke947ek8fsr6g7dr8jp53aomfv.apps.googleusercontent.com",
+              "client_id": "457122842603-9moguhkimb4mjll44p5kbu5jvmfif59o.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

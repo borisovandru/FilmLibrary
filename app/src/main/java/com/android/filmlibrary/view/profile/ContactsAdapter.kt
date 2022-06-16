@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.profile
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +17,10 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
 
     private var contacts: List<Contact> = listOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fillContacts(contacts: List<Contact>) {
         this.contacts = contacts
         notifyDataSetChanged()
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -32,8 +33,8 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val conatct = contacts[position]
-        holder.bind(conatct)
+        val contact = contacts[position]
+        holder.bind(contact)
     }
 
     override fun getItemCount(): Int = contacts.size

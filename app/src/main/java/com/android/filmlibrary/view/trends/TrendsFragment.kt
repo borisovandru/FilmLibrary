@@ -1,6 +1,7 @@
 package com.android.filmlibrary.view.trends
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -76,7 +77,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
 
     private val adapter = TrendsFragmentAdapter()
     private val viewModel: TrendsFragmentViewModel by lazy {
-        ViewModelProvider(this).get(TrendsFragmentViewModel::class.java)
+        ViewModelProvider(this)[TrendsFragmentViewModel::class.java]
     }
 
     private var _binding: TrendsFragmentBinding? = null
@@ -124,6 +125,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
+            else -> {}
         }
     }
 
@@ -252,6 +254,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         return marker
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun createGeofencingRequest(geofence: Geofence): PendingIntent {
         val builder = GeofencingRequest.Builder()
         // вешаем триггеры на вход, перемещение внутри и выход из зоны
@@ -263,7 +266,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
         val geoService = Intent(requireActivity(), GeoFenceService::class.java)
         // интент будет работать через этот класс
         val pendingIntent = PendingIntent
-            .getService(requireContext(), 0, geoService, PendingIntent.FLAG_UPDATE_CURRENT)
+            .getService(requireContext(), 0, geoService, PendingIntent.FLAG_IMMUTABLE)
         // это клиент геозоны, собственно он и занимается вызовом нашей службы
         val geoClient = LocationServices.getGeofencingClient(requireActivity())
         if (ActivityCompat.checkSelfPermission(
@@ -390,6 +393,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
                     )
                 }
 
+                @Deprecated("Deprecated in Java")
                 override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}
@@ -430,6 +434,7 @@ class TrendsFragment : Fragment(), OnMapReadyCallback {
     }
 
     // Это результат запроса у пользователя пермиссии
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,

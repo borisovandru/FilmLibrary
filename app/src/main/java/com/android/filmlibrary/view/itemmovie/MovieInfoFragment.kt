@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.itemmovie
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Gravity.START
 import android.view.LayoutInflater
@@ -64,6 +65,7 @@ class MovieInfoFragment : Fragment() {
         super.onDestroyView()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun renderData(data: AppState) {
         when (data) {
             is AppState.SuccessMovie -> {

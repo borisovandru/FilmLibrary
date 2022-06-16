@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.favorite
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -39,10 +40,10 @@ class FavoriteFragmentAdapter : RecyclerView.Adapter<FavoriteFragmentAdapter.MyV
         return MyViewHolder(binding, parent)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fillMoviesBySearch(moviesFav: List<Movie>) {
         this.moviesFav = moviesFav
         notifyDataSetChanged()
-
     }
 
     override fun onBindViewHolder(holder: FavoriteFragmentAdapter.MyViewHolder, position: Int) {

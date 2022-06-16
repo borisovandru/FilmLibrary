@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.genres
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class GenresFragmentAdapter : RecyclerView.Adapter<GenresFragmentAdapter.MyViewH
     private var moviesByCategory: List<MoviesByGenre> = ArrayList()
     private var genres: List<Genre> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fillMoviesByGenres(moviesByCategory: List<MoviesByGenre>, genres: List<Genre>) {
         Log.v(
             "Debug1",

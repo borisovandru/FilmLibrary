@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.moviesbygenre
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -30,11 +31,11 @@ class MoviesByGenreAdapter : RecyclerView.Adapter<MoviesByGenreAdapter.MyViewHol
         MoviesByGenre(Genre(), MoviesList(mutableListOf(), 0, 0))
     private lateinit var genre: Genre
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fillMovies(moviesByGenre: MoviesByGenre) {
         this.moviesByGenre = moviesByGenre
         this.genre = moviesByGenre.genre
         notifyDataSetChanged()
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
