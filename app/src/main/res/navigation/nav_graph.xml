@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/messagesFragment"
-        android:name="com.android.filmlibrary.view.message.MessagesFragment"
+        android:name="com.android.filmlibrary.presentation.message.MessagesFragment"
         android:label="messages_fragment"
         tools:layout="@layout/messages_fragment" />
 

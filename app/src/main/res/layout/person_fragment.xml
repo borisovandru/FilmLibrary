@@ -5,7 +5,7 @@
     android:id="@+id/personInfo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.person.PersonFragment">
+    tools:context=".presentation.person.PersonFragment">
 
     <ScrollView
         android:layout_width="match_parent"

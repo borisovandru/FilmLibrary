@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/trends_fragment"
-    tools:context=".view.trends.TrendsFragment">
+    tools:context=".presentation.trends.TrendsFragment">
 
     <TextView
         android:layout_width="match_parent"

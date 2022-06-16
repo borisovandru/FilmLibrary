@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profilefragment"
-        android:name="com.android.filmlibrary.view.profile.ProfileFragment"
+        android:name="com.android.filmlibrary.presentation.profile.ProfileFragment"
         android:label="@string/settings"
         tools:layout="@layout/profile_fragment" />
 </navigation>

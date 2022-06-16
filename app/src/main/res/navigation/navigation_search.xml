@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/search_scr"
-        android:name="com.android.filmlibrary.view.search.SearchFragment"
+        android:name="com.android.filmlibrary.presentation.search.SearchFragment"
         android:label="@string/ng_name_search"
         tools:layout="@layout/search_fragment">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/movieInfoFragment"
-        android:name="com.android.filmlibrary.view.itemmovie.MovieInfoFragment"
+        android:name="com.android.filmlibrary.presentation.itemmovie.MovieInfoFragment"
         android:label="@string/ng_name_item_movie"
         tools:layout="@layout/movie_info_fragment">
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/personFragment"
-        android:name="com.android.filmlibrary.view.person.PersonFragment"
+        android:name="com.android.filmlibrary.presentation.person.PersonFragment"
         android:label="@string/Person"
         tools:layout="@layout/person_fragment">
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.android.filmlibrary.view.maps.MapsFragment"
+        android:name="com.android.filmlibrary.presentation.maps.MapsFragment"
         android:label="@string/Maps"
         tools:layout="@layout/maps_fragment" />
 </navigation>
