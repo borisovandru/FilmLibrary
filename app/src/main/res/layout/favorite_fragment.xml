@@ -5,7 +5,7 @@
     android:id="@+id/movies_by_category_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.favorite.FavoriteFragment">
+    tools:context=".presentation.favorite.FavoriteFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_fav"

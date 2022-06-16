@@ -11,7 +11,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.android.filmlibrary.Constant.NEW_MESSAGE
 import com.android.filmlibrary.GlobalVariables
 import com.android.filmlibrary.R
-import com.android.filmlibrary.model.repository.local.db.RepositoryLocalDBImpl
+import com.android.filmlibrary.domain.local.db.RepositoryLocalDBImpl
 
 class MyFirebaseInstanceIDService : FirebaseMessagingService() {
 

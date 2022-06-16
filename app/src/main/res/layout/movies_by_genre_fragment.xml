@@ -5,7 +5,7 @@
     android:id="@+id/movies_by_category_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.moviesbygenre.MoviesByGenreFragment">
+    tools:context=".presentation.moviesbygenre.MoviesByGenreFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cat_b"

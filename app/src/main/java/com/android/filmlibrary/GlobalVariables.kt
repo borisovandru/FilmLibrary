@@ -6,10 +6,9 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.android.filmlibrary.Constant.NAME_DB
-import com.android.filmlibrary.model.Settings
-import com.android.filmlibrary.model.data.*
-import com.android.filmlibrary.model.room.DAO
-import com.android.filmlibrary.model.room.DataBase
+import com.android.filmlibrary.data.model.*
+import com.android.filmlibrary.data.room.DAO
+import com.android.filmlibrary.data.room.DataBase
 
 class GlobalVariables : Application() {
 
