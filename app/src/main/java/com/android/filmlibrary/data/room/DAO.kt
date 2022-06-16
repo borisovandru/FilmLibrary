@@ -4,7 +4,6 @@ import androidx.room.*
 
 @Dao
 interface DAO {
-
     //Note
     @Query("SELECT `note` FROM EntityMovieNote WHERE idMovie = :idMovie")
     fun getMovieNote(idMovie: Long): String

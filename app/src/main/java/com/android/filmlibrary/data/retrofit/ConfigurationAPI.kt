@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class ConfigurationAPI(
     @SerializedName("images")
     val images: ImagesAPI,
-
     @SerializedName("change_keys")
-    val changeKeys: List<String>,
+    val changeKeys: List<String>
 )
