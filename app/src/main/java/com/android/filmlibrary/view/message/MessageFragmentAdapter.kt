@@ -1,5 +1,6 @@
 package com.android.filmlibrary.view.message
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,6 +12,7 @@ class MessageFragmentAdapter : RecyclerView.Adapter<MessageFragmentAdapter.MyVie
 
     private var messages: List<MessageNot> = listOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fillMessages(messages: List<MessageNot>) {
         this.messages = messages
         notifyDataSetChanged()

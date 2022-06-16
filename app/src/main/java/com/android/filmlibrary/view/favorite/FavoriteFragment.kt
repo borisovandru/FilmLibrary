@@ -29,7 +29,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     private val viewModel: FavoriteViewModel by lazy {
-        ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        ViewModelProvider(this)[FavoriteViewModel::class.java]
     }
 
     private val adapter = FavoriteFragmentAdapter()

@@ -51,11 +51,11 @@ class GenresViewModel(private val repositoryRemote: RepositoryRemote = Repositor
 
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
 
-            val genreId: String = (response.raw().networkResponse()
-                ?.request()
-                ?.url()?.queryParameter(URL_GENRES_PATH) ?: "")
+            val genreId: String = (response.raw().networkResponse
+                ?.request
+                ?.url?.queryParameter(URL_GENRES_PATH) ?: "")
 
-            response.raw().networkResponse()
+            response.raw()
 
             val genre = genres.first { it.id == genreId.toInt() }
 

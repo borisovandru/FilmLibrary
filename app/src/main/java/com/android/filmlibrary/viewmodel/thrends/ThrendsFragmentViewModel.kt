@@ -54,7 +54,7 @@ class TrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = R
         override fun onResponse(call: Call<MoviesListAPI>, response: Response<MoviesListAPI>) {
 
             val trendName: String =
-                response.raw().networkResponse()?.request()?.url()?.pathSegments()
+                response.raw().networkResponse?.request?.url?.pathSegments
                     ?.get(URL_TREND_POSITION) ?: "0"
 
             val trend = trends.first { it.URL == trendName }

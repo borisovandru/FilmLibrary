@@ -17,20 +17,22 @@ class GeoFenceService : IntentService("GeoFenceService") {
         Log.v("GeoFence", "constructor")
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreate() {
         Log.v("GeoFence", "on create")
         super.onCreate()
     }
 
     // именно здесь будет обработка события
+    @Deprecated("Deprecated in Java")
     override fun onHandleIntent(intent: Intent?) {
         Log.v("GeoFence", "on handle")
         val geofencingEvent: GeofencingEvent =
-            GeofencingEvent.fromIntent(intent) // получаем событие
-        val transitionType: Int = geofencingEvent.getGeofenceTransition() // определяем тип события
+            GeofencingEvent.fromIntent(intent!!) // получаем событие
+        val transitionType: Int = geofencingEvent.geofenceTransition // определяем тип события
         val triggeredGeofences: List<Geofence> =
-            geofencingEvent.getTriggeringGeofences() // если надо, получаем, какие геозоны нам подходят
-        val idFence: String = triggeredGeofences.first().getRequestId()
+            geofencingEvent.triggeringGeofences // если надо, получаем, какие геозоны нам подходят
+        val idFence: String = triggeredGeofences.first().requestId
         makeNote(idFence, transitionType) // отправляем уведомление
     }
 
