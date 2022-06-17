@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/boris/AndroidStudioProjects/FilmLibrary/app/src/main/res/layout/maps_fragment.xml" value="0.1" />
+        <entry key="..\:/Users/boris/AndroidStudioProjects/FilmLibrary/app/src/main/res/layout/person_fragment.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/boris/AndroidStudioProjects/FilmLibrary/app/src/main/res/mipmap-anydpi-v26/Movie.xml" value="0.1" />
+        <entry key="..\:/Users/boris/AndroidStudioProjects/FilmLibrary/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/boris/AndroidStudioProjects/FilmLibrary/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>
