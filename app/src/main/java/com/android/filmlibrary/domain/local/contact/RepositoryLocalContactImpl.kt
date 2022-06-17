@@ -6,9 +6,9 @@ import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.util.Log
-import com.android.filmlibrary.ContextProvider
-import com.android.filmlibrary.IContextProvider
-import com.android.filmlibrary.CallbackMy
+import com.android.filmlibrary.utils.ContextProvider
+import com.android.filmlibrary.utils.IContextProvider
+import com.android.filmlibrary.utils.CallbackMy
 import com.android.filmlibrary.data.model.Contact
 import java.util.concurrent.Executors
 

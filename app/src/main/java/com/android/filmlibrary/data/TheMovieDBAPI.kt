@@ -5,10 +5,10 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import com.android.filmlibrary.Constant.TMDB_NAMES_API_KEY
-import com.android.filmlibrary.Constant.TMDB_NAMES_API_VERSION
-import com.android.filmlibrary.Constant.TMDB_NAMES_LANG
-import com.android.filmlibrary.Constant.URL_GENRES_PATH
+import com.android.filmlibrary.utils.Constant.TMDB_NAMES_API_KEY
+import com.android.filmlibrary.utils.Constant.TMDB_NAMES_API_VERSION
+import com.android.filmlibrary.utils.Constant.TMDB_NAMES_LANG
+import com.android.filmlibrary.utils.Constant.URL_GENRES_PATH
 import com.android.filmlibrary.data.retrofit.*
 
 interface TheMovieDBAPI {

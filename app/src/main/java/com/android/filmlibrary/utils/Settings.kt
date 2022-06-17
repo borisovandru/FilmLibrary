@@ -1,4 +1,4 @@
-package com.android.filmlibrary
+package com.android.filmlibrary.utils
 
 data class Settings(
     var adult: Boolean,

@@ -15,9 +15,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.MAPS_ZOOM
-import com.android.filmlibrary.Constant.MAX_RESULT_GEOCODER
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.MAPS_ZOOM
+import com.android.filmlibrary.utils.Constant.MAX_RESULT_GEOCODER
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MapsFragmentBinding
 import java.io.IOException

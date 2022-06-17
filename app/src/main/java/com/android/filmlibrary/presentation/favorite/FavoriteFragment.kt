@@ -10,14 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
-import com.android.filmlibrary.GlobalVariables.Companion.favMoviesCache
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.utils.GlobalVariables.Companion.favMoviesCache
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.FavoriteFragmentBinding
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.Movie
-import com.android.filmlibrary.view.showSnackBar
+import com.android.filmlibrary.utils.showSnackBar
 
 class FavoriteFragment : Fragment() {
 

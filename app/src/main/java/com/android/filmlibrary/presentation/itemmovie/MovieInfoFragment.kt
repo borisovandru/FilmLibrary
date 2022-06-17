@@ -15,20 +15,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.BASE_IMAGE_URL
-import com.android.filmlibrary.Constant.EMPTY_POSTER
-import com.android.filmlibrary.Constant.FAV_ICON
-import com.android.filmlibrary.Constant.FAV_ICON_BORDER
-import com.android.filmlibrary.Constant.IMAGE_POSTER_SIZE_1
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_MOVIE
-import com.android.filmlibrary.Constant.NAME_PARCEBLE_PERSON
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.BASE_IMAGE_URL
+import com.android.filmlibrary.utils.Constant.EMPTY_POSTER
+import com.android.filmlibrary.utils.Constant.FAV_ICON
+import com.android.filmlibrary.utils.Constant.FAV_ICON_BORDER
+import com.android.filmlibrary.utils.Constant.IMAGE_POSTER_SIZE_1
+import com.android.filmlibrary.utils.Constant.NAME_PARCEBLE_MOVIE
+import com.android.filmlibrary.utils.Constant.NAME_PARCEBLE_PERSON
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.MovieInfoFragmentBinding
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.Movie
 import com.android.filmlibrary.data.model.PersonMini
-import com.android.filmlibrary.view.showSnackBar
+import com.android.filmlibrary.utils.showSnackBar
 
 class MovieInfoFragment : Fragment() {
 
