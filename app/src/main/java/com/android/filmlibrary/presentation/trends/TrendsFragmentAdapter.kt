@@ -1,5 +1,6 @@
 package com.android.filmlibrary.presentation.trends
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.EMPTY_POSTER
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.EMPTY_POSTER
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ItemTrendBinding
 import com.android.filmlibrary.data.model.Genre
@@ -43,11 +44,11 @@ class TrendsFragmentAdapter : RecyclerView.Adapter<TrendsFragmentAdapter.MyViewH
         return MyViewHolder(binding, parent)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun fillMoviesByTrend(moviesByTrend: List<MoviesByTrend>) {
 
         this.moviesByTrend = moviesByTrend
         notifyDataSetChanged()
-
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

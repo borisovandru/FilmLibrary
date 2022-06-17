@@ -8,8 +8,8 @@ import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.android.filmlibrary.Constant.NEW_MESSAGE
-import com.android.filmlibrary.GlobalVariables
+import com.android.filmlibrary.utils.Constant.NEW_MESSAGE
+import com.android.filmlibrary.utils.GlobalVariables
 import com.android.filmlibrary.R
 import com.android.filmlibrary.domain.local.db.RepositoryLocalDBImpl
 

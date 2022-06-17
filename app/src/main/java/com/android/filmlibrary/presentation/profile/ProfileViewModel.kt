@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.filmlibrary.GlobalVariables.Companion.contactsCache
-import com.android.filmlibrary.AppState
-import com.android.filmlibrary.CallbackMy
+import com.android.filmlibrary.utils.GlobalVariables.Companion.contactsCache
+import com.android.filmlibrary.utils.AppState
+import com.android.filmlibrary.utils.CallbackMy
 import com.android.filmlibrary.data.model.Contact
 import com.android.filmlibrary.domain.local.contact.RepositoryLocalContactImpl
 

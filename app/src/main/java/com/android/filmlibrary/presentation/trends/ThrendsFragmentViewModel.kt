@@ -6,25 +6,25 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.COUNT_MOVIES_BY_TREND
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
-import com.android.filmlibrary.Constant.URL_NOW_PLAYING
-import com.android.filmlibrary.Constant.URL_NOW_PLAYING_NAME
-import com.android.filmlibrary.Constant.URL_POPULAR
-import com.android.filmlibrary.Constant.URL_POPULAR_NAME
-import com.android.filmlibrary.Constant.URL_TOP_RATED
-import com.android.filmlibrary.Constant.URL_TOP_RATED_NAME
-import com.android.filmlibrary.Constant.URL_TREND_POSITION
-import com.android.filmlibrary.Constant.URL_UPCOMING
-import com.android.filmlibrary.Constant.URL_UPCOMING_NAME
-import com.android.filmlibrary.GlobalVariables.Companion.moviesByTrendsCache
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.COUNT_MOVIES_BY_TREND
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.utils.Constant.URL_NOW_PLAYING
+import com.android.filmlibrary.utils.Constant.URL_NOW_PLAYING_NAME
+import com.android.filmlibrary.utils.Constant.URL_POPULAR
+import com.android.filmlibrary.utils.Constant.URL_POPULAR_NAME
+import com.android.filmlibrary.utils.Constant.URL_TOP_RATED
+import com.android.filmlibrary.utils.Constant.URL_TOP_RATED_NAME
+import com.android.filmlibrary.utils.Constant.URL_TREND_POSITION
+import com.android.filmlibrary.utils.Constant.URL_UPCOMING
+import com.android.filmlibrary.utils.Constant.URL_UPCOMING_NAME
+import com.android.filmlibrary.utils.GlobalVariables.Companion.moviesByTrendsCache
 import com.android.filmlibrary.data.model.Movie
 import com.android.filmlibrary.data.model.MoviesByTrend
 import com.android.filmlibrary.data.model.MoviesList
 import com.android.filmlibrary.data.model.Trend
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.domain.remote.RepositoryRemote
 import com.android.filmlibrary.domain.remote.RepositoryRemoteImpl
 import com.android.filmlibrary.data.retrofit.MoviesListAPI
@@ -35,9 +35,7 @@ class TrendsFragmentViewModel(private val repositoryRemote: RepositoryRemote = R
     ViewModel() {
 
     private val liveDataToObserver = MutableLiveData<AppState>()
-
     private var countSuccess: Int = 0
-
     private var moviesByTrends = mutableListOf<MoviesByTrend>()
 
     private val trends: List<Trend> = listOf(

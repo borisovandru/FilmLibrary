@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.Genre
 import com.android.filmlibrary.data.model.Movie
 import com.android.filmlibrary.data.model.MoviesByGenre

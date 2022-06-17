@@ -18,16 +18,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.GlobalVariables.Companion.settings
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.GlobalVariables.Companion.settings
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.ProfileFragmentBinding
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.Contact
 import com.android.filmlibrary.presentation.itemmovie.MovieInfoFragment
 import com.android.filmlibrary.presentation.trends.TrendsFragment
-import com.android.filmlibrary.view.hide
-import com.android.filmlibrary.view.show
+import com.android.filmlibrary.utils.hide
+import com.android.filmlibrary.utils.show
 
 class ProfileFragment : Fragment() {
 

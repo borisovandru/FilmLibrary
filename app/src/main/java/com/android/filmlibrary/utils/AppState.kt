@@ -1,4 +1,4 @@
-package com.android.filmlibrary
+package com.android.filmlibrary.utils
 
 import com.android.filmlibrary.data.model.*
 import com.android.filmlibrary.data.model.credits.Credits

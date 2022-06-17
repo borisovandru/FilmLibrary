@@ -1,11 +1,11 @@
-package com.android.filmlibrary
+package com.android.filmlibrary.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.android.filmlibrary.Constant.NAME_DB
+import com.android.filmlibrary.utils.Constant.NAME_DB
 import com.android.filmlibrary.data.model.*
 import com.android.filmlibrary.data.room.DAO
 import com.android.filmlibrary.data.room.DataBase

@@ -6,10 +6,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.Constant.EMPTY_POSTER
-import com.android.filmlibrary.Constant.FORMATED_STRING_DATE_TMDB
-import com.android.filmlibrary.Constant.FORMATED_STRING_YEAR
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.Constant.EMPTY_POSTER
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_DATE_TMDB
+import com.android.filmlibrary.utils.Constant.FORMATED_STRING_YEAR
 import com.android.filmlibrary.databinding.ItemMovieBinding
 import com.android.filmlibrary.data.model.Movie
 import com.android.filmlibrary.data.model.MoviesList

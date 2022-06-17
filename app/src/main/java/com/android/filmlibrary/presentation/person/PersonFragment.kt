@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import com.android.filmlibrary.Constant
+import com.android.filmlibrary.utils.Constant
 import com.android.filmlibrary.R
 import com.android.filmlibrary.databinding.PersonFragmentBinding
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.PersonMini
-import com.android.filmlibrary.view.showSnackBar
+import com.android.filmlibrary.utils.showSnackBar
 import com.bumptech.glide.Glide
 
 class PersonFragment : Fragment() {

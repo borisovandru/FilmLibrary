@@ -15,13 +15,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.android.filmlibrary.Constant.COLOR_PURPLE
-import com.android.filmlibrary.Constant.COLOR_RED
-import com.android.filmlibrary.Constant.MAIL
-import com.android.filmlibrary.Constant.NAVIGATE_TO_MESSAGE
-import com.android.filmlibrary.Constant.NEW_MAIL
-import com.android.filmlibrary.Constant.NEW_MESSAGE
-import com.android.filmlibrary.GlobalVariables.Companion.settings
+import com.android.filmlibrary.utils.Constant.COLOR_PURPLE
+import com.android.filmlibrary.utils.Constant.COLOR_RED
+import com.android.filmlibrary.utils.Constant.MAIL
+import com.android.filmlibrary.utils.Constant.NAVIGATE_TO_MESSAGE
+import com.android.filmlibrary.utils.Constant.NEW_MAIL
+import com.android.filmlibrary.utils.Constant.NEW_MESSAGE
+import com.android.filmlibrary.utils.GlobalVariables.Companion.settings
 import com.android.filmlibrary.R
 import com.android.filmlibrary.data.SharedPref
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        settings = SharedPref(this).loadSettings()
+        settings = SharedPref(this).readSettings()
 
         setContentView(R.layout.main_activity)
 

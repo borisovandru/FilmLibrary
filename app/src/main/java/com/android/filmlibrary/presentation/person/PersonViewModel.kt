@@ -4,8 +4,8 @@ import com.android.filmlibrary.data.retrofit.PersonAPI
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.filmlibrary.Constant
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.Constant
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.Person
 import com.android.filmlibrary.domain.remote.RepositoryRemoteImpl
 import retrofit2.Call

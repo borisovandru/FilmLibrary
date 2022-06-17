@@ -1,4 +1,6 @@
-package com.android.filmlibrary
+package com.android.filmlibrary.utils
+
+import com.android.filmlibrary.R
 
 object Constant {
     const val MOVIES_ADAPTER_COUNT_SPAN = 1

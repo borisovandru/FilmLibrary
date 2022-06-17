@@ -3,8 +3,8 @@ package com.android.filmlibrary.presentation.message
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.filmlibrary.GlobalVariables
-import com.android.filmlibrary.AppState
+import com.android.filmlibrary.utils.GlobalVariables
+import com.android.filmlibrary.utils.AppState
 import com.android.filmlibrary.data.model.MessageNot
 import com.android.filmlibrary.domain.local.db.RepositoryLocalDBImpl
 import com.android.filmlibrary.data.room.EntityMessage

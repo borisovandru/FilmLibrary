@@ -1,4 +1,4 @@
-package com.android.filmlibrary.view
+package com.android.filmlibrary.utils
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
